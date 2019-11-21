@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/papyrus/infra/gmfdiag/style" xmi:id="_ejjc8AwtEeqn2NVGR_8k5g" type="PapyrusUMLSequenceDiagram" name="Sequence Diagram" measurementUnit="Pixel">
+  <children xsi:type="notation:Shape" xmi:id="_ejjc8QwtEeqn2NVGR_8k5g" type="Interaction_Shape">
+    <children xsi:type="notation:DecorationNode" xmi:id="_ejjc8gwtEeqn2NVGR_8k5g" type="Interaction_NameLabel"/>
+    <children xsi:type="notation:BasicCompartment" xmi:id="_ejjc8wwtEeqn2NVGR_8k5g" type="Interaction_SubfragmentCompartment">
+      <children xsi:type="notation:Shape" xmi:id="_kanW8AwtEeqn2NVGR_8k5g" type="Lifeline_Shape">
+        <children xsi:type="notation:DecorationNode" xmi:id="_kanW8gwtEeqn2NVGR_8k5g" type="Lifeline_NameLabel"/>
+        <element href="Sequence_SendMessage.uml#_kaeNAAwtEeqn2NVGR_8k5g"/>
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_kanW8QwtEeqn2NVGR_8k5g" x="74" y="10"/>
+      </children>
+      <children xsi:type="notation:Shape" xmi:id="_lEO7sAwtEeqn2NVGR_8k5g" type="Lifeline_Shape">
+        <children xsi:type="notation:DecorationNode" xmi:id="_lEO7sgwtEeqn2NVGR_8k5g" type="Lifeline_NameLabel"/>
+        <element href="Sequence_SendMessage.uml#_lEFKsAwtEeqn2NVGR_8k5g"/>
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_lEO7sQwtEeqn2NVGR_8k5g" x="234" y="10"/>
+      </children>
+      <children xsi:type="notation:Shape" xmi:id="_lfWKYQwtEeqn2NVGR_8k5g" type="Lifeline_Shape">
+        <children xsi:type="notation:DecorationNode" xmi:id="_lfWKYwwtEeqn2NVGR_8k5g" type="Lifeline_NameLabel"/>
+        <element href="Sequence_SendMessage.uml#_lfWKYAwtEeqn2NVGR_8k5g"/>
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_lfWKYgwtEeqn2NVGR_8k5g" x="594" y="10"/>
+      </children>
+      <children xsi:type="notation:Shape" xmi:id="_L3H9kAwuEeqn2NVGR_8k5g" type="Lifeline_Shape">
+        <children xsi:type="notation:DecorationNode" xmi:id="_L3H9kgwuEeqn2NVGR_8k5g" type="Lifeline_NameLabel"/>
+        <element href="Sequence_SendMessage.uml#_L2-MkAwuEeqn2NVGR_8k5g"/>
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_L3H9kQwuEeqn2NVGR_8k5g" x="394" y="10"/>
+      </children>
+      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_ejjc9AwtEeqn2NVGR_8k5g"/>
+    </children>
+    <element href="Sequence_SendMessage.uml#_eiOAMAwtEeqn2NVGR_8k5g"/>
+    <layoutConstraint xsi:type="notation:Bounds" xmi:id="_ejjc9QwtEeqn2NVGR_8k5g"/>
+  </children>
+  <styles xsi:type="notation:StringValueStyle" xmi:id="_ejjc9gwtEeqn2NVGR_8k5g" name="diagram_compatibility_version" stringValue="1.4.0"/>
+  <styles xsi:type="notation:DiagramStyle" xmi:id="_ejjc9wwtEeqn2NVGR_8k5g"/>
+  <styles xsi:type="style:PapyrusDiagramStyle" xmi:id="_ejjc-AwtEeqn2NVGR_8k5g" diagramKindId="org.eclipse.papyrus.uml.diagram.sequence">
+    <owner href="Sequence_SendMessage.uml#_ebEPUAwtEeqn2NVGR_8k5g"/>
+  </styles>
+  <element href="Sequence_SendMessage.uml#_eiOAMAwtEeqn2NVGR_8k5g"/>
+  <edges xsi:type="notation:Connector" xmi:id="_5pPQ0AwtEeqn2NVGR_8k5g" type="Message_AsynchEdge" source="_kanW8AwtEeqn2NVGR_8k5g" target="_lEO7sAwtEeqn2NVGR_8k5g">
+    <children xsi:type="notation:DecorationNode" xmi:id="_5pPQ0wwtEeqn2NVGR_8k5g" type="Message_AsynchNameLabel">
+      <layoutConstraint xsi:type="notation:Location" xmi:id="_5pPQ1AwtEeqn2NVGR_8k5g" x="1" y="-13"/>
+    </children>
+    <children xsi:type="notation:DecorationNode" xmi:id="_5pPQ1QwtEeqn2NVGR_8k5g" type="Message_AsynchStereotypeLabel">
+      <layoutConstraint xsi:type="notation:Location" xmi:id="_5pPQ1gwtEeqn2NVGR_8k5g" x="1" y="-33"/>
+    </children>
+    <styles xsi:type="notation:FontStyle" xmi:id="_5pPQ0QwtEeqn2NVGR_8k5g"/>
+    <element href="Sequence_SendMessage.uml#_5ozL8AwtEeqn2NVGR_8k5g"/>
+    <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_5pPQ0gwtEeqn2NVGR_8k5g" points="[0, 0, -240, 0]$[240, 0, 0, 0]"/>
+    <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_5piy0AwtEeqn2NVGR_8k5g" id="(0.5,0.09428571428571429)"/>
+    <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_5piy0QwtEeqn2NVGR_8k5g" id="(0.5,0.09428571428571429)"/>
+  </edges>
+  <edges xsi:type="notation:Connector" xmi:id="_P5fm0wwuEeqn2NVGR_8k5g" type="Message_AsynchEdge" source="_lEO7sAwtEeqn2NVGR_8k5g" target="_L3H9kAwuEeqn2NVGR_8k5g">
+    <children xsi:type="notation:DecorationNode" xmi:id="_P5fm1gwuEeqn2NVGR_8k5g" type="Message_AsynchNameLabel">
+      <layoutConstraint xsi:type="notation:Location" xmi:id="_P5fm1wwuEeqn2NVGR_8k5g" x="1" y="-13"/>
+    </children>
+    <children xsi:type="notation:DecorationNode" xmi:id="_P5fm2AwuEeqn2NVGR_8k5g" type="Message_AsynchStereotypeLabel">
+      <layoutConstraint xsi:type="notation:Location" xmi:id="_P5fm2QwuEeqn2NVGR_8k5g" x="1" y="-33"/>
+    </children>
+    <styles xsi:type="notation:FontStyle" xmi:id="_P5fm1AwuEeqn2NVGR_8k5g"/>
+    <element href="Sequence_SendMessage.uml#_P5fm0AwuEeqn2NVGR_8k5g"/>
+    <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_P5fm1QwuEeqn2NVGR_8k5g" points="[0, 0, -160, 0]$[160, 0, 0, 0]"/>
+    <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_P5yhwAwuEeqn2NVGR_8k5g" id="(0.5,0.12285714285714286)"/>
+    <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_P5yhwQwuEeqn2NVGR_8k5g" id="(0.5,0.12285714285714286)"/>
+  </edges>
+  <edges xsi:type="notation:Connector" xmi:id="_WeqkAgwuEeqn2NVGR_8k5g" type="Message_AsynchEdge" source="_L3H9kAwuEeqn2NVGR_8k5g" target="_lfWKYQwtEeqn2NVGR_8k5g">
+    <children xsi:type="notation:DecorationNode" xmi:id="_WeqkBQwuEeqn2NVGR_8k5g" type="Message_AsynchNameLabel">
+      <layoutConstraint xsi:type="notation:Location" xmi:id="_WeqkBgwuEeqn2NVGR_8k5g" x="1" y="-13"/>
+    </children>
+    <children xsi:type="notation:DecorationNode" xmi:id="_WeqkBwwuEeqn2NVGR_8k5g" type="Message_AsynchStereotypeLabel">
+      <layoutConstraint xsi:type="notation:Location" xmi:id="_WeqkCAwuEeqn2NVGR_8k5g" x="1" y="-33"/>
+    </children>
+    <styles xsi:type="notation:FontStyle" xmi:id="_WeqkAwwuEeqn2NVGR_8k5g"/>
+    <element href="Sequence_SendMessage.uml#_WegzAAwuEeqn2NVGR_8k5g"/>
+    <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_WeqkBAwuEeqn2NVGR_8k5g" points="[0, 0, -200, 0]$[200, 0, 0, 0]"/>
+    <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_We9e8AwuEeqn2NVGR_8k5g" id="(0.5,0.15142857142857144)"/>
+    <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_We9e8QwuEeqn2NVGR_8k5g" id="(0.5,0.15142857142857144)"/>
+  </edges>
+</notation:Diagram>

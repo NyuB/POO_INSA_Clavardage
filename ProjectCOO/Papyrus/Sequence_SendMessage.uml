@@ -6,16 +6,20 @@
   <packagedElement xmi:type="uml:Interaction" xmi:id="_eiOAMAwtEeqn2NVGR_8k5g" name="Send Message">
     <lifeline xmi:type="uml:Lifeline" xmi:id="_kaeNAAwtEeqn2NVGR_8k5g" name="User" coveredBy="_5pGG4AwtEeqn2NVGR_8k5g"/>
     <lifeline xmi:type="uml:Lifeline" xmi:id="_lEFKsAwtEeqn2NVGR_8k5g" name="Chat" coveredBy="_5pGG4QwtEeqn2NVGR_8k5g _P5fm0QwuEeqn2NVGR_8k5g"/>
-    <lifeline xmi:type="uml:Lifeline" xmi:id="_lfWKYAwtEeqn2NVGR_8k5g" name="Network" coveredBy="_WeqkAQwuEeqn2NVGR_8k5g"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_lfWKYAwtEeqn2NVGR_8k5g" name="Network" coveredBy="_WeqkAQwuEeqn2NVGR_8k5g _M_dsUAz3EeqTKOi5KrN4Yw"/>
     <lifeline xmi:type="uml:Lifeline" xmi:id="_L2-MkAwuEeqn2NVGR_8k5g" name="Network Manager" coveredBy="_P5fm0gwuEeqn2NVGR_8k5g _WeqkAAwuEeqn2NVGR_8k5g"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_G6IFwAz3EeqTKOi5KrN4Yw" name="Receivers" coveredBy="_M_dsUQz3EeqTKOi5KrN4Yw"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_5pGG4AwtEeqn2NVGR_8k5g" name="Message4SendEvent" covered="_kaeNAAwtEeqn2NVGR_8k5g" message="_5ozL8AwtEeqn2NVGR_8k5g"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_5pGG4QwtEeqn2NVGR_8k5g" name="Message4ReceiveEvent" covered="_lEFKsAwtEeqn2NVGR_8k5g" message="_5ozL8AwtEeqn2NVGR_8k5g"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_P5fm0QwuEeqn2NVGR_8k5g" name="Message8SendEvent" covered="_lEFKsAwtEeqn2NVGR_8k5g" message="_P5fm0AwuEeqn2NVGR_8k5g"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_P5fm0gwuEeqn2NVGR_8k5g" name="Message8ReceiveEvent" covered="_L2-MkAwuEeqn2NVGR_8k5g" message="_P5fm0AwuEeqn2NVGR_8k5g"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_WeqkAAwuEeqn2NVGR_8k5g" name="Message11SendEvent" covered="_L2-MkAwuEeqn2NVGR_8k5g" message="_WegzAAwuEeqn2NVGR_8k5g"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_WeqkAQwuEeqn2NVGR_8k5g" name="Message11ReceiveEvent" covered="_lfWKYAwtEeqn2NVGR_8k5g" message="_WegzAAwuEeqn2NVGR_8k5g"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_M_dsUAz3EeqTKOi5KrN4Yw" name="Message15SendEvent" covered="_lfWKYAwtEeqn2NVGR_8k5g" message="_M_UiYAz3EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_M_dsUQz3EeqTKOi5KrN4Yw" name="Message15ReceiveEvent" covered="_G6IFwAz3EeqTKOi5KrN4Yw" message="_M_UiYAz3EeqTKOi5KrN4Yw"/>
     <message xmi:type="uml:Message" xmi:id="_5ozL8AwtEeqn2NVGR_8k5g" name="Ecrire+Entrée" messageSort="asynchCall" receiveEvent="_5pGG4QwtEeqn2NVGR_8k5g" sendEvent="_5pGG4AwtEeqn2NVGR_8k5g"/>
     <message xmi:type="uml:Message" xmi:id="_P5fm0AwuEeqn2NVGR_8k5g" name="Message+UserList" messageSort="asynchCall" receiveEvent="_P5fm0gwuEeqn2NVGR_8k5g" sendEvent="_P5fm0QwuEeqn2NVGR_8k5g"/>
     <message xmi:type="uml:Message" xmi:id="_WegzAAwuEeqn2NVGR_8k5g" name="IP Send (n if necessary)" messageSort="asynchCall" receiveEvent="_WeqkAQwuEeqn2NVGR_8k5g" sendEvent="_WeqkAAwuEeqn2NVGR_8k5g"/>
+    <message xmi:type="uml:Message" xmi:id="_M_UiYAz3EeqTKOi5KrN4Yw" name="Update Chat" messageSort="asynchCall" receiveEvent="_M_dsUQz3EeqTKOi5KrN4Yw" sendEvent="_M_dsUAz3EeqTKOi5KrN4Yw"/>
   </packagedElement>
 </uml:Model>

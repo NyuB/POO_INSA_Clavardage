@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_on_HgAz3EeqTKOi5KrN4Yw" name="SequenceDiagramActive">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_opeVQAz3EeqTKOi5KrN4Yw">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_oobMYAz3EeqTKOi5KrN4Yw" name="Active">
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_pkNfMAz3EeqTKOi5KrN4Yw" name="User" coveredBy="_-2l3sQz3EeqTKOi5KrN4Yw _UUIXUgz4EeqTKOi5KrN4Yw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_tHWOwAz3EeqTKOi5KrN4Yw" name="Agent" coveredBy="_-2l3sgz3EeqTKOi5KrN4Yw _EILGEQz4EeqTKOi5KrN4Yw _RooaYgz4EeqTKOi5KrN4Yw _UUIXUQz4EeqTKOi5KrN4Yw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_uAHp0Az3EeqTKOi5KrN4Yw" name="NetworkManager" coveredBy="_EILGEgz4EeqTKOi5KrN4Yw _JgmjUQz4EeqTKOi5KrN4Yw _JhDPSAz4EeqTKOi5KrN4Yw _RooaYQz4EeqTKOi5KrN4Yw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_uXqAEAz3EeqTKOi5KrN4Yw" name="Others" coveredBy="_JgmjUgz4EeqTKOi5KrN4Yw _JhDPRwz4EeqTKOi5KrN4Yw _JhDPQAz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_-2l3sQz3EeqTKOi5KrN4Yw" name="Message5SendEvent" covered="_pkNfMAz3EeqTKOi5KrN4Yw" message="_-2l3sAz3EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_-2l3sgz3EeqTKOi5KrN4Yw" name="Message5ReceiveEvent" covered="_tHWOwAz3EeqTKOi5KrN4Yw" message="_-2l3sAz3EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_EILGEQz4EeqTKOi5KrN4Yw" name="Message8SendEvent" covered="_tHWOwAz3EeqTKOi5KrN4Yw" message="_EILGEAz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_EILGEgz4EeqTKOi5KrN4Yw" name="Message8ReceiveEvent" covered="_uAHp0Az3EeqTKOi5KrN4Yw" message="_EILGEAz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_JgmjUQz4EeqTKOi5KrN4Yw" name="Message11SendEvent" covered="_uAHp0Az3EeqTKOi5KrN4Yw" message="_JgmjUAz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_JgmjUgz4EeqTKOi5KrN4Yw" name="Message11ReceiveEvent" covered="_uXqAEAz3EeqTKOi5KrN4Yw" message="_JgmjUAz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_JhDPQAz4EeqTKOi5KrN4Yw" name="BehaviorExecutionSpecification14" covered="_uXqAEAz3EeqTKOi5KrN4Yw" finish="_JhDPRwz4EeqTKOi5KrN4Yw" start="_JgmjUgz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_JhDPRwz4EeqTKOi5KrN4Yw" name="Message16SendEvent" covered="_uXqAEAz3EeqTKOi5KrN4Yw" message="_JhDPRgz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_JhDPSAz4EeqTKOi5KrN4Yw" name="Message16ReceiveEvent" covered="_uAHp0Az3EeqTKOi5KrN4Yw" message="_JhDPRgz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_RooaYQz4EeqTKOi5KrN4Yw" name="Message18SendEvent" covered="_uAHp0Az3EeqTKOi5KrN4Yw" message="_RooaYAz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_RooaYgz4EeqTKOi5KrN4Yw" name="Message18ReceiveEvent" covered="_tHWOwAz3EeqTKOi5KrN4Yw" message="_RooaYAz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_UUIXUQz4EeqTKOi5KrN4Yw" name="Message21SendEvent" covered="_tHWOwAz3EeqTKOi5KrN4Yw" message="_UUIXUAz4EeqTKOi5KrN4Yw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_UUIXUgz4EeqTKOi5KrN4Yw" name="Message21ReceiveEvent" covered="_pkNfMAz3EeqTKOi5KrN4Yw" message="_UUIXUAz4EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_-2l3sAz3EeqTKOi5KrN4Yw" name="Connect" messageSort="asynchCall" receiveEvent="_-2l3sgz3EeqTKOi5KrN4Yw" sendEvent="_-2l3sQz3EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_EILGEAz4EeqTKOi5KrN4Yw" name="Who's there ?" messageSort="asynchCall" receiveEvent="_EILGEgz4EeqTKOi5KrN4Yw" sendEvent="_EILGEQz4EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_JgmjUAz4EeqTKOi5KrN4Yw" name="Broadcast" receiveEvent="_JgmjUgz4EeqTKOi5KrN4Yw" sendEvent="_JgmjUQz4EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_JhDPRgz4EeqTKOi5KrN4Yw" name="[ Active + Pseudos ]" messageSort="reply" receiveEvent="_JhDPSAz4EeqTKOi5KrN4Yw" sendEvent="_JhDPRwz4EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_RooaYAz4EeqTKOi5KrN4Yw" name="ListActive" messageSort="asynchCall" receiveEvent="_RooaYgz4EeqTKOi5KrN4Yw" sendEvent="_RooaYQz4EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_UUIXUAz4EeqTKOi5KrN4Yw" name="Display" messageSort="asynchCall" receiveEvent="_UUIXUgz4EeqTKOi5KrN4Yw" sendEvent="_UUIXUQz4EeqTKOi5KrN4Yw"/>
+  </packagedElement>
+</uml:Model>

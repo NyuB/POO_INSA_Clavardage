@@ -7,16 +7,11 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_aiwTIP8KEemBLdA096qiFQ" name="AgentManager"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_cEwRYP8KEemBLdA096qiFQ" name="Installer"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_c_KEIP8KEemBLdA096qiFQ" name="ChatManager">
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_gM1ro_8LEemBLdA096qiFQ" name="agentmanager" type="_aiwTIP8KEemBLdA096qiFQ" association="_gM1roP8LEemBLdA096qiFQ">
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gM1rpP8LEemBLdA096qiFQ"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gM1rpf8LEemBLdA096qiFQ" value="1"/>
-      </ownedAttribute>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_UpuCkAayEeqhuK1uTC0gaw" name="chats"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_2kUxwAawEeqhuK1uTC0gaw" name="createChat"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_7Yj80AawEeqhuK1uTC0gaw" name="leave"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_eRQlMP8KEemBLdA096qiFQ" name="Chat">
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_ozbG8_8LEemBLdA096qiFQ" name="chatmanager" type="_c_KEIP8KEemBLdA096qiFQ" association="_ozbG8P8LEemBLdA096qiFQ"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_7Pu7gAaxEeqhuK1uTC0gaw" name="users">
         <ownedComment xmi:type="uml:Comment" xmi:id="__72FUAaxEeqhuK1uTC0gaw">
           <body>+ users : &lt;User> {multiple}</body>
@@ -26,27 +21,24 @@
       <ownedOperation xmi:type="uml:Operation" xmi:id="_sqaGUAawEeqhuK1uTC0gaw" name="write" concurrency="guarded"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_uLQOAAawEeqhuK1uTC0gaw" name="update"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_kjFIkP8KEemBLdA096qiFQ" name="User">
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_UtKt4_8MEemBLdA096qiFQ" name="agentmanager" type="_aiwTIP8KEemBLdA096qiFQ" association="_UtKt4P8MEemBLdA096qiFQ">
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UtUe4P8MEemBLdA096qiFQ"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Utdo0P8MEemBLdA096qiFQ" value="1"/>
-      </ownedAttribute>
+    <packagedElement xmi:type="uml:Class" xmi:id="_kjFIkP8KEemBLdA096qiFQ" name="UserManager">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_el9CMAayEeqhuK1uTC0gaw" name="identifier" visibility="public"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_emZuIAayEeqhuK1uTC0gaw" name="pseudo" visibility="public"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_Ev9jMA-HEeqXZfiKDoLllg" name="activeUsers"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_C5glwAaxEeqhuK1uTC0gaw" name="changePseudo"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_AzXx0A-HEeqXZfiKDoLllg" name="updateActives"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_2iAzUP8KEemBLdA096qiFQ" name="SettingsManager"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_5Ey5IP8KEemBLdA096qiFQ" name="ConfigManager">
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_1RTj8_8LEemBLdA096qiFQ" name="agentmanager" type="_aiwTIP8KEemBLdA096qiFQ" association="_1RTj8P8LEemBLdA096qiFQ">
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1RTj9P8LEemBLdA096qiFQ"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1RTj9f8LEemBLdA096qiFQ" value="1"/>
-      </ownedAttribute>
-    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_5Ey5IP8KEemBLdA096qiFQ" name="ConfigManager"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_gM1roP8LEemBLdA096qiFQ" memberEnd="_gM1ro_8LEemBLdA096qiFQ _gM1rpv8LEemBLdA096qiFQ">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_gM1rof8LEemBLdA096qiFQ" source="org.eclipse.papyrus">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_gM1rov8LEemBLdA096qiFQ" key="nature" value="UML_Nature"/>
       </eAnnotations>
       <ownedEnd xmi:type="uml:Property" xmi:id="_gM1rpv8LEemBLdA096qiFQ" name="chatmanager" type="_c_KEIP8KEemBLdA096qiFQ" aggregation="composite" association="_gM1roP8LEemBLdA096qiFQ"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_gM1ro_8LEemBLdA096qiFQ" name="agentmanager" type="_aiwTIP8KEemBLdA096qiFQ" association="_gM1roP8LEemBLdA096qiFQ">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gM1rpP8LEemBLdA096qiFQ"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gM1rpf8LEemBLdA096qiFQ" value="1"/>
+      </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_ozbG8P8LEemBLdA096qiFQ" memberEnd="_ozbG8_8LEemBLdA096qiFQ _ozbG9v8LEemBLdA096qiFQ">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ozbG8f8LEemBLdA096qiFQ" source="org.eclipse.papyrus">
@@ -56,12 +48,17 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qDFikP8MEemBLdA096qiFQ"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pwdhgP8MEemBLdA096qiFQ" value="*"/>
       </ownedEnd>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_ozbG8_8LEemBLdA096qiFQ" name="chatmanager" type="_c_KEIP8KEemBLdA096qiFQ" association="_ozbG8P8LEemBLdA096qiFQ"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_1RTj8P8LEemBLdA096qiFQ" memberEnd="_1RTj8_8LEemBLdA096qiFQ _1RTj9v8LEemBLdA096qiFQ">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_1RTj8f8LEemBLdA096qiFQ" source="org.eclipse.papyrus">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_1RTj8v8LEemBLdA096qiFQ" key="nature" value="UML_Nature"/>
       </eAnnotations>
       <ownedEnd xmi:type="uml:Property" xmi:id="_1RTj9v8LEemBLdA096qiFQ" name="configmanager" type="_5Ey5IP8KEemBLdA096qiFQ" aggregation="composite" association="_1RTj8P8LEemBLdA096qiFQ"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_1RTj8_8LEemBLdA096qiFQ" name="agentmanager" type="_aiwTIP8KEemBLdA096qiFQ" association="_1RTj8P8LEemBLdA096qiFQ">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1RTj9P8LEemBLdA096qiFQ"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1RTj9f8LEemBLdA096qiFQ" value="1"/>
+      </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_4sXVkP8LEemBLdA096qiFQ" memberEnd="_4sXVk_8LEemBLdA096qiFQ _4s0Bgv8LEemBLdA096qiFQ">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4sXVkf8LEemBLdA096qiFQ" source="org.eclipse.papyrus">
@@ -83,12 +80,6 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7w8g4f8LEemBLdA096qiFQ" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_UtKt4P8MEemBLdA096qiFQ" memberEnd="_UtKt4_8MEemBLdA096qiFQ _Utdo0f8MEemBLdA096qiFQ">
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_UtKt4f8MEemBLdA096qiFQ" source="org.eclipse.papyrus">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_UtKt4v8MEemBLdA096qiFQ" key="nature" value="UML_Nature"/>
-      </eAnnotations>
-      <ownedEnd xmi:type="uml:Property" xmi:id="_Utdo0f8MEemBLdA096qiFQ" name="user" type="_kjFIkP8KEemBLdA096qiFQ" aggregation="composite" association="_UtKt4P8MEemBLdA096qiFQ"/>
-    </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_FSqgYAavEeqhuK1uTC0gaw" name="NetworkManager" visibility="public">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_aeAVYAayEeqhuK1uTC0gaw" name="ipbroadcast"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_joyU0AawEeqhuK1uTC0gaw" name="connect" concurrency="concurrent"/>
@@ -103,6 +94,13 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jt3zswaxEeqhuK1uTC0gaw"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jt3ztAaxEeqhuK1uTC0gaw" value="1"/>
       </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_RIdmYA-GEeqXZfiKDoLllg" memberEnd="_RImwUA-GEeqXZfiKDoLllg _RImwUw-GEeqXZfiKDoLllg">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_RIdmYQ-GEeqXZfiKDoLllg" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_RIdmYg-GEeqXZfiKDoLllg" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_RImwUw-GEeqXZfiKDoLllg" name="user" type="_kjFIkP8KEemBLdA096qiFQ" association="_RIdmYA-GEeqXZfiKDoLllg"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_RImwUA-GEeqXZfiKDoLllg" name="agentmanager" type="_aiwTIP8KEemBLdA096qiFQ" association="_RIdmYA-GEeqXZfiKDoLllg"/>
     </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_0EEmFwaxEeqhuK1uTC0gaw">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0EOXEAaxEeqhuK1uTC0gaw" source="http://www.eclipse.org/uml2/2.0.0/UML">

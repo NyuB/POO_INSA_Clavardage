@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_VtBBkA-EEeqXZfiKDoLllg" name="CompositeStructureDiagram">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_Vv2TIA-EEeqXZfiKDoLllg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_fgREUA-EEeqXZfiKDoLllg" name="Agent">
+    <ownedAttribute xmi:type="uml:Port" xmi:id="_o6g7wA-FEeqXZfiKDoLllg" name="NetworkConnection" aggregation="composite"/>
+    <ownedAttribute xmi:type="uml:Port" xmi:id="_sZIiQA-GEeqXZfiKDoLllg" name="Port7" aggregation="composite"/>
+    <ownedAttribute xmi:type="uml:Port" xmi:id="_v-NOsA-KEeqXZfiKDoLllg" name="Port11" aggregation="composite"/>
+    <ownedConnector xmi:type="uml:Connector" xmi:id="_1MDl4A-FEeqXZfiKDoLllg" name="Connector5">
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_1MNW4A-FEeqXZfiKDoLllg" role="_o6g7wA-FEeqXZfiKDoLllg"/>
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_1MNW4Q-FEeqXZfiKDoLllg" role="_yLk3cA-FEeqXZfiKDoLllg"/>
+    </ownedConnector>
+    <ownedConnector xmi:type="uml:Connector" xmi:id="_rM0gIA-GEeqXZfiKDoLllg" name="Connector6">
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_rM0gIQ-GEeqXZfiKDoLllg" role="_bI-CAA-GEeqXZfiKDoLllg"/>
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_rM0gIg-GEeqXZfiKDoLllg" role="_ftTv4A-GEeqXZfiKDoLllg"/>
+    </ownedConnector>
+    <ownedConnector xmi:type="uml:Connector" xmi:id="_l2BlIA-HEeqXZfiKDoLllg" name="Connector8">
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_l2BlIQ-HEeqXZfiKDoLllg" role="_s5BjQA-GEeqXZfiKDoLllg"/>
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_l2BlIg-HEeqXZfiKDoLllg" role="_sZIiQA-GEeqXZfiKDoLllg"/>
+    </ownedConnector>
+    <ownedConnector xmi:type="uml:Connector" xmi:id="_TGv7MA-KEeqXZfiKDoLllg" name="Connector10">
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_TGv7MQ-KEeqXZfiKDoLllg" role="_O_Lo4A-KEeqXZfiKDoLllg"/>
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_TGv7Mg-KEeqXZfiKDoLllg" role="_JuZEsA-KEeqXZfiKDoLllg"/>
+    </ownedConnector>
+    <ownedConnector xmi:type="uml:Connector" xmi:id="_4gCs4A-KEeqXZfiKDoLllg" name="Connector12">
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_4gCs4Q-KEeqXZfiKDoLllg" role="_ypa3wA-KEeqXZfiKDoLllg"/>
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_4gCs4g-KEeqXZfiKDoLllg" role="_v-NOsA-KEeqXZfiKDoLllg"/>
+    </ownedConnector>
+    <ownedConnector xmi:type="uml:Connector" xmi:id="_5LQNEA-KEeqXZfiKDoLllg" name="Connector13">
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_5LQNEQ-KEeqXZfiKDoLllg" role="_1dNOAA-KEeqXZfiKDoLllg"/>
+      <end xmi:type="uml:ConnectorEnd" xmi:id="_5LQNEg-KEeqXZfiKDoLllg" role="_v-NOsA-KEeqXZfiKDoLllg"/>
+    </ownedConnector>
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_bRndIA-FEeqXZfiKDoLllg" name="NetworkManager">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_yLk3cA-FEeqXZfiKDoLllg" name="Connection" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_bI-CAA-GEeqXZfiKDoLllg" name="Port2" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_O_Lo4A-KEeqXZfiKDoLllg" name="" aggregation="composite"/>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_cRipEA-FEeqXZfiKDoLllg" name="ChatManager">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_ftTv4A-GEeqXZfiKDoLllg" name="Port1" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_1dNOAA-KEeqXZfiKDoLllg" name="Port2" aggregation="composite"/>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_i6vxsA-FEeqXZfiKDoLllg" name="ConfigManager">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_s5BjQA-GEeqXZfiKDoLllg" name="Port1" aggregation="composite"/>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_FYolYA-KEeqXZfiKDoLllg" name="UserManager">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_JuZEsA-KEeqXZfiKDoLllg" name="" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_ypa3wA-KEeqXZfiKDoLllg" name="" aggregation="composite"/>
+    </nestedClassifier>
+  </packagedElement>
+</uml:Model>

@@ -4,12 +4,14 @@
     <packageImport xmi:type="uml:PackageImport" xmi:id="_NndhYP8KEemBLdA096qiFQ">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Class" xmi:id="_aiwTIP8KEemBLdA096qiFQ" name="AgentManager"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_aiwTIP8KEemBLdA096qiFQ" name="AgentManager" isActive="true"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_cEwRYP8KEemBLdA096qiFQ" name="Installer"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_c_KEIP8KEemBLdA096qiFQ" name="ChatManager">
+    <packagedElement xmi:type="uml:Class" xmi:id="_c_KEIP8KEemBLdA096qiFQ" name="ChatManager" isActive="true">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_UpuCkAayEeqhuK1uTC0gaw" name="chats"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_2kUxwAawEeqhuK1uTC0gaw" name="createChat"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_7Yj80AawEeqhuK1uTC0gaw" name="leave"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_iREY4BEBEeqpycP05lNXUw" name="updateMissingHistory(Chat)"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_8IRncBEBEeqpycP05lNXUw" name="sendMissingHistory(Chat,User,LastSeen)"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_eRQlMP8KEemBLdA096qiFQ" name="Chat">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_7Pu7gAaxEeqhuK1uTC0gaw" name="users">
@@ -18,15 +20,15 @@
         </ownedComment>
       </ownedAttribute>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_C57AAAayEeqhuK1uTC0gaw" name="history" visibility="public"/>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_sqaGUAawEeqhuK1uTC0gaw" name="write" concurrency="guarded"/>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_uLQOAAawEeqhuK1uTC0gaw" name="update"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_sqaGUAawEeqhuK1uTC0gaw" name="display" concurrency="guarded"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_kjFIkP8KEemBLdA096qiFQ" name="UserManager">
+    <packagedElement xmi:type="uml:Class" xmi:id="_kjFIkP8KEemBLdA096qiFQ" name="UserManager" isActive="true">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_el9CMAayEeqhuK1uTC0gaw" name="identifier" visibility="public"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_emZuIAayEeqhuK1uTC0gaw" name="pseudo" visibility="public"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_Ev9jMA-HEeqXZfiKDoLllg" name="activeUsers"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_C5glwAaxEeqhuK1uTC0gaw" name="changePseudo"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_AzXx0A-HEeqXZfiKDoLllg" name="updateActives"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_ucmsMBECEeqpycP05lNXUw" name="getListActive" visibility="private"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_2iAzUP8KEemBLdA096qiFQ" name="SettingsManager"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_5Ey5IP8KEemBLdA096qiFQ" name="ConfigManager"/>
@@ -80,10 +82,11 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7w8g4f8LEemBLdA096qiFQ" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_FSqgYAavEeqhuK1uTC0gaw" name="NetworkManager" visibility="public">
+    <packagedElement xmi:type="uml:Class" xmi:id="_FSqgYAavEeqhuK1uTC0gaw" name="NetworkManager" visibility="public" isActive="true">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_aeAVYAayEeqhuK1uTC0gaw" name="ipbroadcast"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_joyU0AawEeqhuK1uTC0gaw" name="connect" concurrency="concurrent"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_myX78AawEeqhuK1uTC0gaw" name="broadcast"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_SYTwcBEBEeqpycP05lNXUw" name="TCP_IP_send"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_jtuCsAaxEeqhuK1uTC0gaw" memberEnd="_jt3zsgaxEeqhuK1uTC0gaw _jt3ztQaxEeqhuK1uTC0gaw">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_jt3zsAaxEeqhuK1uTC0gaw" source="org.eclipse.papyrus">
@@ -99,8 +102,21 @@
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_RIdmYQ-GEeqXZfiKDoLllg" source="org.eclipse.papyrus">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_RIdmYg-GEeqXZfiKDoLllg" key="nature" value="UML_Nature"/>
       </eAnnotations>
-      <ownedEnd xmi:type="uml:Property" xmi:id="_RImwUw-GEeqXZfiKDoLllg" name="user" type="_kjFIkP8KEemBLdA096qiFQ" association="_RIdmYA-GEeqXZfiKDoLllg"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_RImwUw-GEeqXZfiKDoLllg" name="user" type="_kjFIkP8KEemBLdA096qiFQ" aggregation="composite" association="_RIdmYA-GEeqXZfiKDoLllg"/>
       <ownedEnd xmi:type="uml:Property" xmi:id="_RImwUA-GEeqXZfiKDoLllg" name="agentmanager" type="_aiwTIP8KEemBLdA096qiFQ" association="_RIdmYA-GEeqXZfiKDoLllg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_IVs4gBEAEeqpycP05lNXUw" name="UI" isActive="true">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_WDgFQBEAEeqpycP05lNXUw" name="getUserInput"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_Ot3UcBEAEeqpycP05lNXUw" memberEnd="_Ot3UcxEAEeqpycP05lNXUw _Ot3UdhEAEeqpycP05lNXUw">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Ot3UcREAEeqpycP05lNXUw" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Ot3UchEAEeqpycP05lNXUw" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_Ot3UdhEAEeqpycP05lNXUw" name="ui" type="_IVs4gBEAEeqpycP05lNXUw" aggregation="composite" association="_Ot3UcBEAEeqpycP05lNXUw"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_Ot3UcxEAEeqpycP05lNXUw" name="agentmanager" type="_aiwTIP8KEemBLdA096qiFQ" association="_Ot3UcBEAEeqpycP05lNXUw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ot3UdBEAEeqpycP05lNXUw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ot3UdREAEeqpycP05lNXUw" value="1"/>
+      </ownedEnd>
     </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_0EEmFwaxEeqhuK1uTC0gaw">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0EOXEAaxEeqhuK1uTC0gaw" source="http://www.eclipse.org/uml2/2.0.0/UML">

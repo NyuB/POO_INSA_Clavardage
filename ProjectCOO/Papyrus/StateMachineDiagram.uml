@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ActionLanguage="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ">
+  <uml:Model xmi:id="_vWJ8oBD9EeqpycP05lNXUw" name="StateMachineDiagram">
+    <packageImport xmi:type="uml:PackageImport" xmi:id="_vaLhABD9EeqpycP05lNXUw">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:StateMachine" xmi:id="_vWc3kBD9EeqpycP05lNXUw" name="UI">
+      <region xmi:type="uml:Region" xmi:id="_vZb6IBD9EeqpycP05lNXUw" name="Region1">
+        <transition xmi:type="uml:Transition" xmi:id="_hIxMsBEEEeqpycP05lNXUw" source="_52-QABD9EeqpycP05lNXUw" target="_P0ir0BEEEeqpycP05lNXUw">
+          <ownedComment xmi:type="uml:Comment" xmi:id="_jtlS0BEEEeqpycP05lNXUw">
+            <body>selected&#xD;
+</body>
+          </ownedComment>
+        </transition>
+        <transition xmi:type="uml:Transition" xmi:id="_lZVC8BEEEeqpycP05lNXUw" source="_P0ir0BEEEeqpycP05lNXUw" target="_UVZA0BEEEeqpycP05lNXUw"/>
+        <transition xmi:type="uml:Transition" xmi:id="_mH2V0BEEEeqpycP05lNXUw" source="_UVZA0BEEEeqpycP05lNXUw" target="_UVZA0BEEEeqpycP05lNXUw"/>
+        <transition xmi:type="uml:Transition" xmi:id="_0_2r4BEEEeqpycP05lNXUw" source="_52-QABD9EeqpycP05lNXUw" target="_tnUYEBEEEeqpycP05lNXUw"/>
+        <transition xmi:type="uml:Transition" xmi:id="_1Vm5cBEEEeqpycP05lNXUw" source="_tnUYEBEEEeqpycP05lNXUw" target="_vfHAIBEEEeqpycP05lNXUw"/>
+        <transition xmi:type="uml:Transition" xmi:id="_1rWf8BEEEeqpycP05lNXUw" source="_vfHAIBEEEeqpycP05lNXUw" target="_52-QABD9EeqpycP05lNXUw"/>
+        <subvertex xmi:type="uml:State" xmi:id="_52-QABD9EeqpycP05lNXUw" name="Idle"/>
+        <subvertex xmi:type="uml:State" xmi:id="_P0ir0BEEEeqpycP05lNXUw" name="ChatSelected"/>
+        <subvertex xmi:type="uml:State" xmi:id="_UVZA0BEEEeqpycP05lNXUw" name="ChatDisplayed"/>
+        <subvertex xmi:type="uml:State" xmi:id="_tnUYEBEEEeqpycP05lNXUw" name="InfoSelected"/>
+        <subvertex xmi:type="uml:State" xmi:id="_vfHAIBEEEeqpycP05lNXUw" name="ChangePseudoMenu"/>
+      </region>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_juLItxEEEeqpycP05lNXUw">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_jueqsBEEEeqpycP05lNXUw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+    </profileApplication>
+  </uml:Model>
+  <ActionLanguage:TextualRepresentation xmi:id="_jueqsREEEeqpycP05lNXUw" base_Comment="_jtlS0BEEEeqpycP05lNXUw" language="org.eclipse.papyrus.uml.textedit.transition.xtext.UmlTransition"/>
+</xmi:XMI>

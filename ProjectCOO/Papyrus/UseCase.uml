@@ -1,44 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_hKXwEP75EemBLdA096qiFQ" name="Clavardage">
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_hKXwEP75EemBLdA096qiFQ" name="Clavardage">
   <packageImport xmi:type="uml:PackageImport" xmi:id="_hPI7UP75EemBLdA096qiFQ">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
   <packagedElement xmi:type="uml:Actor" xmi:id="_rnQlsP75EemBLdA096qiFQ" name="User"/>
   <packagedElement xmi:type="uml:Package" xmi:id="_naOcMP8HEemBLdA096qiFQ" name="Agent">
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_1bW9AP75EemBLdA096qiFQ" name="Connection">
-      <include xmi:type="uml:Include" xmi:id="_3o28EP8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_1bW9AP75EemBLdA096qiFQ" name="Connect">
+      <extend xmi:type="uml:Extend" xmi:id="_hzvEABD-EeqpycP05lNXUw" extendedCase="_d6x1cBD-EeqpycP05lNXUw" extensionLocation="_hzvEARD-EeqpycP05lNXUw"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_jstooP8HEemBLdA096qiFQ" name="Join Chat">
-      <include xmi:type="uml:Include" xmi:id="_2dWyQP8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_lkEL0P8HEemBLdA096qiFQ" name="Leave Chat">
-      <include xmi:type="uml:Include" xmi:id="_1c-TUP8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_DmSCQP8IEemBLdA096qiFQ" name="Disconnection">
-      <include xmi:type="uml:Include" xmi:id="_3CEB0P8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_LBaXEP8IEemBLdA096qiFQ" name="Start">
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_jstooP8HEemBLdA096qiFQ" name="Join Chat"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_lkEL0P8HEemBLdA096qiFQ" name="Leave Chat"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_DmSCQP8IEemBLdA096qiFQ" name="Disconnect"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_LBaXEP8IEemBLdA096qiFQ" name="Start Agent">
       <include xmi:type="uml:Include" xmi:id="_EwMbMP8JEemBLdA096qiFQ" addition="_1bW9AP75EemBLdA096qiFQ"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_MgNQUP8IEemBLdA096qiFQ" name="Close">
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_MgNQUP8IEemBLdA096qiFQ" name="Close Agent">
       <include xmi:type="uml:Include" xmi:id="_FiHAUP8JEemBLdA096qiFQ" addition="_DmSCQP8IEemBLdA096qiFQ"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_pB_10P8IEemBLdA096qiFQ" name="Receive Message">
-      <include xmi:type="uml:Include" xmi:id="_0e9L4P8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_pB_10P8IEemBLdA096qiFQ" name="Receive Message"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_lM-FAP8IEemBLdA096qiFQ" name="Send Message"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_mvWdwP8IEemBLdA096qiFQ" name="View Actives"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_U3iSMP8JEemBLdA096qiFQ" name="Modify pseudo"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_njCIAP8JEemBLdA096qiFQ" name="View History"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_d6x1cBD-EeqpycP05lNXUw" name="Choose Pseudo">
+      <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="_hzvEARD-EeqpycP05lNXUw" name="ExtensionPoint1"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_lM-FAP8IEemBLdA096qiFQ" name="Send Message">
-      <include xmi:type="uml:Include" xmi:id="_z-Q5oP8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_mvWdwP8IEemBLdA096qiFQ" name="View Actives">
-      <include xmi:type="uml:Include" xmi:id="_09gJEP8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_U3iSMP8JEemBLdA096qiFQ" name="Choose pseudo">
-      <include xmi:type="uml:Include" xmi:id="_zZdjcP8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_njCIAP8JEemBLdA096qiFQ" name="View History">
-      <include xmi:type="uml:Include" xmi:id="_x_A-sP8JEemBLdA096qiFQ" addition="_uCrsAP8JEemBLdA096qiFQ"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_uCrsAP8JEemBLdA096qiFQ" name="Communicate with Local Area Network"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Usage" xmi:id="_CB1-kP8JEemBLdA096qiFQ" client="_rnQlsP75EemBLdA096qiFQ" supplier="_LBaXEP8IEemBLdA096qiFQ"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_GrRn0P8JEemBLdA096qiFQ" client="_rnQlsP75EemBLdA096qiFQ" supplier="_MgNQUP8IEemBLdA096qiFQ"/>
@@ -49,5 +35,11 @@
   <packagedElement xmi:type="uml:Usage" xmi:id="_LFhlkP8JEemBLdA096qiFQ" client="_rnQlsP75EemBLdA096qiFQ" supplier="_mvWdwP8IEemBLdA096qiFQ"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_ihh9AP8JEemBLdA096qiFQ" client="_KTazMP8JEemBLdA096qiFQ" supplier="_U3iSMP8JEemBLdA096qiFQ"/>
   <packagedElement xmi:type="uml:Actor" xmi:id="_5iYpgP8JEemBLdA096qiFQ" name="LAN"/>
-  <packagedElement xmi:type="uml:Usage" xmi:id="_7jTYYP8JEemBLdA096qiFQ" client="_5iYpgP8JEemBLdA096qiFQ" supplier="_uCrsAP8JEemBLdA096qiFQ"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_RnA9wBD-EeqpycP05lNXUw" memberEnd="_RnKuwhD-EeqpycP05lNXUw _RnKuwxD-EeqpycP05lNXUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_RnKuwBD-EeqpycP05lNXUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_RnKuwRD-EeqpycP05lNXUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_RnKuwhD-EeqpycP05lNXUw" name="view actives" type="_mvWdwP8IEemBLdA096qiFQ" association="_RnA9wBD-EeqpycP05lNXUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_RnKuwxD-EeqpycP05lNXUw" name="join chat" type="_jstooP8HEemBLdA096qiFQ" association="_RnA9wBD-EeqpycP05lNXUw"/>
+  </packagedElement>
 </uml:Model>

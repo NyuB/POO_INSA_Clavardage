@@ -8,10 +8,10 @@
       <body>From the same conversation&#xD;
 </body>
     </ownedComment>
-    <lifeline xmi:type="uml:Lifeline" xmi:id="_GqdxwAz6EeqTKOi5KrN4Yw" name="User" coveredBy="_czfeYQz6EeqTKOi5KrN4Yw _1lpJYgz6EeqTKOi5KrN4Yw"/>
-    <lifeline xmi:type="uml:Lifeline" xmi:id="_IGjVQAz6EeqTKOi5KrN4Yw" name="Agent" coveredBy="_czfeYgz6EeqTKOi5KrN4Yw _fdXDoQz6EeqTKOi5KrN4Yw _ywikggz6EeqTKOi5KrN4Yw _1lpJYQz6EeqTKOi5KrN4Yw"/>
-    <lifeline xmi:type="uml:Lifeline" xmi:id="_JeKocAz6EeqTKOi5KrN4Yw" name="Network" coveredBy="_fdXDogz6EeqTKOi5KrN4Yw _j7Cv4Az6EeqTKOi5KrN4Yw _j7fb3Az6EeqTKOi5KrN4Yw _ywikgQz6EeqTKOi5KrN4Yw"/>
-    <lifeline xmi:type="uml:Lifeline" xmi:id="_Kq5hUAz6EeqTKOi5KrN4Yw" name="Others" coveredBy="_j7Cv4Qz6EeqTKOi5KrN4Yw _j7fb2wz6EeqTKOi5KrN4Yw _j7fb1Az6EeqTKOi5KrN4Yw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_GqdxwAz6EeqTKOi5KrN4Yw" name="UI" coveredBy="_czfeYQz6EeqTKOi5KrN4Yw _1lpJYgz6EeqTKOi5KrN4Yw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_IGjVQAz6EeqTKOi5KrN4Yw" name="ChatManager" coveredBy="_czfeYgz6EeqTKOi5KrN4Yw _fdXDoQz6EeqTKOi5KrN4Yw _ywikggz6EeqTKOi5KrN4Yw _1lpJYQz6EeqTKOi5KrN4Yw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_JeKocAz6EeqTKOi5KrN4Yw" name="NetworkManager" coveredBy="_fdXDogz6EeqTKOi5KrN4Yw _j7Cv4Az6EeqTKOi5KrN4Yw _j7fb3Az6EeqTKOi5KrN4Yw _ywikgQz6EeqTKOi5KrN4Yw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_Kq5hUAz6EeqTKOi5KrN4Yw" name="Agent2" coveredBy="_j7Cv4Qz6EeqTKOi5KrN4Yw _j7fb2wz6EeqTKOi5KrN4Yw _j7fb1Az6EeqTKOi5KrN4Yw"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_czfeYQz6EeqTKOi5KrN4Yw" name="Message6SendEvent" covered="_GqdxwAz6EeqTKOi5KrN4Yw" message="_czfeYAz6EeqTKOi5KrN4Yw"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_czfeYgz6EeqTKOi5KrN4Yw" name="Message6ReceiveEvent" covered="_IGjVQAz6EeqTKOi5KrN4Yw" message="_czfeYAz6EeqTKOi5KrN4Yw"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_fdXDoQz6EeqTKOi5KrN4Yw" name="Message9SendEvent" covered="_IGjVQAz6EeqTKOi5KrN4Yw" message="_fdXDoAz6EeqTKOi5KrN4Yw"/>
@@ -25,11 +25,11 @@
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_ywikggz6EeqTKOi5KrN4Yw" name="Message19ReceiveEvent" covered="_IGjVQAz6EeqTKOi5KrN4Yw" message="_ywikgAz6EeqTKOi5KrN4Yw"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_1lpJYQz6EeqTKOi5KrN4Yw" name="Message22SendEvent" covered="_IGjVQAz6EeqTKOi5KrN4Yw" message="_1lpJYAz6EeqTKOi5KrN4Yw"/>
     <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_1lpJYgz6EeqTKOi5KrN4Yw" name="Message22ReceiveEvent" covered="_GqdxwAz6EeqTKOi5KrN4Yw" message="_1lpJYAz6EeqTKOi5KrN4Yw"/>
-    <message xmi:type="uml:Message" xmi:id="_czfeYAz6EeqTKOi5KrN4Yw" name="join Chat" messageSort="asynchCall" receiveEvent="_czfeYgz6EeqTKOi5KrN4Yw" sendEvent="_czfeYQz6EeqTKOi5KrN4Yw"/>
-    <message xmi:type="uml:Message" xmi:id="_fdXDoAz6EeqTKOi5KrN4Yw" name="AskChatUpdate+LastReceive" messageSort="asynchCall" receiveEvent="_fdXDogz6EeqTKOi5KrN4Yw" sendEvent="_fdXDoQz6EeqTKOi5KrN4Yw"/>
-    <message xmi:type="uml:Message" xmi:id="_j65l8Az6EeqTKOi5KrN4Yw" name="Send" receiveEvent="_j7Cv4Qz6EeqTKOi5KrN4Yw" sendEvent="_j7Cv4Az6EeqTKOi5KrN4Yw"/>
-    <message xmi:type="uml:Message" xmi:id="_j7fb2gz6EeqTKOi5KrN4Yw" name="SendMissingHistory" messageSort="reply" receiveEvent="_j7fb3Az6EeqTKOi5KrN4Yw" sendEvent="_j7fb2wz6EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_czfeYAz6EeqTKOi5KrN4Yw" name="fireJoinChatAction(Chat)" messageSort="asynchCall" receiveEvent="_czfeYgz6EeqTKOi5KrN4Yw" sendEvent="_czfeYQz6EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_fdXDoAz6EeqTKOi5KrN4Yw" name="updateMissingHistory(Chat)" messageSort="asynchCall" receiveEvent="_fdXDogz6EeqTKOi5KrN4Yw" sendEvent="_fdXDoQz6EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_j65l8Az6EeqTKOi5KrN4Yw" name="TCP_IP_send(truc)" receiveEvent="_j7Cv4Qz6EeqTKOi5KrN4Yw" sendEvent="_j7Cv4Az6EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_j7fb2gz6EeqTKOi5KrN4Yw" name="TCP_IP_send(answer)" messageSort="reply" receiveEvent="_j7fb3Az6EeqTKOi5KrN4Yw" sendEvent="_j7fb2wz6EeqTKOi5KrN4Yw"/>
     <message xmi:type="uml:Message" xmi:id="_ywikgAz6EeqTKOi5KrN4Yw" name="ReceiveMissingHistory" messageSort="asynchCall" receiveEvent="_ywikggz6EeqTKOi5KrN4Yw" sendEvent="_ywikgQz6EeqTKOi5KrN4Yw"/>
-    <message xmi:type="uml:Message" xmi:id="_1lpJYAz6EeqTKOi5KrN4Yw" name="UpdateChat" messageSort="asynchCall" receiveEvent="_1lpJYgz6EeqTKOi5KrN4Yw" sendEvent="_1lpJYQz6EeqTKOi5KrN4Yw"/>
+    <message xmi:type="uml:Message" xmi:id="_1lpJYAz6EeqTKOi5KrN4Yw" name="Display" messageSort="asynchCall" receiveEvent="_1lpJYgz6EeqTKOi5KrN4Yw" sendEvent="_1lpJYQz6EeqTKOi5KrN4Yw"/>
   </packagedElement>
 </uml:Model>

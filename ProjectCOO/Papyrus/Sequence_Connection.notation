@@ -28,14 +28,14 @@
               <layoutConstraint xsi:type="notation:Bounds" xmi:id="_BMIruQa2EeqhuK1uTC0gaw" x="5" y="5"/>
             </children>
             <element href="Sequence_Connection.uml#_BL_hwQa2EeqhuK1uTC0gaw"/>
-            <layoutConstraint xsi:type="notation:Bounds" xmi:id="_BMIrtwa2EeqhuK1uTC0gaw" width="481" height="122"/>
+            <layoutConstraint xsi:type="notation:Bounds" xmi:id="_BMIrtwa2EeqhuK1uTC0gaw" y="60" width="341" height="62"/>
           </children>
           <styles xsi:type="notation:SortingStyle" xmi:id="_BMIrswa2EeqhuK1uTC0gaw"/>
           <styles xsi:type="notation:FilteringStyle" xmi:id="_BMIrtAa2EeqhuK1uTC0gaw"/>
           <layoutConstraint xsi:type="notation:Bounds" xmi:id="_BMIrtQa2EeqhuK1uTC0gaw"/>
         </children>
         <element href="Sequence_Connection.uml#_BL_hwAa2EeqhuK1uTC0gaw"/>
-        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_BMIrsQa2EeqhuK1uTC0gaw" x="94" y="416" width="481" height="141"/>
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_BMIrsQa2EeqhuK1uTC0gaw" x="234" y="496" width="341" height="81"/>
       </children>
       <children xsi:type="notation:Shape" xmi:id="_5DaYcQayEeqhuK1uTC0gaw" type="Lifeline_Shape">
         <children xsi:type="notation:DecorationNode" xmi:id="_5DjiYAayEeqhuK1uTC0gaw" type="Lifeline_NameLabel"/>

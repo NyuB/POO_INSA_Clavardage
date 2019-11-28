@@ -1,3 +1,45 @@
-<project default = "compile">
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CLV" default = "compile">
+    <property name="src_dir" value ="./src"/>
+    <property name="build_dir" value = "./build"/>
+    <property name="data_dir" value="./data"/>
+
+    <path id="project_classpath">
+        <pathelement location="${build_dir}"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="{build_dir}"/>
+    </target>
+    <target name="compile" depends="clean">
+        <javac srcdir="${src_dir}" destdir="${build_dir}">
+            <classpath>
+                <path refid="project_classpath"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name = "run" depends="compile">
+        <java classname="org.clav.ProtoRcv" fork="true">
+            <classpath>
+                <path refid="project_classpath"/>
+            </classpath>
+        </java>
+    </target>
+    <target name="executable" depends="compile">
+        <jar destfile="CLV.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.ProtoRcv"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="run_only">
+        <java classname="org.clav.ProtoRcv" fork="true">
+            <classpath>
+                <path refid="project_classpath"/>
+            </classpath>
+        </java>
+    </target>
+
 
 </project>

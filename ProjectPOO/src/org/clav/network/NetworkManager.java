@@ -10,9 +10,10 @@ import java.net.SocketException;
 import java.util.HashMap;
 
 public class NetworkManager {
-	public static int UDPSOCKET_SEND = 1025;
-	public static int UDPSOCKET_RECEIVE = 1026;
-	public static int TCPSOCKET = 1027;
+	public static int UDPSOCKET_SEND = 1034;
+	public static int UDPSOCKET_RECEIVE = 1035;
+	public static int TCPSOCKET_SEND = 1044;
+	public static int TCP_SOCKET_RECEIVE = 1045;
 	private InetAddress networkAddress;
 	private InetAddress broadcastAddress;
 	private HashMap<User,InetAddress> addrMap;

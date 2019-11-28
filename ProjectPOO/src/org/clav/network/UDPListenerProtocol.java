@@ -18,6 +18,7 @@ public class UDPListenerProtocol extends Protocol {
 			byte[] buffer = new byte[256];
 			DatagramPacket packetUDP = new DatagramPacket(buffer,256);
 			while(true){
+				System.out.println("Waiting UDP Packet on port "+socketUDP.getLocalPort());
 				socketUDP.receive(packetUDP);
 				String toTxt = new String(packetUDP.getData(),0,packetUDP.getLength());
 				System.out.println("Receiving UDP packet : "+toTxt);

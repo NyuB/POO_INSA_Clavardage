@@ -1,6 +1,6 @@
 package org.clav.network;
 
-public abstract class ProtocolInit {
+public class ProtocolInit {
 	private NetworkManager networkManager;
 
 	public NetworkManager getNetworkManager() {

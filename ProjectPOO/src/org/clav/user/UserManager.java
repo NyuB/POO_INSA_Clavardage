@@ -21,4 +21,12 @@ public class UserManager {
 	public void addUser(User user){
 		this.activeUsers.put(user.getIdentifier(),user);
 	}
+
+	public User getMainUser() {
+		return mainUser;
+	}
+
+	public void setMainUser(User mainUser) {
+		this.mainUser = mainUser;
+	}
 }

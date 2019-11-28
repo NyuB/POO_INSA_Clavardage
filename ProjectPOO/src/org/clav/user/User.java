@@ -8,6 +8,11 @@ public class User {
 		return identifier;
 	}
 
+	public User(String identifier, String pseudo) {
+		this.identifier = identifier;
+		this.pseudo = pseudo;
+	}
+
 	public String getPseudo() {
 		return pseudo;
 	}

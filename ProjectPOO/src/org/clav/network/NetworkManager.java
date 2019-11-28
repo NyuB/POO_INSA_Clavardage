@@ -16,27 +16,48 @@ public class NetworkManager {
 	public static int TCP_SOCKET_RECEIVE = 1045;
 	private InetAddress networkAddress;
 	private InetAddress broadcastAddress;
-	private HashMap<User,InetAddress> addrMap;
-	public void connect(){
-		//TODO
-	}
-	public void broadcast(byte[] bytes){
-		//TODO
-	}
-	public void UDP_Send(byte[] bytes,InetAddress address){
-		try {
-			DatagramSocket socketUDP = new DatagramSocket(UDPSOCKET_SEND);
-			DatagramPacket packetUDP = new DatagramPacket(bytes,bytes.length,address, UDPSOCKET_RECEIVE);
-			socketUDP.send(packetUDP);
+	private HashMap<User, InetAddress> addrMap;
+	private DatagramSocket sendSocketUDP;
+	private DatagramSocket receiveSocketUDP;
 
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-		catch (IOException e){
-			e.printStackTrace();
+	public static NetworkManager testModeNetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP){
+		return new NetworkManager(networkAddress,broadcastAddress,sendSocketUDP,receiveSocketUDP);
+	}
+
+	public DatagramSocket getSendSocketUDP() {
+		return sendSocketUDP;
+	}
+
+	public DatagramSocket getReceiveSocketUDP() {
+		return receiveSocketUDP;
+	}
+
+	public void setReceiveSocketUDP(DatagramSocket receiveSocketUDP) {
+		this.receiveSocketUDP = receiveSocketUDP;
+	}
+
+	public void connect() {
+		//TODO
+	}
+
+	public void broadcast(byte[] bytes) {
+		this.UDP_Send(bytes, this.broadcastAddress);
+	}
+
+	public void UDP_Send(byte[] bytes, InetAddress address) {
+		synchronized (this.sendSocketUDP) {
+			try {
+				DatagramPacket packetUDP = new DatagramPacket(bytes, bytes.length, address, UDPSOCKET_RECEIVE);
+				this.sendSocketUDP.send(packetUDP);
+			} catch (SocketException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	public void TCP_IP_send(Object data, InetAddress address){
+
+	public void TCP_IP_send(Object data, InetAddress address) {
 		//TODO
 	}
 
@@ -44,9 +65,23 @@ public class NetworkManager {
 		this.networkAddress = networkAddress;
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
+		try {
+			this.receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE);
+			this.sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void executeProtocol(Protocol protocol){
+	private NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP) {
+
+		this.networkAddress = networkAddress;
+		this.broadcastAddress = broadcastAddress;
+		this.sendSocketUDP = sendSocketUDP;
+		this.receiveSocketUDP = receiveSocketUDP;
+	}
+
+	public void executeProtocol(Protocol protocol) {
 		Thread t = new Thread(protocol);
 		t.start();
 	}

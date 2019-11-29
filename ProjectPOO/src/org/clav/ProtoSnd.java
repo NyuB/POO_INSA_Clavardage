@@ -19,8 +19,8 @@ public class ProtoSnd {
 		try {
 			Scanner in = new Scanner(System.in);
 			//InetAddress localAddr = InetAddress.getByName("127.0.0.1");
-			InetAddress localAddr = InetAddress.getByAddress(new byte[] {127,0,0,1});
-			InetAddress broadcastAddr = localAddr;
+			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
+			InetAddress broadcastAddr = InetAddress.getByName("10.1.255.255");
 			byte[] singleTarget = "This message is only for YOU".getBytes();
 			//InetAddress localAddr = InetAddress.getByName("localhost");
 			System.out.println("LOCAL : "  + localAddr);

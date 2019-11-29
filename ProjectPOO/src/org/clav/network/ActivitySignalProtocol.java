@@ -16,7 +16,9 @@ public class ActivitySignalProtocol extends Protocol {
 		while(true){
 			String signal = "[SIGACT]||"+getProtocolInit().getUserManager().getMainUser().getIdentifier()+"||"+getProtocolInit().getUserManager().getMainUser().getPseudo();
 			byte[] buf = signal.getBytes();
+			System.out.println("ActivitySignalProtocol sending activity report");
 			getRelatedNetworkManager().broadcast(buf);
+
 			try {
 				Thread.sleep(SIGNAL_PERIOD);
 			} catch (InterruptedException e) {

@@ -40,11 +40,11 @@ public class NetworkManager {
 		//TODO
 	}
 
-	public void broadcast(byte[] bytes) {
+	public synchronized void broadcast(byte[] bytes) {
 		this.UDP_Send(bytes, this.broadcastAddress);
 	}
 
-	public void UDP_Send(byte[] bytes, InetAddress address) {
+	public synchronized void UDP_Send(byte[] bytes, InetAddress address) {
 		synchronized (this.sendSocketUDP) {
 			try {
 				DatagramPacket packetUDP = new DatagramPacket(bytes, bytes.length, address, UDPSOCKET_RECEIVE);

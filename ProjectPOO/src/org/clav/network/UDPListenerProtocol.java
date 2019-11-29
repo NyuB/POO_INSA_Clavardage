@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.SocketException;
 
+
+/**
+ * Central protocol to capture broadcasts or low_importance messages
+ */
 public class UDPListenerProtocol extends Protocol {
 	public UDPListenerProtocol(ProtocolInit protocolInit) {
 		super(protocolInit);

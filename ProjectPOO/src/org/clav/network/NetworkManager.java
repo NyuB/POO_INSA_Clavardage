@@ -1,12 +1,10 @@
 package org.clav.network;
 
+import org.clav.Agent;
 import org.clav.user.User;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.HashMap;
 
 public class NetworkManager {
@@ -14,11 +12,46 @@ public class NetworkManager {
 	public static int UDPSOCKET_RECEIVE = 1035;
 	public static int TCPSOCKET_SEND = 1044;
 	public static int TCP_SOCKET_RECEIVE = 1045;
+	private Agent relatedAgent;
+
+	public Agent getRelatedAgent() {
+		return relatedAgent;
+	}
+
 	private InetAddress networkAddress;
 	private InetAddress broadcastAddress;
 	private HashMap<User, InetAddress> addrMap;
 	private DatagramSocket sendSocketUDP;
 	private DatagramSocket receiveSocketUDP;
+	private HashMap<User, TCPUserLink> tcpConnections;
+
+	synchronized void initiateConnectionTCP(User user){
+		if (this.tcpConnections.containsKey(user)) {
+			try {
+				System.out.println("Attempting TCP connections with user "+user.getIdentifier());
+				Socket socket = new Socket(addrMap.get(user),TCP_SOCKET_RECEIVE);
+				tcpConnections.put(user,new TCPUserLink(user,socket));
+				System.out.println("TCP Connection with user "+user.getIdentifier()+" SUCCESS");
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	synchronized void closeConnectionTCP(User user){
+		if(this.tcpConnections.containsKey(user)){
+			try {
+				System.out.println("Closing TCP connection with user "+user.getIdentifier());
+				this.tcpConnections.get(user).getDistant().close();
+				this.tcpConnections.remove(user);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	synchronized void addConnectionTCP(String identifier,Socket distant){
+		this.getRelatedAgent().getUserManager().createIfAbsent(identifier);
+	}
 
 	public static NetworkManager testModeNetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP){
 		return new NetworkManager(networkAddress,broadcastAddress,sendSocketUDP,receiveSocketUDP);
@@ -65,6 +98,7 @@ public class NetworkManager {
 		this.networkAddress = networkAddress;
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
+		this.tcpConnections = new HashMap<>();
 		try {
 			this.receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE);
 			this.sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND);
@@ -79,8 +113,16 @@ public class NetworkManager {
 		this.broadcastAddress = broadcastAddress;
 		this.sendSocketUDP = sendSocketUDP;
 		this.receiveSocketUDP = receiveSocketUDP;
+		this.addrMap = new HashMap<>();
+		this.tcpConnections = new HashMap<>();
 	}
 
+
+	/**
+	 * Crucial method to allow the network manager to serve multiple components of the agent
+	 * For any new agent component need, implement a new Protocol to serve it
+	 * @param protocol A runnable class using the network manager methods and interacting with the other managers
+	 */
 	public void executeProtocol(Protocol protocol) {
 		Thread t = new Thread(protocol);
 		t.start();

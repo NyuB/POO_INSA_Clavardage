@@ -1,8 +1,11 @@
 package org.clav.user;
 
+import org.clav.Agent;
+
 import java.util.HashMap;
 
 public class UserManager {
+	private Agent agent;
 	private HashMap<String, User> activeUsers;
 	private User mainUser;
 
@@ -18,7 +21,7 @@ public class UserManager {
 	public HashMap<String, User> getActiveUsers() {
 		return activeUsers;
 	}
-	public void addUser(User user){
+	public synchronized void addUserEntry(User user){
 		this.activeUsers.put(user.getIdentifier(),user);
 	}
 
@@ -28,5 +31,11 @@ public class UserManager {
 
 	public void setMainUser(User mainUser) {
 		this.mainUser = mainUser;
+	}
+
+	public void createIfAbsent(String identifier) { //TODO
+		if(!this.activeUsers.containsKey(identifier)){
+			this.activeUsers.put(identifier,new User(identifier,null));
+		}
 	}
 }

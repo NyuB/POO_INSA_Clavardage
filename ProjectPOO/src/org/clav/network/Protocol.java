@@ -1,5 +1,8 @@
 package org.clav.network;
 
+/**
+ * Abstract class, intented to be implemented for each agent component actions requiring network functionality
+ */
 public abstract class Protocol implements Runnable {
 	private ProtocolInit protocolInit;
 

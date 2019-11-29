@@ -3,17 +3,18 @@
     <property name="src_dir" value ="./src"/>
     <property name="build_dir" value = "./build"/>
     <property name="data_dir" value="./data"/>
+    <property name="exe_dir" value="./exe"/>
 
     <path id="project_classpath">
         <pathelement location="${build_dir}"/>
     </path>
 
     <target name="clean">
-        <delete dir="{build_dir}"/>
-        <delete file="CLV.jar"/>
+        <delete dir="${build_dir}"/>
     </target>
 
     <target name="compile" depends="clean">
+        <mkdir dir="${build_dir}"/>
         <javac srcdir="${src_dir}" destdir="${build_dir}">
             <classpath>
                 <path refid="project_classpath"/>
@@ -33,8 +34,8 @@
     </target>
 
     <target name="executable_ProtoRcv" depends="compile">
-        <delete file="CLV_ProtoRcv.jar"/>
-        <jar destfile="CLV_ProtoRcv.jar" basedir="${build_dir}">
+        <delete file="${exe_dir}/CLV_ProtoRcv.jar"/>
+        <jar destfile="${exe_dir}/CLV_ProtoRcv.jar" basedir="${build_dir}">
             <manifest>
                 <attribute name="Main-Class" value="org.clav.ProtoRcv"/>
             </manifest>
@@ -42,8 +43,8 @@
     </target>
 
     <target name="executable_ProtoSnd" depends="compile">
-        <delete file="CLV_ProtoSnd.jar"/>
-        <jar destfile="CLV_ProtoSnd.jar" basedir="${build_dir}">
+        <delete file="${exe_dir}/CLV_ProtoSnd.jar"/>
+        <jar destfile="${exe_dir}/CLV_ProtoSnd.jar" basedir="${build_dir}">
             <manifest>
                 <attribute name="Main-Class" value="org.clav.ProtoSnd"/>
             </manifest>

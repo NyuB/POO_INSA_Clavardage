@@ -14,9 +14,12 @@ import static org.clav.network.NetworkManager.*;
 public class ProtoRcv {
 	public static void main(String[] args) {
 		NetworkManager networkManager;
+
+
 		try {
+			InetAddress localAddr = InetAddress.getByAddress(new byte[] {0,0,0,0});
 			DatagramSocket receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE);
-			networkManager = NetworkManager.testModeNetworkManager(InetAddress.getByName("localhost"),InetAddress.getByName("localhost"),null,receiveSocketUDP);
+			networkManager = NetworkManager.testModeNetworkManager(localAddr,localAddr,null,receiveSocketUDP);
 			networkManager.executeProtocol(new UDPListenerProtocol(new ProtocolInit(networkManager)));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

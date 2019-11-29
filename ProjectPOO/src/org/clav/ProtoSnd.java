@@ -10,16 +10,42 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Scanner;
+
 import static org.clav.network.NetworkManager.*;
 
 public class ProtoSnd {
 	public static void main(String[] args) {
 		try {
+			Scanner in = new Scanner(System.in);
+			//InetAddress localAddr = InetAddress.getByName("127.0.0.1");
+			InetAddress localAddr = InetAddress.getByAddress(new byte[] {127,0,0,1});
+			InetAddress broadcastAddr = localAddr;
+			byte[] singleTarget = "This message is only for YOU".getBytes();
+			//InetAddress localAddr = InetAddress.getByName("localhost");
+			System.out.println("LOCAL : "  + localAddr);
 			DatagramSocket sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND);
-			NetworkManager networkManager = NetworkManager.testModeNetworkManager(InetAddress.getByName("localhost"),InetAddress.getByName("localhost"),sendSocketUDP,null);
+			NetworkManager networkManager = NetworkManager.testModeNetworkManager(localAddr,broadcastAddr,sendSocketUDP,null);
 			UserManager userManager = new UserManager();
 			userManager.setMainUser(new User("decaeste","DarkPseudoLul"));
 			networkManager.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(networkManager,userManager)));
+			String ipLine;
+			System.out.println("Type IP Adress to test single target message :");
+			while(!(ipLine = in.nextLine()).equals("END")){
+				try {
+					InetAddress address = InetAddress.getByName(ipLine);
+					System.out.println("Sending single target message");
+					networkManager.UDP_Send(singleTarget, address);
+
+				}
+				catch (UnknownHostException e){
+					System.out.println("Invalid IP ADDR");
+				}
+				finally {
+					System.out.println("Type IP Adress to test single target message :");
+				}
+			}
+
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (SocketException e) {

@@ -77,5 +77,11 @@
         </java>
     </target>
 
+    <target name="add_proto">
+        <exec command="git add exe/Protocv"/>
+        <exec command="git add exe/ProtoSnd"/>
+        <exec command="git add build.xml"/>
+    </target>
+
 
 </project>

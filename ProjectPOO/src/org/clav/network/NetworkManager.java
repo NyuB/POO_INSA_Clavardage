@@ -50,7 +50,7 @@ public class NetworkManager {
 		}
 	}
 	synchronized void addConnectionTCP(String identifier,Socket distant){
-		this.getRelatedAgent().getUserManager().createIfAbsent(identifier);
+
 	}
 
 	public static NetworkManager testModeNetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP){

@@ -24,6 +24,9 @@ public class UserManager {
 	public synchronized void addUserEntry(User user){
 		this.activeUsers.put(user.getIdentifier(),user);
 	}
+	public boolean isActiveUser(String identifier){
+		return this.getActiveUsers().containsKey(identifier);
+	}
 
 	public User getMainUser() {
 		return mainUser;

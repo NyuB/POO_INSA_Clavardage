@@ -1,5 +1,7 @@
 package org.clav.network;
 
+import org.clav.user.User;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,6 +30,10 @@ public class TCPListenerProtocol extends Protocol {
 			try {
 				Socket distant = this.serverSocket.accept();
 				String identifier = new BufferedReader(new InputStreamReader(distant.getInputStream())).readLine();
+				if(getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(identifier)){
+					User user = getRelatedNetworkManager().getRelatedAgent().getUserManager().getActiveUsers().get(identifier);
+					getRelatedNetworkManager().addConnectionTCP(identifier,distant);
+				}
 
 			} catch (IOException e) {
 				e.printStackTrace();

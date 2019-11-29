@@ -10,7 +10,9 @@
 
     <target name="clean">
         <delete dir="{build_dir}"/>
+        <delete file="CLV.jar"/>
     </target>
+
     <target name="compile" depends="clean">
         <javac srcdir="${src_dir}" destdir="${build_dir}">
             <classpath>
@@ -19,6 +21,37 @@
         </javac>
     </target>
 
+
+
+    <target name="executable_Agent" depends="compile">
+        <delete file="CLV_Agent.jar"/>
+        <jar destfile="CLV_Agent.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.Agent"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="executable_ProtoRcv" depends="compile">
+        <delete file="CLV_ProtoRcv.jar"/>
+        <jar destfile="CLV_ProtoRcv.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.ProtoRcv"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="executable_ProtoSnd" depends="compile">
+        <delete file="CLV_ProtoSnd.jar"/>
+        <jar destfile="CLV_ProtoSnd.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.ProtoSnd"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="executable_Proto" depends="executable_ProtoRcv,executable_ProtoSnd"/>
+
     <target name = "run" depends="compile">
         <java classname="org.clav.ProtoRcv" fork="true">
             <classpath>
@@ -26,13 +59,7 @@
             </classpath>
         </java>
     </target>
-    <target name="executable" depends="compile">
-        <jar destfile="CLV.jar" basedir="${build_dir}">
-            <manifest>
-                <attribute name="Main-Class" value="org.clav.ProtoRcv"/>
-            </manifest>
-        </jar>
-    </target>
+
     <target name="run_only_ProtoSnd">
     <java classname="org.clav.ProtoSnd" fork="true">
         <classpath>
@@ -40,6 +67,7 @@
         </classpath>
     </java>
     </target>
+
     <target name="run_only_ProtoRcv">
         <java classname="org.clav.ProtoRcv" fork="true">
             <classpath>

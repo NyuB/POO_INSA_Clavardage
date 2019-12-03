@@ -23,6 +23,7 @@ public class UDPListenerProtocol extends Protocol {
 				getRelatedNetworkManager().getReceiveSocketUDP().receive(packetUDP);
 				String toTxt = new String(packetUDP.getData(), 0, packetUDP.getLength());
 				System.out.println("Receiving UDP packet : " + toTxt);
+
 			}
 		} catch (SocketException e) {
 			e.printStackTrace();

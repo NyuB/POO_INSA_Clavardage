@@ -3,7 +3,7 @@ package org.clav.network;
 import org.clav.Agent;
 import org.clav.user.User;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
 import java.util.HashMap;
 
@@ -25,13 +25,24 @@ public class NetworkManager {
 	private DatagramSocket receiveSocketUDP;
 	private HashMap<User, TCPUserLink> tcpConnections;
 
+	TCPUserLink getTCPLinkFor(User user){
+		return this.tcpConnections.get(user);
+	}
+
 	synchronized void initiateConnectionTCP(User user){
 		if (this.tcpConnections.containsKey(user)) {
 			try {
 				System.out.println("Attempting TCP connections with user "+user.getIdentifier());
 				Socket socket = new Socket(addrMap.get(user),TCP_SOCKET_RECEIVE);
-				tcpConnections.put(user,new TCPUserLink(user,socket));
-				System.out.println("TCP Connection with user "+user.getIdentifier()+" SUCCESS");
+				System.out.println("TCP Connection with user "+user.getIdentifier()+" INITIATED");
+				new PrintWriter(new OutputStreamWriter(socket.getOutputStream())).write(this.getRelatedAgent().getUserManager().getMainUser().getIdentifier());
+				String ack = new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine();
+				if(ack.equals("ACK")){
+					tcpConnections.put(user,new TCPUserLink(user,socket));
+					System.out.println("TCP Connection with user "+user.getIdentifier()+" SUCCESS");
+				}
+
+
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -49,8 +60,14 @@ public class NetworkManager {
 			}
 		}
 	}
-	synchronized void addConnectionTCP(String identifier,Socket distant){
-
+	synchronized void addConnectionTCP(User user,Socket distant){
+		if(this.getTCPLinkFor(user)==null){
+			TCPUserLink link = new TCPUserLink(user,distant);
+			this.tcpConnections.put(user,link);
+		}
+		else{
+			System.out.println("Network manager already has an established connection with user "+user.getIdentifier());
+		}
 	}
 
 	public static NetworkManager testModeNetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP){
@@ -107,8 +124,11 @@ public class NetworkManager {
 		}
 	}
 
-	private NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP) {
+	public void setRelatedAgent(Agent relatedAgent) {
+		this.relatedAgent = relatedAgent;
+	}
 
+	private NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP) {
 		this.networkAddress = networkAddress;
 		this.broadcastAddress = broadcastAddress;
 		this.sendSocketUDP = sendSocketUDP;

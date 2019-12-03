@@ -11,7 +11,6 @@ public class Agent {
 	private ChatManager chatManager;
 	private UserManager userManager;
 	private ConfigManager configManager;
-	private User mainUser;
 
 	public static void main(String[] args) {
 
@@ -31,5 +30,29 @@ public class Agent {
 
 	public ConfigManager getConfigManager() {
 		return configManager;
+	}
+
+	public User getMainUser() {
+		return getUserManager().getMainUser();
+	}
+
+	public NetworkManager getNetworkManager() {
+		return networkManager;
+	}
+
+	public void setNetworkManager(NetworkManager networkManager) {
+		this.networkManager = networkManager;
+	}
+
+	public void setChatManager(ChatManager chatManager) {
+		this.chatManager = chatManager;
+	}
+
+	public void setUserManager(UserManager userManager) {
+		this.userManager = userManager;
+	}
+
+	public void setConfigManager(ConfigManager configManager) {
+		this.configManager = configManager;
 	}
 }

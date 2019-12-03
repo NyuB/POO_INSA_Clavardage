@@ -9,6 +9,12 @@ public class UserManager {
 	private HashMap<String, User> activeUsers;
 	private User mainUser;
 
+	public UserManager(Agent agent, User mainUser) {
+		this.agent = agent;
+		this.mainUser = mainUser;
+		this.activeUsers = new HashMap<>();
+	}
+
 	public boolean changeMainUserPseudo(String newPseudo){
 		//TODO
 		return false;
@@ -36,9 +42,15 @@ public class UserManager {
 		this.mainUser = mainUser;
 	}
 
-	public void createIfAbsent(String identifier) { //TODO
+	public void createIfAbsent(String identifier) {
+		//TODO
 		if(!this.activeUsers.containsKey(identifier)){
 			this.activeUsers.put(identifier,new User(identifier,null));
+		}
+	}
+	public void display(){
+		for(String id : this.getActiveUsers().keySet()){
+			System.out.println(id+" | "+getActiveUsers().get(id).getPseudo());
 		}
 	}
 }

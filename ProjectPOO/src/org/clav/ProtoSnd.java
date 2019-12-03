@@ -22,11 +22,10 @@ public class ProtoSnd {
 			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
 			InetAddress broadcastAddr = InetAddress.getByName("10.1.255.255");
 			byte[] singleTarget = "This message is only for YOU".getBytes();
-			//InetAddress localAddr = InetAddress.getByName("localhost");
 			System.out.println("LOCAL : "  + localAddr);
 			DatagramSocket sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND);
 			NetworkManager networkManager = NetworkManager.testModeNetworkManager(localAddr,broadcastAddr,sendSocketUDP,null);
-			UserManager userManager = new UserManager();
+			UserManager userManager = new UserManager(null,null);
 			userManager.setMainUser(new User("decaeste","DarkPseudoLul"));
 			networkManager.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(networkManager,userManager)));
 			String ipLine;

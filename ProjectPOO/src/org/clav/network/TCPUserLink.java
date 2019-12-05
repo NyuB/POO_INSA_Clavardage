@@ -26,7 +26,7 @@ public class TCPUserLink {
 		this.relatedUser = relatedUser;
 	}
 
-	public synchronized void send(String message){
+	public void send(String message){
 		System.out.println("[TCP]Linksend to "+this.getRelatedUserID());
 		this.outWriter.println(message);
 	}

@@ -37,6 +37,8 @@ public class LinkTCPUserProtocol extends Protocol {
 				System.out.println("[TCP]Sending ACK");
 				link.send("ACK");
 				System.out.println("[TCP]TCP Link established with user " + identifier);
+				TCPTalkProtocolInit init = new TCPTalkProtocolInit(getRelatedNetworkManager(),link);
+				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init));
 			} else {
 				System.out.println("User trying to link with id " + identifier + " is unknown from UserManager");
 			}
@@ -50,6 +52,8 @@ public class LinkTCPUserProtocol extends Protocol {
 			if (ack.equals("ACK")) {
 				System.out.println("[TCP]Receiving ACK from " + identifier);
 				getRelatedNetworkManager().addConnectionTCP(identifier,link);
+				TCPTalkProtocolInit init = new TCPTalkProtocolInit(getRelatedNetworkManager(),link);
+				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init));
 			} else {
 				System.out.println("[TCP]Receiving unvalid ack message");
 			}

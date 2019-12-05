@@ -42,10 +42,10 @@ public class UserManager {
 		this.mainUser = mainUser;
 	}
 
-	public void createIfAbsent(String identifier) {
+	public void createIfAbsent(String identifier,String pseudo) {
 		//TODO
 		if(!this.activeUsers.containsKey(identifier)){
-			this.activeUsers.put(identifier,new User(identifier,null));
+			this.activeUsers.put(identifier,new User(identifier,pseudo));
 		}
 	}
 	public void display(){

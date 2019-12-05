@@ -20,34 +20,31 @@ public class NetworkManager {
 
 	private InetAddress networkAddress;
 	private InetAddress broadcastAddress;
-	private HashMap<User, InetAddress> addrMap;
+	private HashMap<String, InetAddress> addrMap;
 	private DatagramSocket sendSocketUDP;
 	private DatagramSocket receiveSocketUDP;
-	private HashMap<User, TCPUserLink> tcpConnections;
+	private HashMap<String, TCPUserLink> tcpConnections;
 
-	TCPUserLink getTCPLinkFor(User user){
+	TCPUserLink getTCPLinkFor(String user){
 		return this.tcpConnections.get(user);
 	}
 
-	synchronized void initiateConnectionTCP(User user){
-		if (this.tcpConnections.containsKey(user)) {
+	public synchronized void initiateConnectionTCP(String user){
+		if (!this.tcpConnections.containsKey(user)) {
+
 			try {
-				System.out.println("Attempting TCP connections with user "+user.getIdentifier());
-				Socket socket = new Socket(addrMap.get(user),TCP_SOCKET_RECEIVE);
-				System.out.println("TCP Connection with user "+user.getIdentifier()+" INITIATED");
-				new PrintWriter(new OutputStreamWriter(socket.getOutputStream())).write(this.getRelatedAgent().getUserManager().getMainUser().getIdentifier());
-				String ack = new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine();
-				if(ack.equals("ACK")){
-					tcpConnections.put(user,new TCPUserLink(user,socket));
-					System.out.println("TCP Connection with user "+user.getIdentifier()+" SUCCESS");
-				}
-
-
-
+				System.out.println("Initiating tcp connection");
+				Socket distant = new Socket(this.addrMap.get(user),TCP_SOCKET_RECEIVE);
+				System.out.println("Socket created,link protocol started");
+				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,distant, LinkTCPUserProtocolInit.Mode.CONNECT,user);
+				this.executeProtocol(new LinkTCPUserProtocol(init));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	synchronized void addAddr(String identifier, InetAddress addr){
+		this.addrMap.put(identifier,addr);
 	}
 	synchronized void closeConnectionTCP(User user){
 		if(this.tcpConnections.containsKey(user)){
@@ -60,13 +57,13 @@ public class NetworkManager {
 			}
 		}
 	}
-	synchronized void addConnectionTCP(User user,Socket distant){
+	synchronized void addConnectionTCP(String user,Socket distant){
 		if(this.getTCPLinkFor(user)==null){
 			TCPUserLink link = new TCPUserLink(user,distant);
 			this.tcpConnections.put(user,link);
 		}
 		else{
-			System.out.println("Network manager already has an established connection with user "+user.getIdentifier());
+			System.out.println("Network manager already has an established connection with user "+user);
 		}
 	}
 
@@ -107,8 +104,8 @@ public class NetworkManager {
 		}
 	}
 
-	public void TCP_IP_send(Object data, InetAddress address) {
-		//TODO
+	public synchronized void TCP_IP_send(String id, String message) {
+		this.getTCPLinkFor(id).send(message);
 	}
 
 	public NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress) {

@@ -6,12 +6,12 @@ import java.io.*;
 import java.net.Socket;
 
 public class TCPUserLink {
-	private User relatedUser;
+	private String relatedUser;
 	private Socket distant;
 	PrintWriter outWriter;
 	BufferedReader inReader;
 
-	public TCPUserLink(User relatedUser, Socket distant) {
+	public TCPUserLink(String relatedUser, Socket distant) {
 		this.relatedUser = relatedUser;
 		this.distant = distant;
 		try {
@@ -34,7 +34,7 @@ public class TCPUserLink {
 
 	}
 
-	public User getRelatedUser() {
+	public String getRelatedUserID() {
 		return relatedUser;
 	}
 

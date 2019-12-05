@@ -30,6 +30,9 @@ public class TCPListenerProtocol extends Protocol {
 		while(true){
 			try {
 				Socket distant = this.serverSocket.accept();
+				System.out.println("TCP Server receiving connection request, engaging link protocol");
+				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this.getRelatedNetworkManager(),distant, LinkTCPUserProtocolInit.Mode.ACCEPT);
+				this.getRelatedNetworkManager().executeProtocol(new LinkTCPUserProtocol(init));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

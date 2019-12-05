@@ -91,6 +91,17 @@ public class NetworkManager {
 		}
 	}
 
+	public synchronized void TCP_IP_send(String id, String message) {
+		TCPUserLink link = this.getTCPLinkFor(id);
+		if(link==null){
+			System.out.println("No TCP link established with user "+id);
+		}
+		else {
+			System.out.println("[TCP]Sending message to user "+id);
+			this.getTCPLinkFor(id).send(message);
+		}
+	}
+
 	public synchronized void addAddrFor(String identifier, InetAddress addr){
 		this.addrMap.put(identifier,addr);
 	}
@@ -113,16 +124,6 @@ public class NetworkManager {
 
 	public void setReceiveSocketUDP(DatagramSocket receiveSocketUDP) {
 		this.receiveSocketUDP = receiveSocketUDP;
-	}
-
-	public synchronized void TCP_IP_send(String id, String message) {
-		TCPUserLink link = this.getTCPLinkFor(id);
-		if(link==null){
-			System.out.println("No TCP link established with user "+id);
-		}
-		else {
-			this.getTCPLinkFor(id).send(message);
-		}
 	}
 
 	public void setRelatedAgent(Agent relatedAgent) {

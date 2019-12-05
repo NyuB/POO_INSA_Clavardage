@@ -17,9 +17,12 @@ public class ProtoTCP {
 		User mainUser = new User(name,name);
 		UserManager userManager = new UserManager(agent,mainUser);
 		NetworkManager networkManager = null;
+		String line;
 		try {
 			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
-			InetAddress broadcastAddr = InetAddress.getByName("10.1.255.255");
+			System.out.println("Enter broadcast address");
+			line = in.nextLine();
+			InetAddress broadcastAddr = InetAddress.getByName(line);
 			networkManager = new NetworkManager(localAddr,broadcastAddr);
 			networkManager.setRelatedAgent(agent);
 		} catch (UnknownHostException e) {
@@ -27,7 +30,7 @@ public class ProtoTCP {
 		}
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);
-		String line;
+
 		System.out.println("Enter command");
 		while(!(line=in.nextLine()).equals("END")){
 			if(line.equals("SIGNAL")){

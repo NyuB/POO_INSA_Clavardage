@@ -1,5 +1,7 @@
 package org.clav.network;
 
+import org.clav.network.NetworkManager;
+
 public class ProtocolInit {
 	private NetworkManager networkManager;
 

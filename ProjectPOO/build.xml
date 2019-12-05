@@ -50,8 +50,16 @@
             </manifest>
         </jar>
     </target>
+    <target name="executable_ProtoTCP" depends="compile">
+        <delete file="${exe_dir}/CLV_ProtoTCP.jar"/>
+        <jar destfile="${exe_dir}/CLV_ProtoTCP.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.ProtoTCP"/>
+            </manifest>
+        </jar>
+    </target>
 
-    <target name="executable_Proto" depends="executable_ProtoRcv,executable_ProtoSnd"/>
+    <target name="executable_Proto" depends="executable_ProtoRcv,executable_ProtoSnd,executable_ProtoTCP"/>
 
     <target name = "run" depends="compile">
         <java classname="org.clav.ProtoRcv" fork="true">

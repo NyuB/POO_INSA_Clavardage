@@ -1,6 +1,8 @@
-package org.clav.network;
+package org.clav.network.protocolsimpl.udp;
 
-import static org.clav.utils.Constants.SIGACT_HEADER;
+import org.clav.network.Protocol;
+
+import static org.clav.utils.constants.ProtocolConstants.SIGACT_HEADER;
 
 public class ActivitySignalProtocol extends Protocol {
 	public static long SIGNAL_PERIOD = 10000;

@@ -1,4 +1,6 @@
-package org.clav.network;
+package org.clav.network.protocolsimpl.tcp;
+
+import org.clav.network.Protocol;
 
 public class TCPTalkProtocol extends Protocol {
 	public TCPTalkProtocol(TCPTalkProtocolInit protocolInit) {

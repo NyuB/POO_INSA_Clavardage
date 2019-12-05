@@ -27,15 +27,20 @@ public class TCPUserLink {
 	}
 
 	public void send(String message){
-		System.out.println("[TCP]Linksend to "+this.getRelatedUserID());
-		this.outWriter.println(message);
+		synchronized (this.outWriter) {
+			System.out.println("[TCP]Linksend to "+this.getRelatedUserID());
+			this.outWriter.println(message);
+		}
 	}
-	public synchronized String read(){
-		try {
-			return this.inReader.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "ERR";
+	public String read(){
+
+		synchronized (this.inReader) {
+			try {
+				return this.inReader.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return "ERR";
+			}
 		}
 
 	}

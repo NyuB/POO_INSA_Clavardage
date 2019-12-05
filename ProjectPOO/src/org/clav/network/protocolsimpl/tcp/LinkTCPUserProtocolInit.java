@@ -1,4 +1,8 @@
-package org.clav.network;
+package org.clav.network.protocolsimpl.tcp;
+
+import org.clav.network.NetworkManager;
+import org.clav.network.TCPUserLink;
+import org.clav.network.ProtocolInit;
 
 import java.net.Socket;
 
@@ -11,7 +15,7 @@ public class LinkTCPUserProtocolInit extends ProtocolInit {
 	private Mode mode;
 	private String distantID;
 
-	public LinkTCPUserProtocolInit(NetworkManager networkManager, TCPUserLink link,Mode mode) {
+	public LinkTCPUserProtocolInit(NetworkManager networkManager, TCPUserLink link, Mode mode) {
 		super(networkManager);
 		this.link = link;
 		this.mode = mode;

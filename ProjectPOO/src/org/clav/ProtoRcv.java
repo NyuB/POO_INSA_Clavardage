@@ -2,14 +2,14 @@ package org.clav;
 
 import org.clav.network.NetworkManager;
 import org.clav.network.ProtocolInit;
-import org.clav.network.UDPListenerProtocol;
+import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import static org.clav.network.NetworkManager.*;
+import static org.clav.utils.constants.NetworkConstants.*;
 
 public class ProtoRcv {
 	public static void main(String[] args) {

@@ -1,7 +1,7 @@
 package org.clav;
 
-import org.clav.network.ActivitySignalProtocol;
-import org.clav.network.ActivitySignalProtocolInit;
+import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
+import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
@@ -12,7 +12,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import static org.clav.network.NetworkManager.*;
+import static org.clav.utils.constants.NetworkConstants.*;
 
 public class ProtoSnd {
 	public static void main(String[] args) {

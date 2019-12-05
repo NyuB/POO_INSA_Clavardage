@@ -1,17 +1,16 @@
 package org.clav.network;
 
 import org.clav.Agent;
-import org.clav.user.User;
+import org.clav.network.protocolsimpl.tcp.LinkTCPUserProtocol;
+import org.clav.network.protocolsimpl.tcp.LinkTCPUserProtocolInit;
+
+import static org.clav.utils.constants.NetworkConstants.*;
 
 import java.io.*;
 import java.net.*;
 import java.util.HashMap;
 
 public class NetworkManager {
-	public static int UDPSOCKET_SEND = 1034;
-	public static int UDPSOCKET_RECEIVE = 1035;
-	public static int TCPSOCKET_SEND = 1044;
-	public static int TCP_SOCKET_RECEIVE = 1045;
 	private Agent relatedAgent;
 
 	public Agent getRelatedAgent() {
@@ -46,7 +45,7 @@ public class NetworkManager {
 			try {
 				System.out.println("Initiating tcp connection");
 				Socket distant = new Socket(this.addrMap.get(user),TCP_SOCKET_RECEIVE);
-				System.out.println("Socket created,link protocol started");
+				System.out.println("Socket created,link protocolsimpl started");
 				TCPUserLink link = new TCPUserLink(user,distant);
 				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,link, LinkTCPUserProtocolInit.Mode.CONNECT,user);
 				this.executeProtocol(new LinkTCPUserProtocol(init));
@@ -55,7 +54,7 @@ public class NetworkManager {
 			}
 		}
 	}
-	synchronized void linkTCP(String identifier, TCPUserLink link){
+	public synchronized void linkTCP(String identifier, TCPUserLink link){
 		if(this.getTCPLinkFor(identifier)==null){
 			this.tcpConnections.put(identifier,link);
 		}

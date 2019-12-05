@@ -1,14 +1,17 @@
-package org.clav.network;
+package org.clav.network.protocolsimpl.udp;
+
+import org.clav.network.Protocol;
+import org.clav.network.ProtocolInit;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.SocketException;
 
-import static org.clav.utils.Constants.*;
+import static org.clav.utils.constants.ProtocolConstants.*;
 
 
 /**
- * Central protocol to capture broadcasts or low_importance messages
+ * Central protocolsimpl to capture broadcasts or low_importance messages
  */
 public class UDPListenerProtocol extends Protocol {
 	public UDPListenerProtocol(ProtocolInit protocolInit) {

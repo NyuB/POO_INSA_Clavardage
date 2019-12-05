@@ -1,4 +1,7 @@
-package org.clav.network;
+package org.clav.network.protocolsimpl.tcp;
+
+import org.clav.network.TCPUserLink;
+import org.clav.network.Protocol;
 
 public class LinkTCPUserProtocol extends Protocol {
 	public LinkTCPUserProtocol(LinkTCPUserProtocolInit protocolInit) {

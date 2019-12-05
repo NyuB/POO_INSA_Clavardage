@@ -8,7 +8,7 @@ public class TestAgentWindow {
 	
 	public static void main(String[] args) {
 		JFrame myFrame = new AgentWindow() ;
-		myFrame.getContentPane().add(new ClavardagePanel(), BorderLayout.CENTER) ;
+		myFrame.getContentPane().add(new IdenticationPanel(), BorderLayout.CENTER) ;
 		myFrame.setVisible(true) ;
 	}
 

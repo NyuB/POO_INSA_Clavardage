@@ -7,9 +7,21 @@ public class Message {
 	private Date date;
 	private String text;
 
-	public Message(String userID, Date date, String text) {
+	public Message(String userID, String text) {
 		this.userID = userID;
-		this.date = date;
+		this.date = new Date();
 		this.text = text;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public String getText() {
+		return text;
 	}
 }

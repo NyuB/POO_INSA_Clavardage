@@ -7,6 +7,7 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.accessibility.AccessibleText;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -79,7 +80,7 @@ public class IdenticationPanel extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Hello World !") ;
+		System.out.println("login : " + login.getText()+ "\n pseudo : "+ pseudo.getText()) ;
 	}
 	
 	public TextField createTextField(String text) {

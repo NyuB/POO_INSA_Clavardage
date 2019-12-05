@@ -1,11 +1,5 @@
 package org.clav.network;
 
-import org.clav.user.User;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
-import java.io.*;
-import java.net.Socket;
-
 public class LinkTCPUserProtocol extends Protocol {
 	public LinkTCPUserProtocol(LinkTCPUserProtocolInit protocolInit) {
 		super(protocolInit);
@@ -33,7 +27,7 @@ public class LinkTCPUserProtocol extends Protocol {
 
 			// /!\ /!\ /!\ /!\
 			if (getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(identifier)) {
-				getRelatedNetworkManager().addConnectionTCP(identifier, link);
+				getRelatedNetworkManager().linkTCP(identifier, link);
 				System.out.println("[TCP]Sending ACK");
 				link.send("ACK");
 				System.out.println("[TCP]TCP Link established with user " + identifier);
@@ -51,7 +45,7 @@ public class LinkTCPUserProtocol extends Protocol {
 			String ack = link.read();
 			if (ack.equals("ACK")) {
 				System.out.println("[TCP]Receiving ACK from " + identifier);
-				getRelatedNetworkManager().addConnectionTCP(identifier,link);
+				getRelatedNetworkManager().linkTCP(identifier,link);
 				TCPTalkProtocolInit init = new TCPTalkProtocolInit(getRelatedNetworkManager(),link);
 				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init));
 			} else {

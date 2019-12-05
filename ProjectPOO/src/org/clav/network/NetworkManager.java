@@ -25,10 +25,22 @@ public class NetworkManager {
 	private DatagramSocket receiveSocketUDP;
 	private HashMap<String, TCPUserLink> tcpConnections;
 
-	TCPUserLink getTCPLinkFor(String user){
-		return this.tcpConnections.get(user);
+	public static NetworkManager testModeNetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP){
+		return new NetworkManager(networkAddress,broadcastAddress,sendSocketUDP,receiveSocketUDP);
 	}
 
+	public NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress) {
+		this.networkAddress = networkAddress;
+		this.broadcastAddress = broadcastAddress;
+		this.addrMap = new HashMap<>();
+		this.tcpConnections = new HashMap<>();
+		try {
+			this.receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE);
+			this.sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+	}
 	public synchronized void initiateConnectionTCP(String user){
 		if (!this.tcpConnections.containsKey(user)) {
 			try {
@@ -43,8 +55,13 @@ public class NetworkManager {
 			}
 		}
 	}
-	synchronized void addAddr(String identifier, InetAddress addr){
-		this.addrMap.put(identifier,addr);
+	synchronized void linkTCP(String identifier, TCPUserLink link){
+		if(this.getTCPLinkFor(identifier)==null){
+			this.tcpConnections.put(identifier,link);
+		}
+		else{
+			System.out.println("Network manager already has an active link with user "+identifier);
+		}
 	}
 	synchronized void closeConnectionTCP(String identifier){
 		if(this.tcpConnections.containsKey(identifier)){
@@ -57,38 +74,6 @@ public class NetworkManager {
 			}
 		}
 	}
-	public String getAddrFor(String identifier){
-		return this.addrMap.get(identifier).toString();
-	}
-	synchronized void addConnectionTCP(String identifier,TCPUserLink link){
-		if(this.getTCPLinkFor(identifier)==null){
-			this.tcpConnections.put(identifier,link);
-		}
-		else{
-			System.out.println("Network manager already has an established connection with user "+identifier);
-		}
-	}
-
-	public static NetworkManager testModeNetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP){
-		return new NetworkManager(networkAddress,broadcastAddress,sendSocketUDP,receiveSocketUDP);
-	}
-
-	public DatagramSocket getSendSocketUDP() {
-		return sendSocketUDP;
-	}
-
-	public DatagramSocket getReceiveSocketUDP() {
-		return receiveSocketUDP;
-	}
-
-	public void setReceiveSocketUDP(DatagramSocket receiveSocketUDP) {
-		this.receiveSocketUDP = receiveSocketUDP;
-	}
-
-	public void connect() {
-		//TODO
-	}
-
 	public synchronized void broadcast(byte[] bytes) {
 		this.UDP_Send(bytes, this.broadcastAddress);
 	}
@@ -106,6 +91,30 @@ public class NetworkManager {
 		}
 	}
 
+	public synchronized void addAddrFor(String identifier, InetAddress addr){
+		this.addrMap.put(identifier,addr);
+	}
+
+	public String getAddrFor(String identifier){
+		return this.addrMap.get(identifier).toString();
+	}
+
+	public TCPUserLink getTCPLinkFor(String user){
+		return this.tcpConnections.get(user);
+	}
+
+	public DatagramSocket getSendSocketUDP() {
+		return sendSocketUDP;
+	}
+
+	public DatagramSocket getReceiveSocketUDP() {
+		return receiveSocketUDP;
+	}
+
+	public void setReceiveSocketUDP(DatagramSocket receiveSocketUDP) {
+		this.receiveSocketUDP = receiveSocketUDP;
+	}
+
 	public synchronized void TCP_IP_send(String id, String message) {
 		TCPUserLink link = this.getTCPLinkFor(id);
 		if(link==null){
@@ -113,19 +122,6 @@ public class NetworkManager {
 		}
 		else {
 			this.getTCPLinkFor(id).send(message);
-		}
-	}
-
-	public NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress) {
-		this.networkAddress = networkAddress;
-		this.broadcastAddress = broadcastAddress;
-		this.addrMap = new HashMap<>();
-		this.tcpConnections = new HashMap<>();
-		try {
-			this.receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE);
-			this.sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND);
-		} catch (SocketException e) {
-			e.printStackTrace();
 		}
 	}
 

@@ -33,6 +33,13 @@ public class UserManager {
 	public boolean isActiveUser(String identifier){
 		return this.getActiveUsers().containsKey(identifier);
 	}
+	public void repr(){
+		System.out.println("Main user : "+this.getMainUser().getIdentifier());
+		System.out.println("Users list :");
+		for(String k:this.activeUsers.keySet()){
+			System.out.println(k+" "+this.activeUsers.get(k).getPseudo());
+		}
+	}
 
 	public User getMainUser() {
 		return mainUser;

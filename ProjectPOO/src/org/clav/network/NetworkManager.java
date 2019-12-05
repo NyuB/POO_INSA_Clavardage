@@ -31,7 +31,6 @@ public class NetworkManager {
 
 	public synchronized void initiateConnectionTCP(String user){
 		if (!this.tcpConnections.containsKey(user)) {
-
 			try {
 				System.out.println("Initiating tcp connection");
 				Socket distant = new Socket(this.addrMap.get(user),TCP_SOCKET_RECEIVE);
@@ -46,24 +45,24 @@ public class NetworkManager {
 	synchronized void addAddr(String identifier, InetAddress addr){
 		this.addrMap.put(identifier,addr);
 	}
-	synchronized void closeConnectionTCP(User user){
-		if(this.tcpConnections.containsKey(user)){
+	synchronized void closeConnectionTCP(String identifier){
+		if(this.tcpConnections.containsKey(identifier)){
 			try {
-				System.out.println("Closing TCP connection with user "+user.getIdentifier());
-				this.tcpConnections.get(user).getDistant().close();
-				this.tcpConnections.remove(user);
+				System.out.println("Closing TCP connection with user "+identifier);
+				this.tcpConnections.get(identifier).getDistant().close();
+				this.tcpConnections.remove(identifier);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	synchronized void addConnectionTCP(String user,Socket distant){
-		if(this.getTCPLinkFor(user)==null){
-			TCPUserLink link = new TCPUserLink(user,distant);
-			this.tcpConnections.put(user,link);
+	synchronized void addConnectionTCP(String identifier,Socket distant){
+		if(this.getTCPLinkFor(identifier)==null){
+			TCPUserLink link = new TCPUserLink(identifier,distant);
+			this.tcpConnections.put(identifier,link);
 		}
 		else{
-			System.out.println("Network manager already has an established connection with user "+user);
+			System.out.println("Network manager already has an established connection with user "+identifier);
 		}
 	}
 
@@ -105,7 +104,13 @@ public class NetworkManager {
 	}
 
 	public synchronized void TCP_IP_send(String id, String message) {
-		this.getTCPLinkFor(id).send(message);
+		TCPUserLink link = this.getTCPLinkFor(id);
+		if(link==null){
+			System.out.println("No TCP link established with user "+id);
+		}
+		else {
+			this.getTCPLinkFor(id).send(message);
+		}
 	}
 
 	public NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress) {

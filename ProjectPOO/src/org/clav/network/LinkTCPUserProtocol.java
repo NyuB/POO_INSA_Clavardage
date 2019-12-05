@@ -36,7 +36,7 @@ public class LinkTCPUserProtocol extends Protocol {
 			if (getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(identifier)) {
 				getRelatedNetworkManager().addConnectionTCP(identifier, distant);
 				System.out.println("Sending ACK");
-				getRelatedNetworkManager().getTCPLinkFor(identifier).outWriter.write("ACK");
+				getRelatedNetworkManager().getTCPLinkFor(identifier).send("ACK");
 				System.out.println("TCP Link established with user " + identifier);
 			}
 			else{

@@ -51,6 +51,9 @@ public class ProtoTCP {
 				String message = in.nextLine();
 				networkManager.TCP_IP_send(line,message);
 			}
+			else{
+				System.out.println("UNKNOWN CMD");
+			}
 			System.out.println("Enter command");
 		}
 

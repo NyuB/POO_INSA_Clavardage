@@ -62,7 +62,7 @@ public class NetworkManager {
 			System.out.println("Network manager already has an active link with user "+identifier);
 		}
 	}
-	synchronized void closeConnectionTCP(String identifier){
+	public synchronized void closeConnectionTCP(String identifier){
 		if(this.tcpConnections.containsKey(identifier)){
 			try {
 				System.out.println("Closing TCP connection with user "+identifier);

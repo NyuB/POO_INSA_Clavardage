@@ -14,11 +14,12 @@ public class TCPTalkProtocol extends Protocol {
 
 	@Override
 	public void run() {
-		System.out.println("[TCP]Starting tcp talk");
-		while(true){
-			System.out.println("[TCP]Waiting tcp message from "+this.getProtocolInit().getLink().getRelatedUserID());
-			System.out.println("\t"+this.getProtocolInit().getLink().read());
+		System.out.println("[TCP]Starting tcp talk.Waiting tcp message from "+this.getProtocolInit().getLink().getRelatedUserID());
+		String line = this.getProtocolInit().getLink().read();
+		while(line!=null && !line.equals("[END]")){
+			System.out.println("\t"+line);
 		}
+		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());
 
 	}
 }

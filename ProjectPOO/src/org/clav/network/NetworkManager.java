@@ -35,7 +35,8 @@ public class NetworkManager {
 				System.out.println("Initiating tcp connection");
 				Socket distant = new Socket(this.addrMap.get(user),TCP_SOCKET_RECEIVE);
 				System.out.println("Socket created,link protocol started");
-				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,distant, LinkTCPUserProtocolInit.Mode.CONNECT,user);
+				TCPUserLink link = new TCPUserLink(user,distant);
+				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,link, LinkTCPUserProtocolInit.Mode.CONNECT,user);
 				this.executeProtocol(new LinkTCPUserProtocol(init));
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -56,9 +57,11 @@ public class NetworkManager {
 			}
 		}
 	}
-	synchronized void addConnectionTCP(String identifier,Socket distant){
+	public String getAddrFor(String identifier){
+		return this.addrMap.get(identifier).toString();
+	}
+	synchronized void addConnectionTCP(String identifier,TCPUserLink link){
 		if(this.getTCPLinkFor(identifier)==null){
-			TCPUserLink link = new TCPUserLink(identifier,distant);
 			this.tcpConnections.put(identifier,link);
 		}
 		else{

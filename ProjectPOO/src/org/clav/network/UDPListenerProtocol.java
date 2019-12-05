@@ -20,18 +20,21 @@ public class UDPListenerProtocol extends Protocol {
 		try {
 			byte[] buffer = new byte[256];
 			DatagramPacket packetUDP = new DatagramPacket(buffer, 256);
+			System.out.println("[UDP]Waiting UDP Packet on port " + getRelatedNetworkManager().getReceiveSocketUDP().getLocalPort());
 			while (true) {
-				System.out.println("[UDP]Waiting UDP Packet on port " + getRelatedNetworkManager().getReceiveSocketUDP().getLocalPort());
+
 				getRelatedNetworkManager().getReceiveSocketUDP().receive(packetUDP);
 				String toTxt = new String(packetUDP.getData(), 0, packetUDP.getLength());
-				System.out.println("[UDP]Receiving UDP packet : " + toTxt);
+				//System.out.println("[UDP]Receiving UDP packet : " + toTxt);
 				String[] data = toTxt.split(SIGACT_HEADER);
 				if(data.length>1){
 					String[] ids = data[1].split("--");
-					System.out.println("[UDP-USER]Updating new user : "+ids[0]+" "+ids[1]);
+					boolean toRepr = !getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(ids[0]);
+
+					//System.out.println("[UDP-USER]Updating new user : "+ids[0]+" "+ids[1]);
 					getRelatedNetworkManager().getRelatedAgent().getUserManager().createIfAbsent(ids[0],ids[1]);
 					getRelatedNetworkManager().addAddr(ids[0],packetUDP.getAddress());
-					getRelatedNetworkManager().getRelatedAgent().getUserManager().repr();
+					if(toRepr)getRelatedNetworkManager().getRelatedAgent().getUserManager().repr();
 				}
 
 			}

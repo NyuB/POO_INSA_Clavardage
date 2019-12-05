@@ -18,50 +18,42 @@ public class LinkTCPUserProtocol extends Protocol {
 
 	@Override
 	public void run() {
-		Socket distant = this.getProtocolInit().getDistant();
+		TCPUserLink link = this.getProtocolInit().getLink();
 		String identifier = null;
 
 		if (getProtocolInit().getMode() == LinkTCPUserProtocolInit.Mode.ACCEPT) {
 			//ATTENTION BLOQUANT
 			// /!\ /!\ /!\ /!\
 
-			try {
-				System.out.println("[TCP]Waiting user identifier for TCP linking");
-				identifier = new BufferedReader(new InputStreamReader(distant.getInputStream())).readLine();
-				System.out.println("[TCP]Receiving identifier : " + identifier);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
+			System.out.println("[TCP]Waiting user identifier for TCP linking");
+			identifier = link.read();
+			System.out.println("[TCP]Receiving identifier : " + identifier);
+			link.setRelatedUser(identifier);
+
 			// /!\ /!\ /!\ /!\
 			if (getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(identifier)) {
-				getRelatedNetworkManager().addConnectionTCP(identifier, distant);
+				getRelatedNetworkManager().addConnectionTCP(identifier, link);
 				System.out.println("[TCP]Sending ACK");
-				getRelatedNetworkManager().getTCPLinkFor(identifier).send("ACK");
+				link.send("ACK");
 				System.out.println("[TCP]TCP Link established with user " + identifier);
+			} else {
+				System.out.println("User trying to link with id " + identifier + " is unknown from UserManager");
 			}
-			else{
-				System.out.println("User trying to link with id "+identifier+" is unknown from UserManager");
+		} else if (getProtocolInit().getMode() == LinkTCPUserProtocolInit.Mode.CONNECT) {
+			identifier = getProtocolInit().getDistantID();
+			String id = getProtocolInit().getNetworkManager().getRelatedAgent().getMainUser().getIdentifier();
+			System.out.println("[TCP]Trying to send identifier " + id + " to connect target");
+			link.send(id);
+			System.out.println("[TCP]Waiting " + identifier + " ACK for TCP linking");
+			String ack = link.read();
+			if (ack.equals("ACK")) {
+				System.out.println("[TCP]Receiving ACK from " + identifier);
+				getRelatedNetworkManager().addConnectionTCP(identifier,link);
+			} else {
+				System.out.println("[TCP]Receiving unvalid ack message");
 			}
-		}
 
-		else if (getProtocolInit().getMode() == LinkTCPUserProtocolInit.Mode.CONNECT) {
-			try {
-				identifier = getProtocolInit().getDistantID();
-				System.out.println("[TCP]Trying to send identifier to connect target");
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				new PrintWriter(distant.getOutputStream()).println(getProtocolInit().getNetworkManager().getRelatedAgent().getMainUser().getIdentifier());
-				System.out.println("Waiting " + identifier + " ACK for TCP linking");
-				String ack = new BufferedReader(new InputStreamReader(distant.getInputStream())).readLine();
-				if (ack.equals("ACK")) {
-					System.out.println("Receiving ACK from " + identifier);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 
 	}

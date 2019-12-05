@@ -7,20 +7,19 @@ public class LinkTCPUserProtocolInit extends ProtocolInit {
 		CONNECT,
 		ACCEPT;
 	}
-	private Socket distant;
+	private TCPUserLink link;
 	private Mode mode;
 	private String distantID;
 
-	public LinkTCPUserProtocolInit(NetworkManager networkManager, Socket distant,Mode mode) {
+	public LinkTCPUserProtocolInit(NetworkManager networkManager, TCPUserLink link,Mode mode) {
 		super(networkManager);
-		this.distant = distant;
-
+		this.link = link;
 		this.mode = mode;
 	}
 
-	public LinkTCPUserProtocolInit(NetworkManager networkManager, Socket distant, Mode mode, String distantID) {
+	public LinkTCPUserProtocolInit(NetworkManager networkManager, TCPUserLink link, Mode mode, String distantID) {
 		super(networkManager);
-		this.distant = distant;
+		this.link = link;
 		this.mode = mode;
 		this.distantID = distantID;
 	}
@@ -30,7 +29,10 @@ public class LinkTCPUserProtocolInit extends ProtocolInit {
 	}
 
 	public Socket getDistant() {
-		return distant;
+		return this.link.getDistant();
+	}
+	public TCPUserLink getLink(){
+		return this.link;
 	}
 
 	public String getDistantID() {

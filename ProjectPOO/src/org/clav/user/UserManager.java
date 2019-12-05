@@ -37,7 +37,7 @@ public class UserManager {
 		System.out.println("[USER]Main user : "+this.getMainUser().getIdentifier());
 		System.out.println("[USER]Users list :");
 		for(String k:this.activeUsers.keySet()){
-			System.out.println("\t."+k+" "+this.activeUsers.get(k).getPseudo());
+			System.out.println("\t."+k+" "+this.activeUsers.get(k).getPseudo()+this.agent.getNetworkManager1().getAddrFor(k));
 		}
 	}
 

@@ -18,7 +18,7 @@ public class ActivitySignalProtocol extends Protocol {
 		while(true){
 			String signal = SIGACT_HEADER+getProtocolInit().getUserManager().getMainUser().getIdentifier()+"--"+getProtocolInit().getUserManager().getMainUser().getPseudo();
 			byte[] buf = signal.getBytes();
-			System.out.println("[UDP]ActivitySignalProtocol sending activity report");
+			//System.out.println("[UDP]ActivitySignalProtocol sending activity report");
 			getRelatedNetworkManager().broadcast(buf);
 
 			try {

@@ -15,12 +15,17 @@ public class TCPUserLink {
 		this.relatedUser = relatedUser;
 		this.distant = distant;
 		try {
-			this.outWriter = new PrintWriter(distant.getOutputStream());
+			this.outWriter = new PrintWriter(distant.getOutputStream(),true);
 			this.inReader = new BufferedReader(new InputStreamReader(distant.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+	public void setRelatedUser(String relatedUser) {
+		this.relatedUser = relatedUser;
+	}
+
 	public synchronized void send(String message){
 		this.outWriter.println(message);
 	}

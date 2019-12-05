@@ -34,10 +34,10 @@ public class UserManager {
 		return this.getActiveUsers().containsKey(identifier);
 	}
 	public void repr(){
-		System.out.println("Main user : "+this.getMainUser().getIdentifier());
-		System.out.println("Users list :");
+		System.out.println("[USER]Main user : "+this.getMainUser().getIdentifier());
+		System.out.println("[USER]Users list :");
 		for(String k:this.activeUsers.keySet()){
-			System.out.println(k+" "+this.activeUsers.get(k).getPseudo());
+			System.out.println("\t."+k+" "+this.activeUsers.get(k).getPseudo());
 		}
 	}
 

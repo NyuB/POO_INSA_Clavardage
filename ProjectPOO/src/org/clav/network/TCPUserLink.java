@@ -22,7 +22,7 @@ public class TCPUserLink {
 		}
 	}
 	public synchronized void send(String message){
-		this.outWriter.write(message);
+		this.outWriter.println(message);
 	}
 	public synchronized String read(){
 		try {

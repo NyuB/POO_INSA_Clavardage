@@ -41,7 +41,7 @@ public class TestChat {
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);
 		
-		//who's there ?
+		//protocole reseau
 		networkManager.executeProtocol(new UDPListenerProtocol(new ProtocolInit(networkManager)));
 		networkManager.executeProtocol(new TCPListenerProtocol(new ProtocolInit(networkManager)));
 		
@@ -51,13 +51,14 @@ public class TestChat {
 		for (User u : users.values()) {
 			members.add(u) ;
 		}
-		Chat chat = new Chat(members, networkManager,userManager.getMainUser()) ;
+		Chat chat = new Chat(members, agent) ;
 		
 		System.out.println("Enter command");
 		while(!(line=in.nextLine()).equals("END")){
 		
 			if(line.equals("SEND")){
 				String message = in.nextLine();
+				System.out.println("Enter message");
 				chat.sendMessage(message) ;
 			}
 		}

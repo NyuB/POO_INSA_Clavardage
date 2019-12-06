@@ -54,7 +54,7 @@ public class NetworkManager {
 			}
 		}
 	}
-	private synchronized void initiateConnectionTCP(String user,boolean blocking){
+	private void initiateConnectionTCP(String user,boolean blocking){
 		if (!this.tcpConnections.containsKey(user)) {
 			try {
 				System.out.println("Initiating tcp connection");
@@ -107,7 +107,7 @@ public class NetworkManager {
 		}
 	}
 
-	public synchronized void TCP_IP_send(String id, String message) {
+	public void TCP_IP_send(String id, String message) {
 		TCPUserLink link = this.getTCPLinkFor(id);
 		if(link==null){
 			System.out.println("No TCP link established with user "+id);

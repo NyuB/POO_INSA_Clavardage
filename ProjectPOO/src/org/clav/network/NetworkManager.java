@@ -3,6 +3,10 @@ package org.clav.network;
 import org.clav.Agent;
 import org.clav.network.protocolsimpl.tcp.LinkTCPUserProtocol;
 import org.clav.network.protocolsimpl.tcp.LinkTCPUserProtocolInit;
+import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
+import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
+import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
+import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 
 import static org.clav.utils.constants.NetworkConstants.*;
 
@@ -28,6 +32,14 @@ public class NetworkManager {
 		return new NetworkManager(networkAddress,broadcastAddress,sendSocketUDP,receiveSocketUDP);
 	}
 
+	private NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP) {
+		this.networkAddress = networkAddress;
+		this.broadcastAddress = broadcastAddress;
+		this.sendSocketUDP = sendSocketUDP;
+		this.receiveSocketUDP = receiveSocketUDP;
+		this.addrMap = new HashMap<>();
+		this.tcpConnections = new HashMap<>();
+	}
 	public NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress) {
 		this.networkAddress = networkAddress;
 		this.broadcastAddress = broadcastAddress;
@@ -40,6 +52,38 @@ public class NetworkManager {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Crucial method to allow the network manager to serve multiple components of the agent
+	 * For any new agent component need, implement a new Protocol to serve it
+	 * @param protocol A runnable class using the network manager methods and interacting with the other managers
+	 */
+	public void executeProtocol(Protocol protocol) {
+		Thread t = new Thread(protocol);
+		t.start();
+	}
+
+	private void executeProtocol(Protocol protocol,boolean join){
+		Thread t = new Thread(protocol);
+		t.start();
+		if(join){
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void startUDPListening(){
+		this.executeProtocol(new UDPListenerProtocol(new ProtocolInit(this)));
+	}
+	public void startTCPListening(){
+		this.executeProtocol(new TCPListenerProtocol(new ProtocolInit(this)));
+	}
+	public void startUDPSignal(){
+		this.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this,this.getRelatedAgent().getUserManager())));
+	}
+
 	public synchronized void initiateConnectionTCP(String user){
 		if (!this.tcpConnections.containsKey(user)) {
 			try {
@@ -54,6 +98,7 @@ public class NetworkManager {
 			}
 		}
 	}
+
 	private void initiateConnectionTCP(String user,boolean blocking){
 		if (!this.tcpConnections.containsKey(user)) {
 			try {
@@ -69,8 +114,6 @@ public class NetworkManager {
 		}
 	}
 
-
-
 	public synchronized void linkTCP(String identifier, TCPUserLink link){
 		if(this.getTCPLinkFor(identifier)==null){
 			this.tcpConnections.put(identifier,link);
@@ -79,6 +122,7 @@ public class NetworkManager {
 			System.out.println("Network manager already has an active link with user "+identifier);
 		}
 	}
+
 	public synchronized void closeConnectionTCP(String identifier){
 		if(this.tcpConnections.containsKey(identifier)){
 			try {
@@ -90,6 +134,7 @@ public class NetworkManager {
 			}
 		}
 	}
+
 	public synchronized void broadcast(byte[] bytes) {
 		this.UDP_Send(bytes, this.broadcastAddress);
 	}
@@ -147,36 +192,5 @@ public class NetworkManager {
 
 	public void setRelatedAgent(Agent relatedAgent) {
 		this.relatedAgent = relatedAgent;
-	}
-
-	private NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP) {
-		this.networkAddress = networkAddress;
-		this.broadcastAddress = broadcastAddress;
-		this.sendSocketUDP = sendSocketUDP;
-		this.receiveSocketUDP = receiveSocketUDP;
-		this.addrMap = new HashMap<>();
-		this.tcpConnections = new HashMap<>();
-	}
-
-
-	/**
-	 * Crucial method to allow the network manager to serve multiple components of the agent
-	 * For any new agent component need, implement a new Protocol to serve it
-	 * @param protocol A runnable class using the network manager methods and interacting with the other managers
-	 */
-	public void executeProtocol(Protocol protocol) {
-		Thread t = new Thread(protocol);
-		t.start();
-	}
-	private void executeProtocol(Protocol protocol,boolean join){
-		Thread t = new Thread(protocol);
-		t.start();
-		if(join){
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 }

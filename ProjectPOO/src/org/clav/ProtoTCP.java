@@ -34,9 +34,13 @@ public class ProtoTCP {
 		}
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);
+		networkManager.startUDPListening();
+		networkManager.startUDPSignal();
+		networkManager.startTCPListening();
 
 		System.out.println("Enter command");
 		while(!(line=in.nextLine()).equals("END")){
+			/*
 			if(line.equals("SIGNAL")){
 				networkManager.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(networkManager,userManager)));
 			}
@@ -50,8 +54,8 @@ public class ProtoTCP {
 				System.out.println("Enter destination identifier");
 				line = in.nextLine();
 				networkManager.initiateConnectionTCP(line);
-			}
-			else if(line.equals("TCPSEND")){
+			}*/
+			if(line.equals("TCPSEND")){
 				System.out.println("Enter destination identifier");
 				line = in.nextLine();
 				System.out.println("Enter message");

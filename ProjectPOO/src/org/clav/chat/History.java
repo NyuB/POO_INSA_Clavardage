@@ -7,7 +7,7 @@ public class History {
 	private ArrayList<Message> messageHistory;
 	
 	public History() { 
-		this.messageHistory = new ArrayList<Message>() ;
+		this.messageHistory = new ArrayList<>() ;
 	}
 	
 	public void insertMessage(Message message){

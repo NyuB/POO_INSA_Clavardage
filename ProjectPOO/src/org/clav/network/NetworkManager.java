@@ -44,7 +44,7 @@ public class NetworkManager {
 		if (!this.tcpConnections.containsKey(user)) {
 			try {
 				System.out.println("Initiating tcp connection");
-				Socket distant = new Socket(this.addrMap.get(user),TCP_SOCKET_RECEIVE);
+				Socket distant = new Socket(this.addrMap.get(user), TCP_SOCKET_SERVER);
 				System.out.println("Socket created,link protocolsimpl started");
 				TCPUserLink link = new TCPUserLink(user,distant);
 				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,link, LinkTCPUserProtocolInit.Mode.CONNECT,user);
@@ -54,6 +54,23 @@ public class NetworkManager {
 			}
 		}
 	}
+	private synchronized void initiateConnectionTCP(String user,boolean blocking){
+		if (!this.tcpConnections.containsKey(user)) {
+			try {
+				System.out.println("Initiating tcp connection");
+				Socket distant = new Socket(this.addrMap.get(user), TCP_SOCKET_SERVER);
+				System.out.println("Socket created,link protocolsimpl started");
+				TCPUserLink link = new TCPUserLink(user,distant);
+				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,link, LinkTCPUserProtocolInit.Mode.CONNECT,user);
+				this.executeProtocol(new LinkTCPUserProtocol(init),blocking);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+
 	public synchronized void linkTCP(String identifier, TCPUserLink link){
 		if(this.getTCPLinkFor(identifier)==null){
 			this.tcpConnections.put(identifier,link);
@@ -94,6 +111,9 @@ public class NetworkManager {
 		TCPUserLink link = this.getTCPLinkFor(id);
 		if(link==null){
 			System.out.println("No TCP link established with user "+id);
+			System.out.println("Trying to initiate connection");
+			this.initiateConnectionTCP(id,true);
+			this.getTCPLinkFor(id).send(message);
 		}
 		else {
 			System.out.println("[TCP]Sending message to user "+id);
@@ -147,5 +167,16 @@ public class NetworkManager {
 	public void executeProtocol(Protocol protocol) {
 		Thread t = new Thread(protocol);
 		t.start();
+	}
+	private void executeProtocol(Protocol protocol,boolean join){
+		Thread t = new Thread(protocol);
+		t.start();
+		if(join){
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

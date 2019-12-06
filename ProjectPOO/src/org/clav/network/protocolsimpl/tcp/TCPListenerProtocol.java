@@ -18,7 +18,7 @@ public class TCPListenerProtocol extends Protocol {
 		super(protocolInit);
 		try {
 
-			this.serverSocket = new ServerSocket(TCP_SOCKET_RECEIVE);
+			this.serverSocket = new ServerSocket(TCP_SOCKET_SERVER);
 			System.out.println("TCP Server created");
 		} catch (IOException e) {
 			e.printStackTrace();

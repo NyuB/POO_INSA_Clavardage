@@ -42,7 +42,7 @@ public class ProtoMonitor {
 		DebugFrame frame = new DebugFrame();
 		frame.setVisible(true);
 		while ((line = in.nextLine()) != null) {
-			String[] cmd = line.split("\\s");
+			String[] cmd = line.split("[\\s]+");
 			switch (cmd[0]) {
 				case "ADD":
 					frame.addChat(cmd[1]);
@@ -52,8 +52,6 @@ public class ProtoMonitor {
 					break;
 				default:
 					System.out.println("UNKNOWN CMD");
-
-
 			}
 		}
 	}

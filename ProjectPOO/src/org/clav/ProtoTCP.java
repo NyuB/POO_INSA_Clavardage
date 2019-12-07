@@ -1,5 +1,6 @@
 package org.clav;
 
+import org.clav.config.ConfigManager;
 import org.clav.network.*;
 import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
 import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
@@ -15,29 +16,19 @@ import java.util.Scanner;
 public class ProtoTCP {
 	public static void main(String[] args) {
 		Scanner in  = new Scanner(System.in);
-		System.out.println("Enter user name");
-		String name = in.nextLine();
+		System.out.println("Config filepath");
+		String filepath = in.nextLine();
+		ConfigManager configManager = new ConfigManager(filepath);
 		Agent agent = new Agent();
-		User mainUser = new User(name,name);
-		UserManager userManager = new UserManager(agent,mainUser);
-		NetworkManager networkManager = null;
-		String line;
-		try {
-			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
-			System.out.println("Enter broadcast address");
-			line = in.nextLine();
-			InetAddress broadcastAddr = InetAddress.getByName(line);
-			networkManager = new NetworkManager(localAddr,broadcastAddr);
-			networkManager.setRelatedAgent(agent);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		agent.setNetworkManager(networkManager);
-		agent.setUserManager(userManager);
-		networkManager.startUDPListening();
-		networkManager.startUDPSignal();
-		networkManager.startTCPListening();
 
+		User mainUser = new User(configManager.getUserID(),configManager.getUserID());
+		UserManager userManager = new UserManager(agent,mainUser);
+		agent.setUserManager(userManager);
+		configManager.configNetworkManager(agent);
+
+
+
+		String line;
 		System.out.println("Enter command");
 		while(!(line=in.nextLine()).equals("END")){
 			/*
@@ -60,7 +51,7 @@ public class ProtoTCP {
 				line = in.nextLine();
 				System.out.println("Enter message");
 				String message = in.nextLine();
-				networkManager.TCP_IP_send(line,message);
+				agent.getNetworkManager().TCP_IP_send(line,message);
 			}
 			else{
 				System.out.println("UNKNOWN CMD");

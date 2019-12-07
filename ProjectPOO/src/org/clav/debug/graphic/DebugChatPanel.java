@@ -23,7 +23,7 @@ public class DebugChatPanel extends JPanel {
 		constraints.weightx = 1;
 		constraints.weighty = 0.15;
 		this.distantIDField = new JTextField(distantID);
-		this.add(distantIDField);
+		this.add(distantIDField,constraints);
 
 		constraints.gridy = 1;
 		constraints.weighty = 0.7;

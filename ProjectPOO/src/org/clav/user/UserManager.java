@@ -5,12 +5,12 @@ import org.clav.Agent;
 import java.util.HashMap;
 
 public class UserManager {
-	private Agent agent;
+	private Agent relatedAgent;
 	private HashMap<String, User> activeUsers;
 	private User mainUser;
 
 	public UserManager(Agent agent, User mainUser) {
-		this.agent = agent;
+		this.relatedAgent = agent;
 		this.mainUser = mainUser;
 		this.activeUsers = new HashMap<>();
 	}
@@ -37,8 +37,12 @@ public class UserManager {
 		System.out.println("[USER]Main user : "+this.getMainUser().getIdentifier());
 		System.out.println("[USER]Users list :");
 		for(String k:this.activeUsers.keySet()){
-			System.out.println("\t."+k+" "+this.activeUsers.get(k).getPseudo()+this.agent.getNetworkManager().getAddrFor(k));
+			System.out.println("\t."+k+" "+this.activeUsers.get(k).getPseudo()+this.relatedAgent.getNetworkManager().getAddrFor(k));
 		}
+	}
+
+	public void setRelatedAgent(Agent relatedAgent) {
+		this.relatedAgent = relatedAgent;
 	}
 
 	public User getMainUser() {

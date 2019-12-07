@@ -5,6 +5,8 @@
     <property name="data_dir" value="./data"/>
     <property name="exe_dir" value="./exe"/>
 
+    <property name="exe_proto" value="Proto"/>
+
     <path id="project_classpath">
         <pathelement location="${build_dir}"/>
     </path>
@@ -22,20 +24,9 @@
         </javac>
     </target>
 
-
-
-    <target name="executable_Agent" depends="compile">
-        <delete file="CLV_Agent.jar"/>
-        <jar destfile="CLV_Agent.jar" basedir="${build_dir}">
-            <manifest>
-                <attribute name="Main-Class" value="org.clav.Agent"/>
-            </manifest>
-        </jar>
-    </target>
-
     <target name="executable_ProtoRcv" depends="compile">
-        <delete file="${exe_dir}/CLV_ProtoRcv.jar"/>
-        <jar destfile="${exe_dir}/CLV_ProtoRcv.jar" basedir="${build_dir}">
+        <delete file="${exe_dir}/${exe_proto}Rcv.jar"/>
+        <jar destfile="${exe_dir}/${exe_proto}Rcv.jar" basedir="${build_dir}">
             <manifest>
                 <attribute name="Main-Class" value="org.clav.ProtoRcv"/>
             </manifest>
@@ -43,23 +34,42 @@
     </target>
 
     <target name="executable_ProtoSnd" depends="compile">
-        <delete file="${exe_dir}/CLV_ProtoSnd.jar"/>
-        <jar destfile="${exe_dir}/CLV_ProtoSnd.jar" basedir="${build_dir}">
+        <delete file="${exe_dir}/${exe_proto}Snd.jar"/>
+        <jar destfile="${exe_dir}/${exe_proto}Snd.jar" basedir="${build_dir}">
             <manifest>
                 <attribute name="Main-Class" value="org.clav.ProtoSnd"/>
             </manifest>
         </jar>
     </target>
     <target name="executable_ProtoTCP" depends="compile">
-        <delete file="${exe_dir}/CLV_ProtoTCP.jar"/>
-        <jar destfile="${exe_dir}/CLV_ProtoTCP.jar" basedir="${build_dir}">
+        <delete file="${exe_dir}/${exe_proto}TCP.jar"/>
+        <jar destfile="${exe_dir}/${exe_proto}TCP.jar" basedir="${build_dir}">
             <manifest>
                 <attribute name="Main-Class" value="org.clav.ProtoTCP"/>
             </manifest>
         </jar>
     </target>
+    <target name="executable_TestChat" depends="compile">
+        <delete file="${exe_dir}/TestChat.jar"/>
+        <jar destfile="${exe_dir}/TestChat.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.chat.TestChat"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="executable_ProtoMonitor" depends="compile">
+        <delete file="${exe_dir}/${exe_proto}Monitor.jar"/>
+        <jar destfile="${exe_dir}/${exe_proto}Monitor.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.ProtoMonitor"/>
+            </manifest>
+        </jar>
+    </target>
 
-    <target name="executable_Proto" depends="executable_ProtoRcv,executable_ProtoSnd,executable_ProtoTCP"/>
+    <target name="executable_Proto" depends="executable_ProtoRcv,executable_ProtoSnd,executable_ProtoTCP,executable_ProtoMonitor"/>
+    <target name="monitor" depends="executable_ProtoMonitor">
+        <java jar="${exe_dir}/${exe_proto}Monitor.jar" fork="true"/>
+    </target>
 
     <target name = "run" depends="compile">
         <java classname="org.clav.ProtoRcv" fork="true">

@@ -1,0 +1,5 @@
+ID decaeste
+LOCAL localhost
+BROAD localhost
+UDP LISTEN SIGNAL
+TCP LISTEN

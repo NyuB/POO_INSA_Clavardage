@@ -1,7 +1,7 @@
 package org.clav.network;
 
 /**
- * Abstract class, intented to be implemented for each agent component actions requiring network functionality
+ * Abstract class, intended to be implemented for each agent component actions requiring network functionality
  */
 public abstract class Protocol implements Runnable {
 	private ProtocolInit protocolInit;
@@ -16,5 +16,10 @@ public abstract class Protocol implements Runnable {
 
 	public NetworkManager getRelatedNetworkManager() {
 		return getProtocolInit().getNetworkManager();
+	}
+
+	//DEBUG
+	protected void log(String s){
+		this.getRelatedNetworkManager().log(s);
 	}
 }

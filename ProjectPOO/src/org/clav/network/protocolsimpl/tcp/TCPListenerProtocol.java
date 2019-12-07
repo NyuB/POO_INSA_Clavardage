@@ -19,7 +19,7 @@ public class TCPListenerProtocol extends Protocol {
 		try {
 
 			this.serverSocket = new ServerSocket(TCP_SOCKET_SERVER);
-			System.out.println("TCP Server created");
+			this.getRelatedNetworkManager().log("TCP Server created");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -29,9 +29,9 @@ public class TCPListenerProtocol extends Protocol {
 	public void run() {
 		while(true){
 			try {
-				System.out.println("TCP server of "+getRelatedNetworkManager().getRelatedAgent().getMainUser().getIdentifier()+" waiting for connection request");
+				this.log("[TCP]Server of "+getRelatedNetworkManager().getRelatedAgent().getMainUser().getIdentifier()+" waiting for connection request");
 				Socket distant = this.serverSocket.accept();
-				System.out.println("TCP Server receiving connection request, engaging link protocolsimpl");
+				this.log("[TCP]Server receiving connection request, engaging link protocol");
 				TCPUserLink link = new TCPUserLink(null,distant);
 				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this.getRelatedNetworkManager(),link, LinkTCPUserProtocolInit.Mode.ACCEPT);
 				this.getRelatedNetworkManager().executeProtocol(new LinkTCPUserProtocol(init));

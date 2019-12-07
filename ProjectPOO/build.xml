@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project name="CLV" default = "compile">
     <property name="src_dir" value ="./src"/>
     <property name="build_dir" value = "./build"/>
@@ -67,25 +68,19 @@
     </target>
 
     <target name="executable_Proto" depends="executable_ProtoRcv,executable_ProtoSnd,executable_ProtoTCP,executable_ProtoMonitor"/>
-    <target name="monitor" depends="executable_ProtoMonitor">
-        <java jar="${exe_dir}/${exe_proto}Monitor.jar" fork="true"/>
-    </target>
 
-    <target name = "run" depends="compile">
-        <java classname="org.clav.ProtoRcv" fork="true">
-            <classpath>
-                <path refid="project_classpath"/>
-            </classpath>
+    <target name="tcp" depends="executable_ProtoTCP">
+        <java jar="${exe_dir}/${exe_proto}TCP.jar" fork="true">
+            <arg value="config.txt"/>
         </java>
     </target>
 
-    <target name="run_only_ProtoSnd">
-    <java classname="org.clav.ProtoSnd" fork="true">
-        <classpath>
-            <path refid="project_classpath"/>
-        </classpath>
-    </java>
+    <target name="monitor" depends="executable_ProtoMonitor">
+        <java jar="${exe_dir}/${exe_proto}Monitor.jar" fork="true">
+            <arg value="config.txt"/>
+        </java>
     </target>
+
 
     <target name="run_only_ProtoRcv">
         <java classname="org.clav.ProtoRcv" fork="true">

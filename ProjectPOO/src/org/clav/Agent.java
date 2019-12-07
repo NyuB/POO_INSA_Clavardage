@@ -12,13 +12,6 @@ public class Agent {
 	private UserManager userManager;
 	private ConfigManager configManager;
 
-	public static void main(String[] args) {
-
-	}
-
-	public NetworkManager getNetworkManager1() {
-		return networkManager;
-	}
 
 	public ChatManager getChatManager() {
 		return chatManager;

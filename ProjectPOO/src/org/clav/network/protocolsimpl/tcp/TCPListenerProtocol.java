@@ -10,7 +10,7 @@ import java.net.Socket;
 import static org.clav.utils.constants.NetworkConstants.*;
 
 /**
- * Central protocolsimpl to capture tcp connections attempts
+ * Central protocol to capture tcp connections attempts
  */
 public class TCPListenerProtocol extends Protocol {
 	ServerSocket serverSocket;

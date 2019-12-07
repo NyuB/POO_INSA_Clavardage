@@ -47,8 +47,8 @@ public class IdenticationPanel extends JPanel implements ActionListener {
 		gdc.gridx = 0 ;
 		gdc.gridy = 0 ;
 		gdc.weightx = 0.5;
-		gdc.anchor= GridBagConstraints.LINE_END ;
-		this.add(labelID,gdc) ;
+		gdc.anchor= GridBagConstraints.LINE_END;
+		this.add(labelID,gdc);
 		
 		//c2
 		gdc.weightx = 0.5 ;

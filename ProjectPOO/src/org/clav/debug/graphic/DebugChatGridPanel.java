@@ -4,17 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class DebugChatGrid extends JPanel {
+public class DebugChatGridPanel extends JPanel {
 	private static String DEFAULT_ID = "ID";
 	private int r;
 	private int c;
-	HashMap<String, DebugChatPanel> save;
+	HashMap<String, DebugChatPanel> activeChats;
+	private DebugModel model;
 
-	public DebugChatGrid() {
+	public DebugChatGridPanel() {
 		super(new GridLayout(1, 1));
-		this.save = new HashMap<>();
+		this.activeChats = new HashMap<>();
 		DebugChatPanel chat = new DebugChatPanel(DEFAULT_ID);
-		save.put(DEFAULT_ID,chat);
+		activeChats.put(DEFAULT_ID,chat);
 		this.add(chat);
 		this.r = 1;
 		this.c = 1;
@@ -22,19 +23,30 @@ public class DebugChatGrid extends JPanel {
 	}
 
 	public void createChat(String distant) {
-		if (!this.save.containsKey(distant)) {
-			if (this.save.size() >= this.r * this.c) {
+		if (!this.activeChats.containsKey(distant)) {
+			if (this.activeChats.size() >= this.r * this.c) {
 				this.removeAll();
-				this.r++;
+				if(this.r<this.c) {
+					this.r++;
+				}
+				else{
+					this.c++;
+				}
 				this.setLayout(new GridLayout(this.r, this.c));
-				for (DebugChatPanel chatPanel  : this.save.values()) {
+				for (DebugChatPanel chatPanel  : this.activeChats.values()) {
 					this.add(chatPanel);
 				}
 			}
 			DebugChatPanel chat = new DebugChatPanel(distant);
-			this.save.put(distant,chat);
+			this.activeChats.put(distant,chat);
 			this.add(chat);
 			this.revalidate();
 		}
+	}
+	public void writeMsg(String id,String msg){
+		if(!this.activeChats.containsKey(id)){
+			this.createChat(id);
+		}
+		this.activeChats.get(id).out.println(msg);
 	}
 }

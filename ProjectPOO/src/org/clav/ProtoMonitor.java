@@ -1,60 +1,60 @@
 package org.clav;
 
+import org.clav.debug.graphic.DebugFrame;
 import org.clav.network.NetworkManager;
-import org.clav.network.ProtocolInit;
-import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
-import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
-import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
-import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class ProtoMonitor {
 	public static void main(String[] args) {
-		Scanner in  = new Scanner(System.in);
-		System.out.println("Enter user name");
-		String name = in.nextLine();
+		Scanner in = new Scanner(System.in);
+
+		//System.out.println("Enter user name");
+		//String name = in.nextLine();
+
+		String name = "decaeste";
 		Agent agent = new Agent();
-		User mainUser = new User(name,name);
-		UserManager userManager = new UserManager(agent,mainUser);
+		User mainUser = new User(name, name);
+		UserManager userManager = new UserManager(agent, mainUser);
 		NetworkManager networkManager = null;
 		String line;
 		try {
 			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
 			System.out.println("Enter broadcast address");
-			line = in.nextLine();
+			//line = in.nextLine();
+			line = "localhost";
 			InetAddress broadcastAddr = InetAddress.getByName(line);
-			networkManager = new NetworkManager(localAddr,broadcastAddr);
+			networkManager = new NetworkManager(localAddr, broadcastAddr);
 			networkManager.setRelatedAgent(agent);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);
-		networkManager.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(networkManager,userManager)));
-		networkManager.executeProtocol(new UDPListenerProtocol(new ProtocolInit(networkManager)));
-		networkManager.executeProtocol(new TCPListenerProtocol(new ProtocolInit(networkManager)));
+		networkManager.startUDPListening();
+		networkManager.startUDPSignal();
+		networkManager.startTCPListening();
 
-		JFrame frame = new JFrame("NETWORK MONITOR");
-		JPanel panel = new JPanel(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.gridx = 0;
-		constraints.gridy=0;
-		constraints.fill = GridBagConstraints.BOTH;
-		JTextArea area = new JTextArea();
-		panel.add(area,constraints);
-		frame.setContentPane(panel);
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		DebugFrame frame = new DebugFrame();
 		frame.setVisible(true);
+		while ((line = in.nextLine()) != null) {
+			String[] cmd = line.split("\\s");
+			switch (cmd[0]) {
+				case "ADD":
+					frame.addChat(cmd[1]);
+					break;
+				case "SEND":
+					if (cmd.length >= 3) frame.writeMsg(cmd[1], cmd[2]);
+					break;
+				default:
+					System.out.println("UNKNOWN CMD");
 
 
+			}
+		}
 	}
 }

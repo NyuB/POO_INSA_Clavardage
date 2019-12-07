@@ -18,7 +18,6 @@ public abstract class Protocol implements Runnable {
 		return getProtocolInit().getNetworkManager();
 	}
 
-	//DEBUG
 	protected void log(String s){
 		this.getRelatedNetworkManager().log(s);
 	}

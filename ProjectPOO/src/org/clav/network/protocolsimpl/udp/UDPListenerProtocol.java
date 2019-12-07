@@ -34,17 +34,15 @@ public class UDPListenerProtocol extends Protocol {
 					String[] ids = data[1].split("--");
 
 					boolean toRepr = !getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(ids[0]);//DEBUG PURPOSE
-					if(!ids[0].equals(getRelatedNetworkManager().getRelatedAgent().getMainUser().getIdentifier())) {
+					if(true || !ids[0].equals(getRelatedNetworkManager().getRelatedAgent().getMainUser().getIdentifier())) {
 						//this.log("[UDP-USER]Updating new user : "+ids[0]+" "+ids[1]);
 						getRelatedNetworkManager().getRelatedAgent().getUserManager().createIfAbsent(ids[0], ids[1]);
 						getRelatedNetworkManager().addAddrFor(ids[0], packetUDP.getAddress());
-						if (toRepr) getRelatedNetworkManager().getRelatedAgent().getUserManager().repr();
+						if (toRepr) getRelatedNetworkManager().getDebug().displayUsers(getRelatedNetworkManager().getRelatedAgent().getUserManager().getActiveUsers().keySet());
 					}
 				}
 
 			}
-		} catch (SocketException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

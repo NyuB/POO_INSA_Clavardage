@@ -35,7 +35,7 @@ public class DebugChatPanel extends JPanel {
 		constraints.weighty = 0.15;
 		this.messageField = new JTextField();
 		messageField.addActionListener(a->{
-			model.writeChatMessageTo(distantIDField.getText(),messageField.getText());
+			//model.writeChatMessageTo(distantIDField.getText(),messageField.getText());
 			messageField.setText("");
 		});
 		this.add(messageField,constraints);

@@ -1,6 +1,7 @@
 package org.clav;
 
 import org.clav.debug.graphic.DebugFrame;
+import org.clav.debug.graphic.DebugModel;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
@@ -13,10 +14,9 @@ public class ProtoMonitor {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 
-		//System.out.println("Enter user name");
-		//String name = in.nextLine();
+		System.out.println("Enter user name");
+		String name = in.nextLine();
 
-		String name = "decaeste";
 		Agent agent = new Agent();
 		User mainUser = new User(name, name);
 		UserManager userManager = new UserManager(agent, mainUser);
@@ -25,30 +25,39 @@ public class ProtoMonitor {
 		try {
 			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
 			System.out.println("Enter broadcast address");
-			//line = in.nextLine();
-			line = "localhost";
+			line = in.nextLine();
+			//line = "localhost";
 			InetAddress broadcastAddr = InetAddress.getByName(line);
 			networkManager = new NetworkManager(localAddr, broadcastAddr);
 			networkManager.setRelatedAgent(agent);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		DebugModel debugModel = new DebugModel(agent);
+
+		networkManager.plug(debugModel);
+		debugModel.debugFrame.setVisible(true);
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);
 		networkManager.startUDPListening();
 		networkManager.startUDPSignal();
 		networkManager.startTCPListening();
 
-		DebugFrame frame = new DebugFrame();
-		frame.setVisible(true);
 		while ((line = in.nextLine()) != null) {
 			String[] cmd = line.split("[\\s]+");
 			switch (cmd[0]) {
 				case "ADD":
-					frame.addChat(cmd[1]);
+					debugModel.debugFrame.addChat(cmd[1]);
 					break;
 				case "SEND":
-					if (cmd.length >= 3) frame.writeMsg(cmd[1], cmd[2]);
+					if (cmd.length >= 3) {
+						StringBuilder sb = new StringBuilder(cmd[2]);
+						for(int i=3;i<cmd.length;i++){
+							sb.append(" ");
+							sb.append(cmd[i]);
+						}
+						agent.getNetworkManager().TCP_IP_send(cmd[1],sb.toString());
+					}
 					break;
 				default:
 					System.out.println("UNKNOWN CMD");

@@ -15,19 +15,19 @@ import java.util.Scanner;
 
 public class ProtoTCP {
 	public static void main(String[] args) {
-		Scanner in  = new Scanner(System.in);
-		System.out.println("Config filepath");
-		String filepath = in.nextLine();
+
+
+		String filepath = args[0];
+		System.out.println("Using configuration file : "+filepath);
 		ConfigManager configManager = new ConfigManager(filepath);
 		Agent agent = new Agent();
-
 		User mainUser = new User(configManager.getUserID(),configManager.getUserID());
 		UserManager userManager = new UserManager(agent,mainUser);
 		agent.setUserManager(userManager);
 		configManager.configNetworkManager(agent);
 
 
-
+		Scanner in  = new Scanner(System.in);
 		String line;
 		System.out.println("Enter command");
 		while(!(line=in.nextLine()).equals("END")){

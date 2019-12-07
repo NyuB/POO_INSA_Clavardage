@@ -5,12 +5,11 @@ import org.clav.debug.DebugPlugin;
 
 public class DebugModel implements DebugPlugin {
 	private Agent agent;
-	private DebugFrame debugFrame;
+	public DebugFrame debugFrame;
 
 	public DebugModel(Agent agent) {
 		this.agent = agent;
 		this.debugFrame = new DebugFrame();
-		agent.getNetworkManager().plug(this);
 	}
 
 	@Override

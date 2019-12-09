@@ -11,7 +11,13 @@ public class History {
 	}
 	
 	public void insertMessage(Message message){
-		this.messageHistory.add(message) ;
+		int n = 0 ;
+		for (Message m : messageHistory) {
+			if (message.getDate().after(m.getDate())) {
+				n++ ;
+			}
+		}
+		this.messageHistory.add(n, message) ;
 	}
 	
 	public String printHistory() {

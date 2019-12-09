@@ -1,5 +1,6 @@
 package org.clav.network.protocolsimpl.tcp;
 
+import org.clav.chat.Message;
 import org.clav.network.CLVHeader;
 import org.clav.network.CLVPacket;
 import org.clav.network.Protocol;
@@ -27,13 +28,23 @@ public class TCPTalkProtocol extends Protocol {
 		boolean open = true;
 		while (packet != null && open) {
 			//TODO Delegate treatment of packet content to the appropriate managers
-			if (packet.header == END) {
-				open = false;
+			switch (packet.header) {
+				case END:
+					open = false;
+					break;
+				case STR:
+					this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(), (String) packet.data);
+					break;
+				case MSG:
+					this.getRelatedNetworkManager().getRelatedAgent().processMessage((Message) packet.data);
+					break;
+				default:
+					break;
 			}
-			else if(packet.header == STR) {
-				this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(), (String)packet.data);
-				packet = this.getProtocolInit().getLink().read();
-			}
+
+
+
+
 		}
 		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());
 

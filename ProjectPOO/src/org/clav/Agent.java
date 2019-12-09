@@ -1,6 +1,7 @@
 package org.clav;
 
 import org.clav.chat.ChatManager;
+import org.clav.chat.Message;
 import org.clav.config.ConfigManager;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
@@ -31,6 +32,10 @@ public class Agent {
 
 	public NetworkManager getNetworkManager() {
 		return networkManager;
+	}
+
+	public void processMessage(Message message){
+		this.getChatManager().insertMessage(message);
 	}
 
 	public void setNetworkManager(NetworkManager networkManager) {

@@ -51,7 +51,7 @@ public class TestChat {
 		for (User u : users.values()) {
 			members.add(u) ;
 		}
-		Chat chat = new Chat(members, agent) ;
+		Chat chat = new Chat(members,0, agent) ;//TODO default id
 		
 		System.out.println("Enter command");
 		while(!(line=in.nextLine()).equals("END")){

@@ -85,7 +85,7 @@ public class NetworkManager implements Pluggable {
 			try {
 				this.log("[TCP]Initiating tcp connection");
 				Socket distant = new Socket(this.addrMap.get(user), TCP_SOCKET_SERVER_PORT);
-				this.log("Socket created,link protocolsimpl started");
+				this.log("[TCP]Socket created,link protocol started");
 				TCPUserLink link = new TCPUserLink(user,distant);
 				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,link, LinkTCPUserProtocolInit.Mode.CONNECT,user);
 				this.executeProtocol(new LinkTCPUserProtocol(init));

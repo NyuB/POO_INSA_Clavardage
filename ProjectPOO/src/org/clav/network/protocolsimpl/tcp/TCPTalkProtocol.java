@@ -32,8 +32,8 @@ public class TCPTalkProtocol extends Protocol {
 			}
 			else if(packet.header == STR) {
 				this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(), (String)packet.data);
+				packet = this.getProtocolInit().getLink().read();
 			}
-			packet = this.getProtocolInit().getLink().read();
 		}
 		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());
 

@@ -54,4 +54,10 @@ public class DebugModel implements DebugPlugin {
 		}
 
 	}
+
+	@Override
+	public void detectNewUser(String identifier) {
+		this.debugFrame.addChat(identifier);
+
+	}
 }

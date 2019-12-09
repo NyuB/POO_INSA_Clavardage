@@ -10,10 +10,8 @@ import java.util.Scanner;
 public class ProtoMonitor {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-
 		System.out.println("Enter user name");
 		String name = in.nextLine();
-
 		Agent agent = new Agent();
 		User mainUser = new User(name, name);
 		UserManager userManager = new UserManager(agent, mainUser);

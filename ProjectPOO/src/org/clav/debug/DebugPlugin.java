@@ -9,4 +9,5 @@ public interface DebugPlugin {
 	void writeChatMessageTo(String user,String message);
 	void log(String message);
 	void displayUsers(Iterable<String> users);
+	void detectNewUser(String identifier);
 }

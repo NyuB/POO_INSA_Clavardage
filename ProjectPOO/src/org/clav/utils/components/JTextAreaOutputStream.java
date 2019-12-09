@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * Directly copied from StackOverflow
+ */
 public class JTextAreaOutputStream extends OutputStream {
 	private JTextArea textArea;
 	private StringBuilder stringBuilder;

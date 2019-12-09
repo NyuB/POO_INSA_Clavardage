@@ -1,9 +1,10 @@
 package org.clav.user;
 
-public class User {
+import java.io.*;
+
+public class User implements Serializable {
 	private String identifier;
 	private String pseudo;
-
 	public User(String identifier, String pseudo) {
 		this.identifier = identifier;
 		this.pseudo = pseudo;
@@ -16,5 +17,6 @@ public class User {
 	public String getPseudo() {
 		return pseudo;
 	}
+
 
 }

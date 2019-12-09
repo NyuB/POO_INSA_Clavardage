@@ -16,15 +16,11 @@ public class DebugChatGridPanel extends JPanel {
 	private DebugModel model;
 
 	public DebugChatGridPanel(DebugModel model) {
-		super(new GridLayout(1, 1));
+		super(new GridLayout(1, 0));
 		this.model = model;
 		this.activeChats = new HashMap<>();
-		DebugChatPanel chat = new DebugChatPanel(DEFAULT_ID, model);
-		activeChats.put(DEFAULT_ID, chat);
-		this.add(chat);
-		this.r = 1;
-		this.c = 1;
-
+		this.r = 0;
+		this.c = 0;
 	}
 
 	private void checkDisplay() {

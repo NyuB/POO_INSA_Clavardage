@@ -18,7 +18,7 @@ public class ChatManager {
 	public void updateMissingHistory(Chat chat){
 
 	}
-	public void sendMissingHistor(Chat chat,User user){
+	public void sendMissingHistory(Chat chat, User user){
 
 	}
 

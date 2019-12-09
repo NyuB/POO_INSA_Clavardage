@@ -3,9 +3,9 @@ package org.clav.network.protocolsimpl.udp;
 import org.clav.network.Protocol;
 
 import static org.clav.utils.constants.ProtocolConstants.SIGACT_HEADER;
+import static org.clav.utils.constants.NetworkConstants.ACTIVITY_SIGNAL_DELAY;
 
 public class ActivitySignalProtocol extends Protocol {
-	public static long SIGNAL_PERIOD = 10000;
 	public ActivitySignalProtocol(ActivitySignalProtocolInit protocolInit) {
 		super(protocolInit);
 	}
@@ -24,7 +24,7 @@ public class ActivitySignalProtocol extends Protocol {
 			getRelatedNetworkManager().broadcast(buf);
 
 			try {
-				Thread.sleep(SIGNAL_PERIOD);
+				Thread.sleep(ACTIVITY_SIGNAL_DELAY);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

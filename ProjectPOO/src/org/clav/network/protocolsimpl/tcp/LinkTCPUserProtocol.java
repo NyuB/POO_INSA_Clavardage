@@ -16,19 +16,12 @@ public class LinkTCPUserProtocol extends Protocol {
 	@Override
 	public void run() {
 		TCPUserLink link = this.getProtocolInit().getLink();
-		String identifier = null;
-
+		String identifier;
 		if (getProtocolInit().getMode() == LinkTCPUserProtocolInit.Mode.ACCEPT) {
-			//ATTENTION BLOQUANT
-			// /!\ /!\ /!\ /!\
-
-
 			this.log("[TCP]Waiting user identifier for TCP linking");
 			identifier = link.read();
 			this.log("[TCP]Receiving identifier : " + identifier);
 			link.setRelatedUser(identifier);
-
-			// /!\ /!\ /!\ /!\
 			if (getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(identifier)) {
 				getRelatedNetworkManager().linkTCP(identifier, link);
 				this.log("[TCP]Sending ACK");
@@ -54,8 +47,6 @@ public class LinkTCPUserProtocol extends Protocol {
 			} else {
 				this.log("[TCP]Receiving unvalid ack message");
 			}
-
 		}
-
 	}
 }

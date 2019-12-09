@@ -23,7 +23,7 @@ public class ProtoSnd {
 			InetAddress broadcastAddr = InetAddress.getByName("10.1.255.255");
 			byte[] singleTarget = "This message is only for YOU".getBytes();
 			System.out.println("LOCAL : "  + localAddr);
-			DatagramSocket sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND);
+			DatagramSocket sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND_PORT);
 			NetworkManager networkManager = NetworkManager.testModeNetworkManager(localAddr,broadcastAddr,sendSocketUDP,null);
 			UserManager userManager = new UserManager(null,null);
 			userManager.setMainUser(new User("decaeste","DarkPseudoLul"));

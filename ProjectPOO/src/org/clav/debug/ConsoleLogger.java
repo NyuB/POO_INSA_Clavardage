@@ -1,5 +1,9 @@
 package org.clav.debug;
 
+
+/**
+ * Basic debug module equivalent to a decorated System.out.println
+ */
 public class ConsoleLogger implements DebugPlugin {
 	@Override
 	public void receiveChatMessageFrom(String user, String message) {

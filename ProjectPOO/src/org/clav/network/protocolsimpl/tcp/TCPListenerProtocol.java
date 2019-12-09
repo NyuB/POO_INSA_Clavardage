@@ -13,12 +13,12 @@ import static org.clav.utils.constants.NetworkConstants.*;
  * Central protocol to capture tcp connections attempts
  */
 public class TCPListenerProtocol extends Protocol {
-	ServerSocket serverSocket;
+	private ServerSocket serverSocket;
 	public TCPListenerProtocol(ProtocolInit protocolInit) {
 		super(protocolInit);
 		try {
 
-			this.serverSocket = new ServerSocket(TCP_SOCKET_SERVER);
+			this.serverSocket = new ServerSocket(TCP_SOCKET_SERVER_PORT);
 			this.getRelatedNetworkManager().log("TCP Server created");
 		} catch (IOException e) {
 			e.printStackTrace();

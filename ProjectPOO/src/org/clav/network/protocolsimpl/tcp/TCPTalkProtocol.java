@@ -17,8 +17,8 @@ public class TCPTalkProtocol extends Protocol {
 	public void run() {
 		this.getRelatedNetworkManager().log("[TCP]Starting tcp talk.Waiting tcp message from "+this.getProtocolInit().getLink().getRelatedUserID());
 		String line = this.getProtocolInit().getLink().read();
-		while(line!=null && !line.equals("END")){
-			this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(),line);
+		while(line!=null && !line.equals("END")){//TODO Transmit objects instead of strings
+			this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(),line);//TODO Delegate treatment of packet content to the appropritate managers
 			line = this.getProtocolInit().getLink().read();
 		}
 		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());

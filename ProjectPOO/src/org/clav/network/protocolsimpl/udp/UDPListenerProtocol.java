@@ -11,7 +11,7 @@ import static org.clav.utils.constants.ProtocolConstants.*;
 
 
 /**
- * Central protocolsimpl to capture broadcasts or low_importance messages
+ * Central protocol to capture broadcasts or low_importance messages
  */
 public class UDPListenerProtocol extends Protocol {
 	public UDPListenerProtocol(ProtocolInit protocolInit) {
@@ -23,7 +23,7 @@ public class UDPListenerProtocol extends Protocol {
 			byte[] buffer = new byte[256];
 			DatagramPacket packetUDP = new DatagramPacket(buffer, 256);
 			this.log("[UDP]Waiting UDP Packet on port " + getRelatedNetworkManager().getReceiveSocketUDP().getLocalPort());
-			while (true) {
+			while (true) {//TODO Delegate treatment of packet's content to the appropriate managers
 
 				getRelatedNetworkManager().getReceiveSocketUDP().receive(packetUDP);
 				String toTxt = new String(packetUDP.getData(), 0, packetUDP.getLength());

@@ -6,14 +6,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.PrintStream;
 
+/**
+ * A text area offering an output stream, an ID field and a field to send messages.
+ * @see DebugModel
+ */
 public class DebugChatPanel extends JPanel {
 	private JTextField distantIDField;
 	private JTextField messageField;
 	public PrintStream out;
 	private JTextArea chatArea;
-	private DebugModel model = null;//TODO
-	public DebugChatPanel(String distantID) {
+	private DebugModel model;
+
+	public DebugChatPanel(String distantID,DebugModel model) {
 		super(new GridBagLayout());
+		this.model = model;
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.BOTH;
 
@@ -35,7 +41,7 @@ public class DebugChatPanel extends JPanel {
 		constraints.weighty = 0.15;
 		this.messageField = new JTextField();
 		messageField.addActionListener(a->{
-			//model.writeChatMessageTo(distantIDField.getText(),messageField.getText());
+			model.sendMsg(distantIDField.getText(),messageField.getText());
 			messageField.setText("");
 		});
 		this.add(messageField,constraints);
@@ -44,8 +50,5 @@ public class DebugChatPanel extends JPanel {
 
 	}
 
-	public void assignModel(DebugModel model){
-		this.model = model;
-	}
 
 }

@@ -47,8 +47,10 @@ public class ProtoMonitor {
 			String[] cmd = line.split("[\\s]+");
 			switch (cmd[0]) {
 				case "ADD":
-					debugModel.debugFrame.addChat(cmd[1]);
+					if(cmd.length>1)debugModel.debugFrame.addChat(cmd[1]);
 					break;
+				case "DEL":
+					if(cmd.length>1)debugModel.debugFrame.delChat(cmd[1]);
 				case "SEND":
 					if (cmd.length >= 3) {
 						StringBuilder sb = new StringBuilder(cmd[2]);

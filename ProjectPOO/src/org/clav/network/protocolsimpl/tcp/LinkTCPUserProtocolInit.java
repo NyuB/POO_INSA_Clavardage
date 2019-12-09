@@ -31,10 +31,6 @@ public class LinkTCPUserProtocolInit extends ProtocolInit {
 	public Mode getMode() {
 		return mode;
 	}
-
-	public Socket getDistant() {
-		return this.link.getDistant();
-	}
 	public TCPUserLink getLink(){
 		return this.link;
 	}

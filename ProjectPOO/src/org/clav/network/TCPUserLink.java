@@ -5,7 +5,7 @@ import org.clav.user.User;
 import java.io.*;
 import java.net.Socket;
 
-public class TCPUserLink {
+public class TCPUserLink {//TODO Implement object streams instead of string
 	private String relatedUser;
 	private Socket distant;
 	PrintWriter outWriter;

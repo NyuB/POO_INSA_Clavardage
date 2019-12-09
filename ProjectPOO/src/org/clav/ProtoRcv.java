@@ -18,7 +18,7 @@ public class ProtoRcv {
 
 		try {
 			InetAddress localAddr = InetAddress.getByAddress(new byte[] {0,0,0,0});
-			DatagramSocket receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE);
+			DatagramSocket receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE_PORT);
 			networkManager = NetworkManager.testModeNetworkManager(localAddr,localAddr,null,receiveSocketUDP);
 			networkManager.executeProtocol(new UDPListenerProtocol(new ProtocolInit(networkManager)));
 		} catch (UnknownHostException e) {

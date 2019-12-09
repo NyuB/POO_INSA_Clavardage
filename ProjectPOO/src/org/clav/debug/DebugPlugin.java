@@ -1,5 +1,9 @@
 package org.clav.debug;
 
+
+/**
+ * Provides methods to track specific events during application run
+ */
 public interface DebugPlugin {
 	void receiveChatMessageFrom(String user, String message);
 	void writeChatMessageTo(String user,String message);

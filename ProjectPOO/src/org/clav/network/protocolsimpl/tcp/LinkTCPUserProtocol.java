@@ -1,7 +1,11 @@
 package org.clav.network.protocolsimpl.tcp;
 
+import org.clav.network.CLVHeader;
+import org.clav.network.CLVPacket;
 import org.clav.network.TCPUserLink;
 import org.clav.network.Protocol;
+
+import static org.clav.network.CLVHeader.ACK;
 
 public class LinkTCPUserProtocol extends Protocol {
 	public LinkTCPUserProtocol(LinkTCPUserProtocolInit protocolInit) {
@@ -19,13 +23,13 @@ public class LinkTCPUserProtocol extends Protocol {
 		String identifier;
 		if (getProtocolInit().getMode() == LinkTCPUserProtocolInit.Mode.ACCEPT) {
 			this.log("[TCP]Waiting user identifier for TCP linking");
-			identifier = link.read();
+			identifier = link.readStr();
 			this.log("[TCP]Receiving identifier : " + identifier);
 			link.setRelatedUser(identifier);
 			if (getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(identifier)) {
 				getRelatedNetworkManager().linkTCP(identifier, link);
 				this.log("[TCP]Sending ACK");
-				link.send("ACK");
+				link.send(new CLVPacket(ACK,null));
 				this.log("[TCP]TCP Link established with user " + identifier);
 				TCPTalkProtocolInit init = new TCPTalkProtocolInit(getRelatedNetworkManager(),link);
 				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init));
@@ -38,8 +42,8 @@ public class LinkTCPUserProtocol extends Protocol {
 			this.log("[TCP]Trying to send identifier " + id + " to connect target");
 			link.send(id);
 			this.log("[TCP]Waiting " + identifier + " ACK for TCP linking");
-			String ack = link.read();
-			if (ack.equals("ACK")) {
+			CLVPacket ack = link.read();
+			if (ack.header == ACK) {
 				this.log("[TCP]Receiving ACK from " + identifier);
 				getRelatedNetworkManager().linkTCP(identifier,link);
 				TCPTalkProtocolInit init = new TCPTalkProtocolInit(getRelatedNetworkManager(),link);

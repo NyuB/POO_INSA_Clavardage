@@ -1,9 +1,10 @@
 package org.clav.network;
 
-import org.clav.user.User;
 
 import java.io.*;
 import java.net.Socket;
+
+import static org.clav.network.CLVHeader.STR;
 
 public class TCPUserLink {//TODO Implement object streams instead of string
 	private String relatedUser;
@@ -11,12 +12,18 @@ public class TCPUserLink {//TODO Implement object streams instead of string
 	PrintWriter outWriter;
 	BufferedReader inReader;
 
+
+	private ObjectOutputStream objOut;
+	private ObjectInputStream objIn;
+
 	public TCPUserLink(String relatedUser, Socket distant) {
 		this.relatedUser = relatedUser;
 		this.distant = distant;
 		try {
-			this.outWriter = new PrintWriter(distant.getOutputStream(),true);
-			this.inReader = new BufferedReader(new InputStreamReader(distant.getInputStream()));
+			//this.outWriter = new PrintWriter(distant.getOutputStream(),true);
+			//this.inReader = new BufferedReader(new InputStreamReader(distant.getInputStream()));
+			this.objOut = new ObjectOutputStream(distant.getOutputStream());
+			this.objIn = new ObjectInputStream(distant.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -26,23 +33,38 @@ public class TCPUserLink {//TODO Implement object streams instead of string
 		this.relatedUser = relatedUser;
 	}
 
-	public void send(String message){
-		synchronized (this.outWriter) {
-			System.out.println("[TCP]Linksend to "+this.getRelatedUserID());
-			this.outWriter.println(message);
-		}
+	public void send(String message) {
+		this.send(new CLVPacket(STR, message));
 	}
-	public String read(){
 
-		synchronized (this.inReader) {
+	public void send(CLVPacket packet) {
+		synchronized (this.objOut) {
+			System.out.println("[TCP]Linksend to " + this.getRelatedUserID());
 			try {
-				return this.inReader.readLine();
+				this.objOut.writeObject(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
-				return "ERR";
 			}
 		}
+	}
 
+	public String readStr() {
+
+		synchronized (this.objIn) {
+
+			return (String) ( this.read().data);
+
+		}
+
+	}
+
+	public CLVPacket read() {
+		try {
+			return (CLVPacket) this.objIn.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+			return new CLVPacket(CLVHeader.ERR, null);
+		}
 	}
 
 	public String getRelatedUserID() {

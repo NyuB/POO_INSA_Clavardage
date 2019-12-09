@@ -1,11 +1,8 @@
 package org.clav;
-
-import org.clav.debug.graphic.DebugFrame;
 import org.clav.debug.graphic.DebugModel;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;

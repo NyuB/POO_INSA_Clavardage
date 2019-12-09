@@ -5,8 +5,6 @@ import org.clav.network.NetworkManager;
 import org.clav.user.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Chat {
 	
 	private Agent agent ;

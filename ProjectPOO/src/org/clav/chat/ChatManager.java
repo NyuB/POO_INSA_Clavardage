@@ -5,8 +5,8 @@ import org.clav.user.User;
 import java.util.ArrayList;
 
 public class ChatManager {
-
 	private ArrayList<Chat> chats;
+
 	public Chat createChat(ArrayList<User> members){
 		//TODO
 		return null;

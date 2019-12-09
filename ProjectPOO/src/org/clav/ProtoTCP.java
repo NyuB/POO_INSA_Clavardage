@@ -1,18 +1,9 @@
 package org.clav;
 
 import org.clav.config.ConfigManager;
-import org.clav.network.*;
-import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
-import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
-import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
-import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 import org.clav.user.User;
 import org.clav.user.UserManager;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Scanner;
-
 public class ProtoTCP {
 	public static void main(String[] args) {
 

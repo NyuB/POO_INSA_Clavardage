@@ -5,6 +5,8 @@ import org.clav.network.CLVHeader;
 import org.clav.network.CLVPacket;
 import org.clav.network.Protocol;
 
+import java.util.ArrayList;
+
 import static org.clav.network.CLVHeader.*;
 
 public class TCPTalkProtocol extends Protocol {
@@ -38,6 +40,8 @@ public class TCPTalkProtocol extends Protocol {
 				case MSG:
 					this.getRelatedNetworkManager().getRelatedAgent().processMessage((Message) packet.data);
 					break;
+				case CHI:
+					this.getRelatedNetworkManager().getRelatedAgent().processChatInitiation((ArrayList<String>) packet.data);
 				default:
 					break;
 			}

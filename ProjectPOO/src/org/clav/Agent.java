@@ -3,11 +3,16 @@ package org.clav;
 import org.clav.chat.ChatManager;
 import org.clav.chat.Message;
 import org.clav.config.ConfigManager;
+import org.clav.network.CLVHeader;
+import org.clav.network.CLVPacket;
+import org.clav.network.CLVPacketFactory;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 
 import java.util.ArrayList;
+
+import static org.clav.network.CLVHeader.*;
 
 public class Agent implements AppHandler {
 	private NetworkManager networkManager;
@@ -54,18 +59,25 @@ public class Agent implements AppHandler {
 
 	@Override
 	public void sendMessage(Message message) {
-		//TODO
+		CLVPacket packet = CLVPacketFactory.gen_MSG(message);
+		this.getNetworkManager().TCP_IP_send(message.getUserID(),packet);
 	}
+
 	@Override
 	public void initiateChat(ArrayList<String> members) {
+		CLVPacket packet = CLVPacketFactory.gen_ChatInit(members);
+		for (String id : members) {
+			this.getNetworkManager().TCP_IP_send(id, packet);
+		}
+	}
 
-	}
 	@Override
-	public void processMessage(Message message){
-		this.getChatManager().insertMessage(message);
+	public void processMessage(Message message) {
+		//this.getChatManager().insertMessage(message);
 	}
+
 	@Override
-	public void processChatInitiation(ArrayList<String> members){
+	public void processChatInitiation(ArrayList<String> members) {
 		//TODO
 	}
 }

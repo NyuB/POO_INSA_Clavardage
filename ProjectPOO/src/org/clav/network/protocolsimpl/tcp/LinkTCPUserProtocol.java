@@ -1,9 +1,6 @@
 package org.clav.network.protocolsimpl.tcp;
 
-import org.clav.network.CLVHeader;
-import org.clav.network.CLVPacket;
-import org.clav.network.TCPUserLink;
-import org.clav.network.Protocol;
+import org.clav.network.*;
 
 import static org.clav.network.CLVHeader.ACK;
 
@@ -29,7 +26,7 @@ public class LinkTCPUserProtocol extends Protocol {
 			if (getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(identifier)) {
 				getRelatedNetworkManager().linkTCP(identifier, link);
 				this.log("[TCP]Sending ACK");
-				link.send(new CLVPacket(ACK,null));
+				link.send(CLVPacketFactory.gen_ACK());
 				this.log("[TCP]TCP Link established with user " + identifier);
 				TCPTalkProtocolInit init = new TCPTalkProtocolInit(getRelatedNetworkManager(),link);
 				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init));

@@ -49,21 +49,17 @@ public class TCPUserLink {//TODO Implement object streams instead of string
 	}
 
 	public String readStr() {
-
-		synchronized (this.objIn) {
-
 			return (String) ( this.read().data);
-
-		}
-
 	}
 
 	public CLVPacket read() {
-		try {
-			return (CLVPacket) this.objIn.readObject();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-			return new CLVPacket(CLVHeader.ERR, null);
+		synchronized (this.objIn) {
+			try {
+				return (CLVPacket) this.objIn.readObject();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+				return new CLVPacket(CLVHeader.ERR, null);
+			}
 		}
 	}
 

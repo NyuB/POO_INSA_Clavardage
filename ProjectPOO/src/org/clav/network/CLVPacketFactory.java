@@ -1,5 +1,6 @@
 package org.clav.network;
 
+import org.clav.chat.ChatInit;
 import org.clav.chat.Message;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class CLVPacketFactory {
 	public static CLVPacket gen_STR(String s){
 		return new CLVPacket(STR,s);
 	}
-	public static CLVPacket gen_ChatInit(ArrayList<String> members){
-		return new CLVPacket(CHI,members);
+	public static CLVPacket gen_CHI(ChatInit init){
+		return new CLVPacket(CHI,init);
 	}
 
 }

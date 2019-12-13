@@ -12,7 +12,7 @@ public class DebugModel implements DebugPlugin {
 	public DebugFrame debugFrame;
 
 	public void sendMsg(String distant,String message){
-		this.agent.getNetworkManager().TCP_IP_send(distant,message);
+		this.agent.getNetworkManager().TCP_IP_send_str(distant,message);
 	}
 
 	public DebugModel(Agent agent) {
@@ -60,4 +60,11 @@ public class DebugModel implements DebugPlugin {
 		this.debugFrame.addChat(identifier);
 
 	}
+
+	@Override
+	public void detectDisconnection(String identifier) {
+		this.debugFrame.delChat(identifier);
+	}
+
+
 }

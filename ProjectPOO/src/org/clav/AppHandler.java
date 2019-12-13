@@ -1,13 +1,16 @@
 package org.clav;
 
+import org.clav.chat.ChatInit;
 import org.clav.chat.Message;
 
 import java.util.ArrayList;
 
 public interface AppHandler {
 	void sendMessage(Message message);
-	void initiateChat(ArrayList<String> members);
+
+	void initiateChat(ChatInit init);
 
 	void processMessage(Message message);
-	void processChatInitiation(ArrayList<String> members);
+
+	void processChatInitiation(ChatInit init);
 }

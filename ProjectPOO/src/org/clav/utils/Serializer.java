@@ -3,6 +3,8 @@ package org.clav.utils;
 
 import java.io.*;
 
+
+//From StackOverFlow
 public class Serializer {
 	public static Object fromBytes(byte[] bytes){
 		ByteArrayInputStream in = new ByteArrayInputStream(bytes);

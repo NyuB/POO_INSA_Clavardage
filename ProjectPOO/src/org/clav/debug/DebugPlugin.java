@@ -10,4 +10,5 @@ public interface DebugPlugin {
 	void log(String message);
 	void displayUsers(Iterable<String> users);
 	void detectNewUser(String identifier);
+	void detectDisconnection(String identifier);
 }

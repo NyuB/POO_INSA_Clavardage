@@ -18,12 +18,38 @@ public class ChatManager {
 		this.minIDAvailable = 0;
 	}
 
-	public void createChat(ArrayList<User> members){
+	private int createChat(ArrayList<User> members){
 		Chat chat = new Chat(members,this.minIDAvailable,this.getRelatedAgent());
 		this.chats.put(this.minIDAvailable,chat);
+		int res= this.minIDAvailable;
 		while (this.chats.containsKey(this.minIDAvailable)){
 			this.minIDAvailable++;
 		}
+		return res;
+	}
+	private int createChat(ChatInit init){
+		ArrayList<User> users = new ArrayList<>();
+		for(String id:init.getIdentifiers()){
+			users.add(this.getRelatedAgent().getUserManager().getActiveUsers().get(id));
+
+		}
+		return this.createChat(users);
+	}
+	private boolean haveSameMembers(Chat chat,ArrayList<String> identifiers){
+		if(chat.getMembers().size()!=identifiers.size())return false;
+		for(User u:chat.getMembers()){
+			if(!identifiers.contains(u.getIdentifier()))return false;
+		}
+		return true;
+	}
+	private int createChatIfAbsent(ChatInit init){
+		for(int i:this.chats.keySet()){
+			if(this.haveSameMembers(this.chats.get(i),init.getIdentifiers())){
+				return this.chats.get(i).getChatID();
+			}
+		}
+		return this.createChat(init);
+
 	}
 	public void leaveChat(Chat chat){
 		this.chats.remove(chat.getChatID());

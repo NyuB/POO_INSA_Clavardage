@@ -41,6 +41,7 @@ public class TCPTalkProtocol extends Protocol {
 				default:
 					break;
 			}
+			packet = this.getProtocolInit().getLink().read();
 
 
 

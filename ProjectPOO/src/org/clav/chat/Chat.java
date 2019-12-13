@@ -31,6 +31,9 @@ public class Chat {
 		}
 		history.insertMessage(new Message(agent.getUserManager().getMainUser().getIdentifier() ,getChatID(),message)) ;
 	}
+	public void receiveMessage(Message message){
+		this.history.insertMessage(message);
+	}
 	
 	public void loadHistory() {
 		//TODO DB Local

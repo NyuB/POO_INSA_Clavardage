@@ -1,6 +1,7 @@
 package org.clav.network;
 
 import org.clav.Agent;
+import org.clav.AppHandler;
 import org.clav.debug.ConsoleLogger;
 import org.clav.debug.DebugPlugin;
 import org.clav.debug.Pluggable;
@@ -11,6 +12,7 @@ import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
 import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
 import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 
+import static org.clav.network.CLVHeader.STR;
 import static org.clav.utils.constants.NetworkConstants.*;
 
 import java.io.*;
@@ -28,6 +30,7 @@ import java.util.HashMap;
  * @see Protocol
  */
 public class NetworkManager implements Pluggable {
+
 	private Agent relatedAgent;
 	private InetAddress networkAddress;
 	private InetAddress broadcastAddress;
@@ -35,7 +38,8 @@ public class NetworkManager implements Pluggable {
 	private DatagramSocket sendSocketUDP;
 	private DatagramSocket receiveSocketUDP;
 	private HashMap<String, TCPUserLink> tcpConnections;
-	
+
+	private AppHandler appHandler;
 	private DebugPlugin debug;
 
 	public DebugPlugin getDebug() {
@@ -148,7 +152,14 @@ public class NetworkManager implements Pluggable {
 		}
 	}
 
-	public void TCP_IP_send(String id, String message) {//TODO Transmit objects instead of strings
+	public void TCP_IP_send(String id, String message) {
+		this.log("[TCP]Sending message to user "+id);
+		this.TCP_IP_send(id,new CLVPacket(STR,message));
+		this.getDebug().writeChatMessageTo(id,message);
+	}
+
+
+	public void TCP_IP_send(String id,CLVPacket packet){
 		TCPUserLink link = this.getTCPLinkFor(id);
 		if(link==null){
 			this.log("No TCP link established with user "+id);
@@ -156,10 +167,8 @@ public class NetworkManager implements Pluggable {
 			this.initiateConnectionTCP(id,true);
 			link = this.getTCPLinkFor(id);
 		}
-		this.log("[TCP]Sending message to user "+id);
-		link.send(message);
-		this.getDebug().writeChatMessageTo(id,message);
-
+		this.log("[TCP]Sending packet to user "+id);
+		link.send(packet);
 	}
 
 	/**
@@ -195,6 +204,7 @@ public class NetworkManager implements Pluggable {
 	public void startUDPSignal(){
 		this.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this,this.getRelatedAgent().getUserManager())));
 	}
+
 	public Agent getRelatedAgent() {
 		return relatedAgent;
 	}

@@ -7,7 +7,9 @@ import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 
-public class Agent {
+import java.util.ArrayList;
+
+public class Agent implements AppHandler {
 	private NetworkManager networkManager;
 	private ChatManager chatManager;
 	private UserManager userManager;
@@ -34,10 +36,6 @@ public class Agent {
 		return networkManager;
 	}
 
-	public void processMessage(Message message){
-		this.getChatManager().insertMessage(message);
-	}
-
 	public void setNetworkManager(NetworkManager networkManager) {
 		this.networkManager = networkManager;
 	}
@@ -52,5 +50,22 @@ public class Agent {
 
 	public void setConfigManager(ConfigManager configManager) {
 		this.configManager = configManager;
+	}
+
+	@Override
+	public void sendMessage(Message message) {
+		//TODO
+	}
+	@Override
+	public void initiateChat(ArrayList<String> members) {
+
+	}
+	@Override
+	public void processMessage(Message message){
+		this.getChatManager().insertMessage(message);
+	}
+	@Override
+	public void processChatInitiation(ArrayList<String> members){
+		//TODO
 	}
 }

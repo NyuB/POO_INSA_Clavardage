@@ -6,6 +6,6 @@ public class ProtoInstaller {
 	
 	public static void main(String[] args) {
 		Installer installer = new Installer() ; 
-		//installer.createDefaultConfig(".") ;
+		installer.createDefaultConfig(".", (short) 16) ;
 	}
 }

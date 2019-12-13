@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 public class Installer {
@@ -16,28 +17,38 @@ public class Installer {
 
 	}
 	
-	public void createDefaultConfig(String path, byte[] mask) {
+	public void createDefaultConfig(String path, short mask) {
 		File config = new File(path+"/test_config.txt") ;
 		try {
 			PrintWriter out = new PrintWriter(new FileWriter(config)) ;
-			
 			//get interface 
-			//TODO recuperer la bonne interface selon le mask du reseau donné
 			Enumeration<NetworkInterface> enumNet = NetworkInterface.getNetworkInterfaces() ; 
 			boolean find = false ;
-			NetworkInterface net = enumNet.nextElement() ;
-			while (!find) {
-				List<InterfaceAddress> address = net.getInterfaceAddresses() ;
+			boolean right = false ;
+			InetAddress address = null ;
+			NetworkInterface net = null ;
+			InterfaceAddress inter = null ;
+			while (!find && enumNet.hasMoreElements()) {
+				net = enumNet.nextElement() ;
+				List<InterfaceAddress> l_add = net.getInterfaceAddresses() ;
+				Iterator<InterfaceAddress> iterator = l_add.iterator();
+				while (!right && iterator.hasNext()) {
+					inter = iterator.next() ;
+					if (inter.getNetworkPrefixLength() == mask) {
+						address = inter.getAddress() ; 
+						System.out.println(address) ;
+						right = true ;
+						find = true ;
+					}
+				}
 			}
-			
-			InetAddress inadd = InetAddress.getLocalHost() ;
-			NetworkInterface netInt = NetworkInterface.getByInetAddress(inadd);
-			
-			//write file
-			//out.println("ID " + System.getProperty("user.home")) ;
-			out.println("ID " + inadd.getHostName()) ;
-			out.println("LOCAL " + inadd.getHostAddress()) ;
-			out.println("BROAD " + netInt.getInterfaceAddresses().get(0).getBroadcast()) ;
+					
+			out.println("ID " + System.getProperty("user.home")) ;
+			//out.println("ID " + address.getHostName()) ;
+			out.println("LOCAL " + address.getHostAddress()) ;
+			out.println("BROAD " + inter.getBroadcast()) ;
+			out.println("UDP LISTEN SIGNAL") ;
+			out.println("TCP LISTEN") ;
 			out.close() ;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

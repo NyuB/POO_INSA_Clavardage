@@ -42,14 +42,16 @@ public class Installer {
 					}
 				}
 			}
-					
-			out.println("ID " + System.getProperty("user.home")) ;
-			//out.println("ID " + address.getHostName()) ;
-			out.println("LOCAL " + address.getHostAddress()) ;
-			out.println("BROAD " + inter.getBroadcast()) ;
-			out.println("UDP LISTEN SIGNAL") ;
-			out.println("TCP LISTEN") ;
-			out.close() ;
+			
+			if(address!=null) {
+				out.println("ID " + System.getProperty("user.home")) ;
+				//out.println("ID " + address.getHostName()) ;
+				out.println("LOCAL " + address.getHostAddress()) ;
+				out.println("BROAD " + inter.getBroadcast()) ;
+				out.println("UDP LISTEN SIGNAL") ;
+				out.println("TCP LISTEN") ;
+				out.close() ;
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

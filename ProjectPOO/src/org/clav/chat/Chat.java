@@ -45,4 +45,7 @@ public class Chat {
 	public void loadHistory() {
 		//TODO DB Local
 	}
+	public String getMainUserIdentifier(){
+		return this.agent.getMainUser().getIdentifier();
+	}
 }

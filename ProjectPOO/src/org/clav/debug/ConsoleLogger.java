@@ -32,7 +32,14 @@ public class ConsoleLogger implements DebugPlugin {
 
 	@Override
 	public void detectNewUser(String identifier) {
-		System.out.println("[USER]New User detectec : "+identifier);
+		System.out.println("[USER]New User detected : "+identifier);
+
+
+	}
+
+	@Override
+	public void detectDisconnection(String identifier) {
+		System.out.println("[USER]"+identifier+"disconnected");
 
 	}
 }

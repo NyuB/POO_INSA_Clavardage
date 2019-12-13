@@ -1,5 +1,6 @@
 package org.clav.network.protocolsimpl.tcp;
 
+import org.clav.chat.ChatInit;
 import org.clav.chat.Message;
 import org.clav.network.CLVHeader;
 import org.clav.network.CLVPacket;
@@ -41,7 +42,7 @@ public class TCPTalkProtocol extends Protocol {
 					this.getRelatedNetworkManager().getRelatedAgent().processMessage((Message) packet.data);
 					break;
 				case CHI:
-					this.getRelatedNetworkManager().getRelatedAgent().processChatInitiation((ArrayList<String>) packet.data);
+					this.getRelatedNetworkManager().getRelatedAgent().processChatInitiation((ChatInit) packet.data);
 				default:
 					break;
 			}

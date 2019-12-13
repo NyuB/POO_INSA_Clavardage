@@ -53,7 +53,7 @@ public class ProtoMonitor {
 							sb.append(" ");
 							sb.append(cmd[i]);
 						}
-						agent.getNetworkManager().TCP_IP_send(cmd[1],sb.toString());
+						agent.getNetworkManager().TCP_IP_send_str(cmd[1],sb.toString());
 					}
 					break;
 				default:

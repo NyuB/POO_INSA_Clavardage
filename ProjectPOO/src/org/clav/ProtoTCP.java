@@ -42,7 +42,7 @@ public class ProtoTCP {
 				line = in.nextLine();
 				System.out.println("Enter message");
 				String message = in.nextLine();
-				agent.getNetworkManager().TCP_IP_send(line,message);
+				agent.getNetworkManager().TCP_IP_send_str(line,message);
 			}
 			else{
 				System.out.println("UNKNOWN CMD");

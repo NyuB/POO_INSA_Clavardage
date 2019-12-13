@@ -152,9 +152,9 @@ public class NetworkManager implements Pluggable {
 		}
 	}
 
-	public void TCP_IP_send(String id, String message) {
+	public void TCP_IP_send_str(String id, String message) {
 		this.log("[TCP]Sending message to user "+id);
-		this.TCP_IP_send(id,new CLVPacket(STR,message));
+		this.TCP_IP_send(id,CLVPacketFactory.gen_STR(message));
 		this.getDebug().writeChatMessageTo(id,message);
 	}
 

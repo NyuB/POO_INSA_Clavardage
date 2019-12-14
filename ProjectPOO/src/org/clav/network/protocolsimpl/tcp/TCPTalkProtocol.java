@@ -24,6 +24,49 @@ public class TCPTalkProtocol extends Protocol {
 		return (TCPTalkProtocolInit) super.getProtocolInit();
 	}
 
+	protected void processPacket(CLVPacket packet) {
+		switch (packet.header) {
+			case END:
+				this.process_END(packet);
+				break;
+			case STR:
+				this.process_STR(packet);
+				break;
+			case MSG:
+				this.process_MSG(packet);
+				break;
+			case CHI:
+				this.process_CHI(packet);
+				break;
+			case ERR:
+				this.process_ERR(packet);
+				break;
+			default:
+				break;
+		}
+
+	}
+
+	protected void process_END(CLVPacket packet) {
+		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());
+	}
+
+	protected void process_STR(CLVPacket packet) {
+		this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(), (String) packet.data);
+	}
+
+	protected void process_MSG(CLVPacket packet) {
+		this.getRelatedNetworkManager().getAppHandler().processMessage((Message) packet.data);
+	}
+
+	protected void process_CHI(CLVPacket packet) {
+		this.getRelatedNetworkManager().getAppHandler().processChatInitiation((ChatInit) packet.data);
+	}
+
+	protected void process_ERR(CLVPacket packet) {
+
+	}
+
 	@Override
 	public void run() {
 		this.getRelatedNetworkManager().log("[TCP]Starting tcp talk.Waiting tcp message from " + this.getProtocolInit().getLink().getRelatedUserID());
@@ -35,20 +78,22 @@ public class TCPTalkProtocol extends Protocol {
 				case END:
 					open = false;
 					break;
+				case ERR:
+					open = false;
+					break;
 				case STR:
 					this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(), (String) packet.data);
 					break;
 				case MSG:
-					this.getRelatedNetworkManager().getRelatedAgent().processMessage((Message) packet.data);
+					this.getRelatedNetworkManager().getAppHandler().processMessage((Message) packet.data);
 					break;
 				case CHI:
-					this.getRelatedNetworkManager().getRelatedAgent().processChatInitiation((ChatInit) packet.data);
+					this.getRelatedNetworkManager().getAppHandler().processChatInitiation((ChatInit) packet.data);
+					break;
 				default:
 					break;
 			}
 			packet = this.getProtocolInit().getLink().read();
-
-
 
 
 		}

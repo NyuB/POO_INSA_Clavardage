@@ -31,9 +31,7 @@ public class Agent implements AppHandler {
 		return configManager;
 	}
 
-	public User getMainUser() {
-		return getUserManager().getMainUser();
-	}
+
 
 	public NetworkManager getNetworkManager() {
 		return networkManager;
@@ -56,6 +54,11 @@ public class Agent implements AppHandler {
 	}
 
 	@Override
+	public User getMainUser() {
+		return getUserManager().getMainUser();
+	}
+
+	@Override
 	public void sendMessage(Message message) {
 		CLVPacket packet = CLVPacketFactory.gen_MSG(message);
 		this.getNetworkManager().TCP_IP_send(message.getUserID(),packet);
@@ -71,12 +74,11 @@ public class Agent implements AppHandler {
 
 	@Override
 	public void processMessage(Message message) {
-		//TODO
-		//this.getChatManager().insertMessage(message);
+		this.getChatManager().processMessageReception(message);
 	}
 
 	@Override
 	public void processChatInitiation(ChatInit init) {
-		//TODO
+		this.getChatManager().createIfNew(init);
 	}
 }

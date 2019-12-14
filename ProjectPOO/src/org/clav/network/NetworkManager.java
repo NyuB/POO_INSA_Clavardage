@@ -12,7 +12,6 @@ import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
 import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
 import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 
-import static org.clav.network.CLVHeader.STR;
 import static org.clav.utils.constants.NetworkConstants.*;
 
 import java.io.*;
@@ -55,20 +54,6 @@ public class NetworkManager implements Pluggable {
 		this.debug.log(message);
 	}
 
-	public static NetworkManager testModeNetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP){
-		return new NetworkManager(networkAddress,broadcastAddress,sendSocketUDP,receiveSocketUDP);
-	}
-
-	private NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress, DatagramSocket sendSocketUDP, DatagramSocket receiveSocketUDP) {
-		this.networkAddress = networkAddress;
-		this.broadcastAddress = broadcastAddress;
-		this.sendSocketUDP = sendSocketUDP;
-		this.receiveSocketUDP = receiveSocketUDP;
-		this.addrMap = new HashMap<>();
-		this.tcpConnections = new HashMap<>();
-		
-		this.debug = new ConsoleLogger();
-	}
 	public NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress) {
 		this.networkAddress = networkAddress;
 		this.broadcastAddress = broadcastAddress;
@@ -202,13 +187,25 @@ public class NetworkManager implements Pluggable {
 	}
 
 	public void startUDPSignal(){
-		this.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this,this.getRelatedAgent().getUserManager())));
+		this.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this)));
 	}
 
 	public Agent getRelatedAgent() {
 		return relatedAgent;
 	}
-	
+	public void setRelatedAgent(Agent relatedAgent) {
+		this.relatedAgent = relatedAgent;
+		this.appHandler = relatedAgent;
+	}
+
+	public AppHandler getAppHandler() {
+		return appHandler;
+	}
+
+	public void setAppHandler(AppHandler appHandler) {
+		this.appHandler = appHandler;
+	}
+
 	public void addAddrFor(String identifier, InetAddress addr){
 		synchronized (this.addrMap) {
 			this.addrMap.put(identifier,addr);
@@ -231,11 +228,5 @@ public class NetworkManager implements Pluggable {
 		return receiveSocketUDP;
 	}
 
-	public void setReceiveSocketUDP(DatagramSocket receiveSocketUDP) {
-		this.receiveSocketUDP = receiveSocketUDP;
-	}
 
-	public void setRelatedAgent(Agent relatedAgent) {
-		this.relatedAgent = relatedAgent;
-	}
 }

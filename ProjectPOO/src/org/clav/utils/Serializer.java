@@ -12,7 +12,7 @@ public class Serializer {
 			ObjectInputStream objIn = new ObjectInputStream(in);
 			return objIn.readObject();
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Erreur reading byte");
+			System.out.println("ERROR READING BYTES");
 			e.printStackTrace();
 			return new Object();
 		}
@@ -24,7 +24,6 @@ public class Serializer {
 			objOut.writeObject(obj);
 			objOut.flush();
 			byte[] res= out.toByteArray();
-			System.out.println("BUFFER SIZE : "+res.length);
 			return res;
 		} catch (IOException e) {
 			System.out.println("ERROR WRITING BYTES");

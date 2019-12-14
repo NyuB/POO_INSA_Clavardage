@@ -9,8 +9,6 @@ import org.clav.Agent;
 import org.clav.network.NetworkManager;
 import org.clav.network.ProtocolInit;
 import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
-import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
-import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
 import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 import org.clav.user.User;
 import org.clav.user.UserManager;
@@ -51,7 +49,7 @@ public class TestChat {
 		for (User u : users.values()) {
 			members.add(u) ;
 		}
-		Chat chat = new Chat(members,0, agent) ;//TODO default id
+		Chat chat = new Chat(members,agent) ;//TODO default id
 		
 		System.out.println("Enter command");
 		while(!(line=in.nextLine()).equals("END")){
@@ -59,7 +57,7 @@ public class TestChat {
 			if(line.equals("SEND")){
 				String message = in.nextLine();
 				System.out.println("Enter message");
-				chat.sendMessage(message) ;
+				chat.insertMessage(new Message(mainUser.getIdentifier(),"0",message)) ;
 			}
 		}
 		

@@ -19,7 +19,12 @@ public class History {
 		}
 		this.messageHistory.add(n, message) ;
 	}
-	
+
+	@Override
+	public String toString() {
+		return this.printHistory();
+	}
+
 	public String printHistory() {
 		String textHist = "" ;
 		for(Message m : messageHistory) {

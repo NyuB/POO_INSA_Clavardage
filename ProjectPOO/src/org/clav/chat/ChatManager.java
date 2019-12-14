@@ -5,37 +5,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ChatManager {
-	private int minIDAvailable;
-
 	private Agent relatedAgent;
-
-	private HashMap<Integer,Chat> chats;
-
-	private HashMap<String,HashMap<Integer,Integer>> foreignIdMap;
-
+	private HashMap<String,Chat> chats;
 
 	public ChatManager() {
 		this.chats = new HashMap<>();
-		this.foreignIdMap = new HashMap<>();
-		this.minIDAvailable = 0;
 	}
 
-	private int createChat(ArrayList<User> members){
-		Chat chat = new Chat(members,this.minIDAvailable,this.getRelatedAgent());
-		this.chats.put(this.minIDAvailable,chat);
-		int res= this.minIDAvailable;
-		while (this.chats.containsKey(this.minIDAvailable)){
-			this.minIDAvailable++;
-		}
-		return res;
+	private void log(String log){
+		System.out.println("[CHAT_M]"+log);
 	}
 
-	private int createChat(ChatInit init){
-		ArrayList<User> users = new ArrayList<>();
-		for(String id:init.getIdentifiers()){
-			users.add(this.getRelatedAgent().getUserManager().getActiveUsers().get(id));
+
+	public Chat getChat(String chatHashCode){
+		return this.chats.get(chatHashCode);
+	}
+	public boolean containsChat(String chatHashCode){
+		return this.chats.containsKey(chatHashCode);
+	}
+
+	private void createChat(ArrayList<User> members){
+		this.log("Creating chat");
+		Chat chat = new Chat(members,this.getRelatedAgent());
+		this.chats.put(chat.getChatHashCode(),chat);
+		this.log("Chat created");
+
+	}
+
+	public void createIfNew(ChatInit init){
+		if (!this.containsChat(init.getChatHashCode())) {
+			ArrayList<User> users = new ArrayList<>();
+			for(String id:init.getIdentifiers()){
+				users.add(this.getRelatedAgent().getUserManager().getActiveUsers().get(id));
+			}
+			this.createChat(users);
 		}
-		return this.createChat(users);
 	}
 
 	private boolean haveSameMembers(Chat chat,ArrayList<String> identifiers){
@@ -46,46 +50,31 @@ public class ChatManager {
 		return true;
 	}
 
-	public int createChatIfAbsent(ChatInit init){
-		//TODO Handle the respective id exchange case
-		for(int i:this.chats.keySet()){
-			if(this.haveSameMembers(this.chats.get(i),init.getIdentifiers())){
-				return this.chats.get(i).getChatID();
-			}
-		}
-		return this.createChat(init);
-	}
-
 	public void leaveChat(Chat chat){
-		this.chats.remove(chat.getChatID());
-		this.minIDAvailable = Integer.min(chat.getChatID(),this.minIDAvailable);
+		this.chats.remove(chat.getChatHashCode());
 
 	}
-
 	public void updateMissingHistory(Chat chat){
 
 	}
 
 	public void sendMissingHistory(Chat chat, User user){
 
-
 	}
-
-	private Chat getChatByForeign(String identifier,int foreignId){
-		return this.chats.get(this.foreignIdMap.get(identifier).get(foreignId));
-	}
-
-	public void insertMessage(Message message){
-		Chat relatedCHat = this.getChatByForeign(message.getUserID(),message.getChatID());
-		relatedCHat.receiveMessage(message);
+	public void processMessageReception(Message message){
+		if(this.containsChat(message.getChatHashCode())) {
+			Chat relatedChat = this.chats.get(message.getChatHashCode());
+			relatedChat.receiveMessage(message);
+			this.log("Updating chat with new message");
+			this.log("\n" + relatedChat.getHistory().toString());
+		}
+		else{
+			this.log("Unknown chat hashcode");
+		}
 	}
 
 	public void setRelatedAgent(Agent relatedAgent) {
 		this.relatedAgent = relatedAgent;
-	}
-
-	public int getMinIDAvailable() {
-		return minIDAvailable;
 	}
 
 	public Agent getRelatedAgent() {

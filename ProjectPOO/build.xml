@@ -66,8 +66,16 @@
             </manifest>
         </jar>
     </target>
+    <target name="executable_ProtoApp" depends="compile">
+        <delete file="${exe_dir}/${exe_proto}App.jar"/>
+        <jar destfile="${exe_dir}/${exe_proto}App.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.ProtoApp"/>
+            </manifest>
+        </jar>
+    </target>
 
-    <target name="executable_Proto" depends="executable_ProtoRcv,executable_ProtoSnd,executable_ProtoTCP,executable_ProtoMonitor"/>
+    <target name="executable_Proto" depends="executable_ProtoRcv,executable_ProtoSnd,executable_ProtoTCP,executable_ProtoMonitor,executable_ProtoApp"/>
 
     <target name="tcp" depends="executable_ProtoTCP">
         <java jar="${exe_dir}/${exe_proto}TCP.jar" fork="true">
@@ -89,6 +97,33 @@
             </classpath>
         </java>
     </target>
+
+    <target name="git_clean">
+        <exec executable="git">
+            <arg value="reset"/>
+            <arg value="--soft"/>
+            <arg value="HEAD~1"/>
+        </exec>
+        <exec executable="git">
+            <arg value="reset"/>
+        </exec>
+    </target>
+
+    <target name="git_push_exe">
+        <exec executable="git">
+            <arg value="add"/>
+            <arg value="${exe_dir}"/>
+        </exec>
+        <exec executable="git">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="'Executable builds (ant task)'"/>
+        </exec>
+        <exec executable="git">
+            <arg value="push"/>
+        </exec>
+    </target>
+
 
     <target name="push_proto" depends="compile">
         <exec executable="git">

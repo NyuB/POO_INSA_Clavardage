@@ -15,8 +15,10 @@ import java.util.Comparator;
 public class HashUtils {
 
 	public static String hashStringList(ArrayList<String> stringArrayList){
+		ArrayList<String> copy = new ArrayList<>(stringArrayList);
+		copy.sort(Comparator.naturalOrder());
 		StringBuilder sb = new StringBuilder();
-		for(String s :stringArrayList){
+		for(String s :copy){
 			sb.append(s);
 		}
 		byte[] hash = new byte[0];
@@ -32,7 +34,6 @@ public class HashUtils {
 		for(User u:members){
 			identifiers.add(u.getIdentifier());
 		}
-		identifiers.sort(Comparator.naturalOrder());
 		return hashStringList(identifiers);
 	}
 }

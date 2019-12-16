@@ -10,8 +10,6 @@ import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 
-import java.util.ArrayList;
-
 public class Agent implements AppHandler {
 	private NetworkManager networkManager;
 	private ChatManager chatManager;
@@ -23,15 +21,25 @@ public class Agent implements AppHandler {
 		return chatManager;
 	}
 
+	public void setChatManager(ChatManager chatManager) {
+		this.chatManager = chatManager;
+	}
+
 	public UserManager getUserManager() {
 		return userManager;
+	}
+
+	public void setUserManager(UserManager userManager) {
+		this.userManager = userManager;
 	}
 
 	public ConfigManager getConfigManager() {
 		return configManager;
 	}
 
-
+	public void setConfigManager(ConfigManager configManager) {
+		this.configManager = configManager;
+	}
 
 	public NetworkManager getNetworkManager() {
 		return networkManager;
@@ -41,18 +49,7 @@ public class Agent implements AppHandler {
 		this.networkManager = networkManager;
 	}
 
-	public void setChatManager(ChatManager chatManager) {
-		this.chatManager = chatManager;
-	}
-
-	public void setUserManager(UserManager userManager) {
-		this.userManager = userManager;
-	}
-
-	public void setConfigManager(ConfigManager configManager) {
-		this.configManager = configManager;
-	}
-
+	//AppHandler implementation
 	@Override
 	public User getMainUser() {
 		return getUserManager().getMainUser();

@@ -4,6 +4,7 @@ import org.clav.chat.Chat;
 import org.clav.chat.Message;
 
 public interface ChatStorage {
+
 	void storeChat(Chat chat);
 
 	Chat getChatByHashCode(String code);

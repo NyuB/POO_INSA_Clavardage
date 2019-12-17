@@ -17,6 +17,7 @@ import static org.clav.utils.constants.NetworkConstants.*;
 import java.io.*;
 import java.net.*;
 import java.util.HashMap;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Handles all the network base functions of the application via the multithreaded executions of several protocols.
@@ -29,8 +30,6 @@ import java.util.HashMap;
  * @see Protocol
  */
 public class NetworkManager implements Pluggable {
-
-	private Agent relatedAgent;
 	private InetAddress networkAddress;
 	private InetAddress broadcastAddress;
 	private HashMap<String, InetAddress> addrMap;
@@ -38,17 +37,20 @@ public class NetworkManager implements Pluggable {
 	private DatagramSocket receiveSocketUDP;
 	private HashMap<String, TCPUserLink> tcpConnections;
 
-	private AppHandler appHandler;
-	private DebugPlugin debug;
+	private ThreadPoolExecutor signalProtocolPool;
+	private ThreadPoolExecutor listeningProtocolPool;
 
+	private AppHandler appHandler;//Application to interact with when receiving/interpreting messages
+
+	private DebugPlugin debug;
 	public DebugPlugin getDebug() {
 		return debug;
 	}
 
+
 	@Override
 	public void plug(DebugPlugin plugin) {
 		this.debug = plugin;
-
 	}
 	public void log(String message){
 		this.debug.log(message);
@@ -179,15 +181,22 @@ public class NetworkManager implements Pluggable {
 	}
 
 	public void startUDPListening(){
-		this.executeProtocol(new UDPListenerProtocol(new ProtocolInit(this)));
+		this.startBroadcastListening(new UDPListenerProtocol(new ProtocolInit(this)));
 	}
 
 	public void startTCPListening(){
 		this.executeProtocol(new TCPListenerProtocol(new ProtocolInit(this)));
 	}
 
+	public void startActivitySignal(ActivitySignalProtocol protocol){
+		this.executeProtocol(protocol);
+	}
+	public void startBroadcastListening(UDPListenerProtocol protocol){
+		this.executeProtocol(protocol);
+	}
+
 	public void startUDPSignal(){
-		this.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this)));
+		this.startActivitySignal(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this)));
 	}
 
 	public AppHandler getAppHandler() {

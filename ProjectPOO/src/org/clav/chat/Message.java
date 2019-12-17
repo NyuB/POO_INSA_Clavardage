@@ -22,6 +22,11 @@ public class Message implements Serializable {
 		this.text = text;
 		this.date = date;
 	}
+	public Message(String chatHashCode,String text){
+		this.chatHashCode = chatHashCode;
+		this.text =text;
+		this.date = new Date();
+	}
 
 	/**
 	 * @return ID of the message's sender
@@ -40,5 +45,9 @@ public class Message implements Serializable {
 
 	public String getChatHashCode() {
 		return chatHashCode;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 }

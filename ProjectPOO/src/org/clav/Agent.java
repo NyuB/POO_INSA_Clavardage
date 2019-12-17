@@ -76,9 +76,10 @@ public class Agent implements AppHandler, CLVModel {
 
 	//AppHandler Impl
 	@Override
-	public void sendMessage(Message message) {
+	public void sendMessage(String distantID,Message message) {
+		message.setUserID(this.getMainUser().getIdentifier());
 		CLVPacket packet = CLVPacketFactory.gen_MSG(message);
-		this.getNetworkManager().TCP_IP_send(message.getUserID(), packet);
+		this.getNetworkManager().TCP_IP_send(distantID, packet);
 		this.getChatManager().processMessageEmission(message);
 		this.getUiManager().getView().refreshChat(message.getChatHashCode());
 	}

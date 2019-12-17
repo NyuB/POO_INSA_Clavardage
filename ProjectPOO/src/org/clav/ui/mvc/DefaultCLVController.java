@@ -34,7 +34,7 @@ public class DefaultCLVController implements CLVController {
 				log("Skipping main user");
 			}
 			else {
-				this.appHandler.sendMessage(new Message(u.getIdentifier(), code, txt));
+				this.appHandler.sendMessage(u.getIdentifier(),new Message( code, txt));
 			}
 		}
 	}

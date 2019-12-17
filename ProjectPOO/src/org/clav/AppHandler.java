@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface AppHandler {
 	User getMainUser();
 
-	void sendMessage(Message message);
+	void sendMessage(String distantID,Message message);
 
 	void initiateChat(ArrayList<User> members);
 

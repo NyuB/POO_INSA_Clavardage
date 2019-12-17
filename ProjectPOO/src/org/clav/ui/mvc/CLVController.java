@@ -10,7 +10,7 @@ public interface CLVController {
 	void notifyMessageSending(String code,String txt);
 	void notifyMessageReception(Message message);
 
-	void notifyChatInitiationFromUser(ArrayList<String> identifiers);
+	void notifyChatInitiationFromUser(ArrayList<String> distantIdentifiers);
 	void notifyChatInitiationFromDistant(String code);
 
 	void notifyNewActiveUser(User user);

@@ -11,7 +11,7 @@ public interface AppHandler {
 
 	void sendMessage(String distantID,Message message);
 
-	void initiateChat(ArrayList<User> members);
+	void initiateChat(ArrayList<User> distantMembers);
 
 	void processMessage(Message message);
 

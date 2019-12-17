@@ -86,8 +86,8 @@ public class Agent implements AppHandler, CLVModel {
 
 	//AppHandler Impl
 	@Override
-	public void initiateChat(ArrayList<User> members) {
-		ArrayList<User> withMain = new ArrayList<>(members);
+	public void initiateChat(ArrayList<User> distantMembers) {
+		ArrayList<User> withMain = new ArrayList<>(distantMembers);
 		withMain.add(this.getMainUser());
 		String code = HashUtils.hashUserList(withMain);
 		if (!this.getChatManager().getChats().containsKey(code)) {
@@ -95,7 +95,7 @@ public class Agent implements AppHandler, CLVModel {
 		}
 		ChatInit init = this.getActiveChats().get(code).genChatInit();
 		CLVPacket packet = CLVPacketFactory.gen_CHI(init);
-		for (User u : members) {
+		for (User u : distantMembers) {
 			this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
 		}
 		this.getUiManager().getView().refreshChat(code);

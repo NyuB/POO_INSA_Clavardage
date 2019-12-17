@@ -46,9 +46,9 @@ public class DefaultCLVController implements CLVController {
 	}
 
 	@Override
-	public void notifyChatInitiationFromUser(ArrayList<String> identifiers) {
+	public void notifyChatInitiationFromUser(ArrayList<String> distantIdentifiers) {
 		ArrayList<User> userArrayList = new ArrayList<>();
-		for (String s : identifiers) {
+		for (String s : distantIdentifiers) {
 			userArrayList.add(this.model.getActiveUsers().get(s));
 		}
 		this.appHandler.initiateChat(userArrayList);

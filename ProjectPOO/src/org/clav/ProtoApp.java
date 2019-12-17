@@ -62,7 +62,6 @@ public class ProtoApp {
 					case "CHI":
 						if (cmd.length > 1) {
 							ArrayList<String> ids = new ArrayList<>();
-							ids.add(mainUser.getIdentifier());
 							for (int i = 1; i < cmd.length; i++) {
 								ids.add(cmd[i]);
 							}

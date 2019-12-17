@@ -19,9 +19,17 @@ public class TxtChatStorage implements ChatStorage {
 
 	@Override
 	public void storeAll(Iterable<Chat> chats) {
+		//TODO
 		StringBuilder sb = new StringBuilder();
 		for(Chat chat : chats){
+			sb.append("<CHAT> ");
+			for(int i =0;i< chat.getMembers().size();i++){
+				sb.append(chat.getMembers().get(i).getIdentifier()+" ");
+			}
 
+			for(int m = 0;m<chat.getHistory().getMessageHistory().size();m++){
+				sb.append(chat.getHistory().getMessageHistory().get(m).getText());//TODO
+			}
 		}
 
 	}

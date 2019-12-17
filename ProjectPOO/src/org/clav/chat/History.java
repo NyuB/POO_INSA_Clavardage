@@ -33,6 +33,8 @@ public class History {
 		}
 		return textHist;
 	}
-	
-	
+
+	public ArrayList<Message> getMessageHistory() {
+		return messageHistory;
+	}
 }

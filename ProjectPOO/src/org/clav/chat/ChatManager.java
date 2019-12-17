@@ -14,8 +14,8 @@ public class ChatManager {
 
 	public ChatManager() {
 		this.chats = new HashMap<>();
-		//this.storage = new EmptyChatStorage();
-		this.storage = new TxtChatStorage("dataproxy.txt");//TODO
+		this.storage = new EmptyChatStorage();
+		//this.storage = new TxtChatStorage("dataproxy.txt");//TODO
 		this.load();
 
 	}

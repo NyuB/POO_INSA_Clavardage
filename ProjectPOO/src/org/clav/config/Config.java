@@ -29,15 +29,11 @@ public class Config implements Serializable{
 			out.writeObject(this) ;
 			out.flush() ;
 			out.close() ;
-		} 
-		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override

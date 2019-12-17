@@ -85,6 +85,9 @@ public class ProtoApp {
 						break;
 					case "SAV":
 						chatManager.save();
+						break;
+					case "CHNB":
+						System.out.println(chatManager.getChats().size()+" active chats");
 					default:
 						break;
 				}

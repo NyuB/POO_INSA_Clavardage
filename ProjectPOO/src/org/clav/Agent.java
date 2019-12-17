@@ -63,7 +63,7 @@ public class Agent implements AppHandler, CLVModel {
 
 
 	public void start() {
-		this.uiManager = new UIManager(this,this);
+		this.uiManager = new UIManager(this, this);
 		this.uiManager.start();
 	}
 
@@ -76,12 +76,26 @@ public class Agent implements AppHandler, CLVModel {
 
 	//AppHandler Impl
 	@Override
-	public void sendMessage(String distantID,Message message) {
+	public void sendMessage(Message message) {
 		message.setUserID(this.getMainUser().getIdentifier());
 		CLVPacket packet = CLVPacketFactory.gen_MSG(message);
-		this.getNetworkManager().TCP_IP_send(distantID, packet);
+		boolean selfTalk = true;
+		for (User u : this.getChatManager().getChat(message.getChatHashCode()).getMembers()) {
+			if(u.getIdentifier().equals(this.getMainUser().getIdentifier())){
+				System.out.println("[APPHANDLER]Skipping main user");
+			}
+			else {
+				this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
+
+				selfTalk = false;
+			}
+		}
+		if(selfTalk){
+			this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(),packet);
+		}
 		this.getChatManager().processMessageEmission(message);
 		this.getUiManager().getView().refreshChat(message.getChatHashCode());
+
 	}
 
 	//AppHandler Impl
@@ -130,8 +144,8 @@ public class Agent implements AppHandler, CLVModel {
 	//AppHandler Impl
 	@Override
 	public void processNewUser(User user) {
-		this.getUserManager().createIfAbsent(user.getIdentifier(),user.getPseudo());
-		if(this.getUiManager()!=null) this.uiManager.getController().notifyNewActiveUser(user);
+		this.getUserManager().createIfAbsent(user.getIdentifier(), user.getPseudo());
+		if (this.getUiManager() != null) this.uiManager.getController().notifyNewActiveUser(user);
 
 	}
 

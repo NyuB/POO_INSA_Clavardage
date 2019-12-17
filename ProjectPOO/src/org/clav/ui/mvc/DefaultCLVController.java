@@ -29,14 +29,7 @@ public class DefaultCLVController implements CLVController {
 
 	@Override
 	public void notifyMessageSending(String code, String txt) {
-		for (User u : this.model.getChatFor(code).getMembers()) {
-			if(u.getIdentifier().equals(appHandler.getMainUser().getIdentifier())){
-				log("Skipping main user");
-			}
-			else {
-				this.appHandler.sendMessage(u.getIdentifier(),new Message( code, txt));
-			}
-		}
+		this.appHandler.sendMessage(new Message(null,code,txt));
 	}
 
 	@Override
@@ -56,7 +49,7 @@ public class DefaultCLVController implements CLVController {
 
 	@Override
 	public void notifyChatInitiationFromDistant(String code) {
-		this.log("Chat initiation with users : ");
+		this.log("Distant Chat initiation code "+code+"\nwith users : ");
 		for (User u : this.model.getChatFor(code).getMembers()) {
 			System.out.println("\t" + u.getIdentifier());
 		}

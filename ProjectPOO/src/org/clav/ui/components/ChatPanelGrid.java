@@ -23,6 +23,7 @@ public class ChatPanelGrid extends JPanel {
 		this.c = 0;
 	}
 	private void checkDisplay() {
+		System.out.println("Chat grid checking display");
 		this.removeAll();
 		this.setLayout(new GridLayout(r, c));
 		for (ChatPanel chatPanel : this.activeChats.values()) {
@@ -30,7 +31,8 @@ public class ChatPanelGrid extends JPanel {
 		}
 	}
 
-	public void createChat(String code) {
+	private synchronized void createChat(String code) {
+		System.out.println("Chat grid creating chat");
 		if (!this.activeChats.containsKey(code)) {
 			if (this.activeChats.size() >= this.r * this.c) {
 				this.removeAll();
@@ -84,5 +86,4 @@ public class ChatPanelGrid extends JPanel {
 			this.createChat(code);
 		}
 	}
-
 }

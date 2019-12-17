@@ -30,7 +30,7 @@ public class DefaultCLVController implements CLVController {
 	@Override
 	public void notifyMessageSending(String code, String txt) {
 		for (User u : this.model.getChatFor(code).getMembers()) {
-			this.appHandler.sendMessage(new Message(u.getIdentifier(), code, txt));
+			this.appHandler.sendMessage(new Message(this.appHandler.getMainUser().getIdentifier(), code, txt));
 		}
 	}
 

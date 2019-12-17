@@ -19,6 +19,7 @@ public class ChatManager {
 			this.load();
 		}
 		catch (Exception e){
+			e.printStackTrace();
 			this.storage = new EmptyChatStorage();
 		}
 

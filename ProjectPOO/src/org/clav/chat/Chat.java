@@ -22,7 +22,14 @@ public class Chat {
 		history.insertMessage(message) ;
 	}
 	public void receiveMessage(Message message){
-		this.insertMessage(message);
+		this.insertMessage(message,false);
+	}
+	public void emitMessage(Message message){
+		this.insertMessage(message,true);
+	}
+
+	public void insertMessage(Message message,boolean emetted){
+		history.insertMessage(message);
 	}
 
 	public ArrayList<User> getMembers() {

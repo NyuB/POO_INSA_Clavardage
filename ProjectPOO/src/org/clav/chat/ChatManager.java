@@ -98,7 +98,16 @@ public class ChatManager {
 			Chat relatedChat = this.chats.get(message.getChatHashCode());
 			relatedChat.receiveMessage(message);
 			this.log("Updating chat with new message");
-			//this.log("\n" + relatedChat.getHistory().toString());
+		}
+		else{
+			this.log("Unknown chat hashcode");
+		}
+	}
+	public void processMessageEmission(Message message){
+		if(this.containsChat(message.getChatHashCode())){
+			Chat relatedChat = this.chats.get(message.getChatHashCode());
+			relatedChat.emitMessage(message);
+			this.log("Updaing chat with emmetted message");
 		}
 		else{
 			this.log("Unknown chat hashcode");

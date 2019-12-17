@@ -61,16 +61,12 @@ public class ProtoApp {
 						break;
 					case "CHI":
 						if (cmd.length > 1) {
-							ArrayList<User> ids = new ArrayList<>();
-							ids.add(userManager.getMainUser());
+							ArrayList<String> ids = new ArrayList<>();
+							ids.add(mainUser.getIdentifier());
 							for (int i = 1; i < cmd.length; i++) {
-								ids.add(userManager.getActiveUsers().get(cmd[i]));
+								ids.add(cmd[i]);
 							}
-							Chat chat = new Chat(ids);
-							chatManager.createIfNew(chat.genChatInit());
-							for (User u : ids) {
-								networkManager.TCP_IP_send(u.getIdentifier(), new CLVPacket(CHI, chat.genChatInit()));
-							}
+							agent.getUiManager().getController().notifyChatInitiationFromUser(ids);
 						}
 						break;
 					case "MSG":

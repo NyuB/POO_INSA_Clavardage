@@ -1,4 +1,4 @@
-package org.clav.ui;
+package org.clav.ui.components;
 
 import javax.swing.*;
 import java.awt.*;

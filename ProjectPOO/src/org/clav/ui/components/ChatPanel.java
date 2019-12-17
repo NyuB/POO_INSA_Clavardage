@@ -1,7 +1,11 @@
-package org.clav.ui;
+package org.clav.ui.components;
+
+import org.clav.chat.Chat;
+import org.clav.user.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class ChatPanel extends JPanel {
 	private ChatTopBar topBar;
@@ -9,7 +13,7 @@ public class ChatPanel extends JPanel {
 	private ScrollTextArea textArea;
 	private JTextField typeField;
 
-	public ChatPanel() {
+	public ChatPanel(Chat chat) {
 		super(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		//Top bar
@@ -24,7 +28,12 @@ public class ChatPanel extends JPanel {
 		//Title
 		gbc.gridy = 1;
 		gbc.weighty = 0.15;
-		this.title = new JLabel("CHAT TITLE");
+		StringBuilder sb = new StringBuilder();
+		for(User u:chat.getMembers()){
+			sb.append(u.getIdentifier());
+			sb.append(" ; ");
+		}
+		this.title = new JLabel(sb.toString());
 		this.add(this.title,gbc);
 
 		//TextArea
@@ -32,11 +41,24 @@ public class ChatPanel extends JPanel {
 		gbc.weighty = 0.6;
 		this.textArea = new ScrollTextArea();
 		this.add(textArea,gbc);
+		this.textArea.getTextArea().setText(chat.getHistory().printHistory());
 
 		//TypeField
 		gbc.gridy = 3;
 		gbc.weighty = 0.15;
 		this.typeField = new JTextField();
 		this.add(typeField,gbc);
+	}
+
+	public JTextArea getTextArea() {
+		return textArea.getTextArea();
+	}
+	public void addTypeActionListener(ActionListener l){
+		this.typeField.addActionListener(l);
+	}
+	public String consumeTypeField(){
+		String res = this.typeField.getText();
+		this.typeField.setText("");
+		return res;
 	}
 }

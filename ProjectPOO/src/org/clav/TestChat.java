@@ -1,4 +1,4 @@
-package org.clav.chat;
+package org.clav;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import org.clav.Agent;
+import org.clav.chat.Chat;
+import org.clav.chat.Message;
 import org.clav.network.NetworkManager;
 import org.clav.network.ProtocolInit;
 import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
@@ -32,7 +34,7 @@ public class TestChat {
 			line = in.nextLine();
 			InetAddress broadcastAddr = InetAddress.getByName(line);
 			networkManager = new NetworkManager(localAddr,broadcastAddr);
-			networkManager.setRelatedAgent(agent);
+			networkManager.setAppHandler(agent);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -46,11 +48,8 @@ public class TestChat {
 		//chat
 		ArrayList<User> members = new ArrayList<User>() ;
 		HashMap<String, User> users = userManager.getActiveUsers() ;
-		for (User u : users.values()) {
-			members.add(u) ;
-		}
-		Chat chat = new Chat(members,agent) ;//TODO default id
-		
+		members.addAll(users.values());
+		Chat chat = new Chat(members);
 		System.out.println("Enter command");
 		while(!(line=in.nextLine()).equals("END")){
 		

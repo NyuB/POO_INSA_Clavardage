@@ -8,14 +8,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Chat {
-	
-	private Agent agent ;
+
 	//Le mainUser est inclus dans members
 	private ArrayList<User> members;
 	private String chatHashCode;
 	private History history;
-	public Chat(ArrayList<User> members,Agent agent) {
-		this.agent = agent ;
+	public Chat(ArrayList<User> members) {
 		this.members = members ;
 		this.history = new History();
 		this.chatHashCode = HashUtils.hashUserList(members);
@@ -30,15 +28,9 @@ public class Chat {
 	public ArrayList<User> getMembers() {
 		return members;
 	}
+
 	public ChatInit genChatInit(){
 		return new ChatInit(this);
-	}
-
-	public void loadHistory() {
-		//TODO DB Local
-	}
-	public String getMainUserIdentifier(){
-		return this.agent.getMainUser().getIdentifier();
 	}
 
 	public String getChatHashCode() {
@@ -47,5 +39,9 @@ public class Chat {
 
 	public History getHistory() {
 		return history;
+	}
+
+	public void setHistory(History history) {
+		this.history = history;
 	}
 }

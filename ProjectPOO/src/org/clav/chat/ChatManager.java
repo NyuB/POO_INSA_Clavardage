@@ -1,15 +1,38 @@
 package org.clav.chat;
 import org.clav.Agent;
+import org.clav.database.ChatStorage;
+import org.clav.database.EmptyChatStorage;
+import org.clav.database.TxtChatStorage;
 import org.clav.user.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ChatManager {
 	private Agent relatedAgent;
+	private ChatStorage storage;
 	private HashMap<String,Chat> chats;
 
 	public ChatManager() {
 		this.chats = new HashMap<>();
+		//this.storage = new EmptyChatStorage();
+		this.storage = new TxtChatStorage("dataproxy.txt");//TODO
+		this.load();
+
+	}
+
+	public void setStorage(ChatStorage storage) {
+		this.storage = storage;
+	}
+	public void load(){
+		for(Chat chat:this.storage.readAllChats()){
+			this.chats.put(chat.getChatHashCode(),chat);
+			this.log("Reading chat from storage");
+			this.log("\n"+chat.getHistory().printHistory());
+		}
+	}
+
+	public void save(){
+		this.storage.storeAll(this.chats.values());
 	}
 
 	private void log(String log){
@@ -24,12 +47,11 @@ public class ChatManager {
 		return this.chats.containsKey(chatHashCode);
 	}
 
-	private void createChat(ArrayList<User> members){
+	public void createChat(ArrayList<User> members){
 		this.log("Creating chat");
-		Chat chat = new Chat(members,this.getRelatedAgent());
+		Chat chat = new Chat(members);
 		this.chats.put(chat.getChatHashCode(),chat);
 		this.log("Chat created");
-
 	}
 
 	public void createIfNew(ChatInit init){
@@ -40,6 +62,9 @@ public class ChatManager {
 			}
 			this.createChat(users);
 		}
+	}
+	public void createIfNew(ArrayList<User> users){
+		this.createIfNew(new Chat(users).genChatInit());
 	}
 
 	private boolean haveSameMembers(Chat chat,ArrayList<String> identifiers){
@@ -66,7 +91,7 @@ public class ChatManager {
 			Chat relatedChat = this.chats.get(message.getChatHashCode());
 			relatedChat.receiveMessage(message);
 			this.log("Updating chat with new message");
-			this.log("\n" + relatedChat.getHistory().toString());
+			//this.log("\n" + relatedChat.getHistory().toString());
 		}
 		else{
 			this.log("Unknown chat hashcode");
@@ -79,5 +104,9 @@ public class ChatManager {
 
 	public Agent getRelatedAgent() {
 		return relatedAgent;
+	}
+
+	public HashMap<String, Chat> getChats() {
+		return chats;
 	}
 }

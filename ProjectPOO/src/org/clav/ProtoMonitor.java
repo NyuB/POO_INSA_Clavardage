@@ -24,7 +24,7 @@ public class ProtoMonitor {
 			//line = "localhost";
 			InetAddress broadcastAddr = InetAddress.getByName(line);
 			networkManager = new NetworkManager(localAddr, broadcastAddr);
-			networkManager.setRelatedAgent(agent);
+			networkManager.setAppHandler(agent);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -38,6 +38,7 @@ public class ProtoMonitor {
 		networkManager.startUDPSignal();
 		networkManager.startTCPListening();
 
+		agent.start();
 		while ((line = in.nextLine()) != null) {
 			String[] cmd = line.split("[\\s]+");
 			switch (cmd[0]) {

@@ -73,7 +73,6 @@ public class TCPTalkProtocol extends Protocol {
 		CLVPacket packet = this.getProtocolInit().getLink().read();
 		boolean open = true;
 		while (packet != null && open) {
-			//TODO Delegate treatment of packet content to the appropriate managers
 			switch (packet.header) {
 				case END:
 					open = false;

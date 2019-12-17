@@ -23,7 +23,7 @@ public class LinkTCPUserProtocol extends Protocol {
 			identifier = link.readStr();
 			this.log("[TCP]Receiving identifier : " + identifier);
 			link.setRelatedUser(identifier);
-			if (getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(identifier)) {
+			if (getRelatedNetworkManager().getAppHandler().isActiveID(identifier)) {
 				getRelatedNetworkManager().linkTCP(identifier, link);
 				this.log("[TCP]Sending ACK");
 				link.send(CLVPacketFactory.gen_ACK());
@@ -35,7 +35,7 @@ public class LinkTCPUserProtocol extends Protocol {
 			}
 		} else if (getProtocolInit().getMode() == LinkTCPUserProtocolInit.Mode.CONNECT) {
 			identifier = getProtocolInit().getDistantID();
-			String id = getProtocolInit().getNetworkManager().getRelatedAgent().getMainUser().getIdentifier();
+			String id = getProtocolInit().getNetworkManager().getAppHandler().getMainUser().getIdentifier();
 			this.log("[TCP]Trying to send identifier " + id + " to connect target");
 			link.send(id);
 			this.log("[TCP]Waiting " + identifier + " ACK for TCP linking");

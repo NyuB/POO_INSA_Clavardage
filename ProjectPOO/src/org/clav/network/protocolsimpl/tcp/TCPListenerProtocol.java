@@ -29,7 +29,7 @@ public class TCPListenerProtocol extends Protocol {
 	public void run() {
 		while(true){
 			try {
-				this.log("[TCP]Server of "+getRelatedNetworkManager().getRelatedAgent().getMainUser().getIdentifier()+" waiting for connection request");
+				this.log("[TCP]Server of "+getRelatedNetworkManager().getAppHandler().getMainUser().getIdentifier()+" waiting for connection request");
 				Socket distant = this.serverSocket.accept();
 				this.log("[TCP]Server receiving connection request, engaging link protocol");
 				TCPUserLink link = new TCPUserLink(null,distant);

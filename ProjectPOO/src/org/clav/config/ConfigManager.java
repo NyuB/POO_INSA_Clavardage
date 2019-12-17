@@ -90,7 +90,7 @@ public class ConfigManager {
 
 	public void configNetworkManager(Agent agent) {
 		NetworkManager networkManager = new NetworkManager(this.getLocalAddr(), this.getBroadcastAddr());
-		networkManager.setRelatedAgent(agent);
+		networkManager.setAppHandler(agent);
 		agent.setNetworkManager(networkManager);
 		if(this.autoSignalUDP)networkManager.startUDPSignal();
 		if(this.autoListenUDP)networkManager.startUDPListening();

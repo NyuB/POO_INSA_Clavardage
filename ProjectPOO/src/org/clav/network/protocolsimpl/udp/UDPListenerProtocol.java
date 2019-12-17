@@ -40,15 +40,16 @@ public class UDPListenerProtocol extends Protocol {
 					User user = (User)(packet.data);
 					String[] ids = new String[] {user.getIdentifier(),user.getPseudo()};
 
-					boolean toRepr = !getRelatedNetworkManager().getRelatedAgent().getUserManager().isActiveUser(ids[0]);//DEBUG PURPOSE
-					if(true || !ids[0].equals(getRelatedNetworkManager().getRelatedAgent().getMainUser().getIdentifier())) {//TODO Stop talking to yourself
-						getRelatedNetworkManager().getRelatedAgent().getUserManager().createIfAbsent(ids[0], ids[1]);
+					boolean toRepr = !getRelatedNetworkManager().getAppHandler().isActiveID(ids[0]);//DEBUG PURPOSE
+					if(true || !ids[0].equals(getRelatedNetworkManager().getAppHandler().getMainUser().getIdentifier())) {//TODO Stop talking to yourself
+						//getRelatedNetworkManager().getRelatedAgent().getUserManager().createIfAbsent(ids[0], ids[1]);
 						getRelatedNetworkManager().addAddrFor(ids[0], packetUDP.getAddress());
+						getRelatedNetworkManager().getAppHandler().processNewUser(user);
 
 						if (toRepr) {
 							this.log("[UDP-USER]Updating new user : "+ids[0]+" "+ids[1]);
 							getRelatedNetworkManager().getDebug().detectNewUser(ids[0]);
-							getRelatedNetworkManager().getDebug().displayUsers(getRelatedNetworkManager().getRelatedAgent().getUserManager().getActiveUsers().keySet());
+							getRelatedNetworkManager().getDebug().displayUsers(getRelatedNetworkManager().getAppHandler().getActivesID());
 						}
 					}
 				}

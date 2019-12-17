@@ -190,14 +190,6 @@ public class NetworkManager implements Pluggable {
 		this.executeProtocol(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this)));
 	}
 
-	public Agent getRelatedAgent() {
-		return relatedAgent;
-	}
-	public void setRelatedAgent(Agent relatedAgent) {
-		this.relatedAgent = relatedAgent;
-		this.appHandler = relatedAgent;
-	}
-
 	public AppHandler getAppHandler() {
 		return appHandler;
 	}

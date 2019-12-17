@@ -1,21 +1,25 @@
 package org.clav;
 
-import org.clav.chat.ChatInit;
-import org.clav.chat.ChatManager;
-import org.clav.chat.Message;
+import org.clav.chat.*;
 import org.clav.config.ConfigManager;
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
 import org.clav.network.NetworkManager;
+import org.clav.ui.mvc.CLVModel;
+import org.clav.ui.UIManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
+import org.clav.utils.HashUtils;
 
-public class Agent implements AppHandler {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Agent implements AppHandler, CLVModel {
 	private NetworkManager networkManager;
 	private ChatManager chatManager;
 	private UserManager userManager;
 	private ConfigManager configManager;
-
+	private UIManager uiManager;
 
 	public ChatManager getChatManager() {
 		return chatManager;
@@ -49,33 +53,113 @@ public class Agent implements AppHandler {
 		this.networkManager = networkManager;
 	}
 
-	//AppHandler implementation
+	public UIManager getUiManager() {
+		return uiManager;
+	}
+
+	public void setUiManager(UIManager uiManager) {
+		this.uiManager = uiManager;
+	}
+
+
+	public void start() {
+		this.uiManager = new UIManager(this,this);
+		this.uiManager.start();
+	}
+
+
+	//AppHandler,CLVModel Impl
 	@Override
 	public User getMainUser() {
 		return getUserManager().getMainUser();
 	}
 
+	//AppHandler Impl
 	@Override
 	public void sendMessage(Message message) {
 		CLVPacket packet = CLVPacketFactory.gen_MSG(message);
-		this.getNetworkManager().TCP_IP_send(message.getUserID(),packet);
+		this.getNetworkManager().TCP_IP_send(message.getUserID(), packet);
 	}
 
+	//AppHandler Impl
 	@Override
-	public void initiateChat(ChatInit init) {
+	public void initiateChat(ArrayList<User> members) {
+		ArrayList<User> withMain = new ArrayList<>(members);
+		withMain.add(this.getMainUser());
+		String code = HashUtils.hashUserList(withMain);
+		if (!this.getChatManager().getChats().containsKey(code)) {
+			this.getChatManager().createChat(withMain);
+		}
+		ChatInit init = this.getActiveChats().get(code).genChatInit();
 		CLVPacket packet = CLVPacketFactory.gen_CHI(init);
-		for (String id : init.getIdentifiers()) {
-			this.getNetworkManager().TCP_IP_send(id, packet);
+		for (User u : members) {
+			this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
 		}
 	}
 
+	//AppHandler Impl
 	@Override
 	public void processMessage(Message message) {
 		this.getChatManager().processMessageReception(message);
+		this.getUiManager().getController().notifyMessageReception(message);
 	}
 
+	//AppHandler Impl
 	@Override
 	public void processChatInitiation(ChatInit init) {
 		this.getChatManager().createIfNew(init);
+		this.getUiManager().getController().notifyChatInitiationFromDistant(init.getChatHashCode());
 	}
+
+	//AppHandler Impl
+	@Override
+	public boolean isActiveID(String identifier) {
+		return this.getUserManager().isActiveUser(identifier);
+	}
+
+	@Override
+	public Iterable<String> getActivesID() {
+		return this.getUserManager().getActiveUsers().keySet();
+
+	}
+
+	//AppHandler Impl
+	@Override
+	public void processNewUser(User user) {
+		this.getUserManager().createIfAbsent(user.getIdentifier(),user.getPseudo());
+		if(this.getUiManager()!=null) this.uiManager.getController().notifyNewActiveUser(user);
+
+	}
+
+	//CLVModel Impl
+	@Override
+	public History getHistoryFor(String code) {
+		return this.getChatManager().getChat(code).getHistory();
+	}
+
+	//CLVModel Impl
+	@Override
+	public HashMap<String, User> getActiveUsers() {
+		return this.getUserManager().getActiveUsers();
+	}
+
+	//CLVModel Impl
+	@Override
+	public HashMap<String, Chat> getActiveChats() {
+		return this.chatManager.getChats();
+	}
+
+	//CLVModel Impl
+	@Override
+	public Chat getChatFor(String code) {
+		return this.getChatManager().getChat(code);
+	}
+
+	//AppHandler, CLVModel Impl
+	@Override
+	public User getUserFor(String id) {
+		return this.getUserManager().getActiveUsers().get(id);
+	}
+
+
 }

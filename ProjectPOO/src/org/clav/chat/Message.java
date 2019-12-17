@@ -15,6 +15,13 @@ public class Message implements Serializable {
 		this.date = new Date();
 		this.text = text;
 	}
+	public Message(String userID,String chatHashCode,String text,Date date){
+
+		this.userID = userID;
+		this.chatHashCode = chatHashCode;
+		this.text = text;
+		this.date = date;
+	}
 
 	/**
 	 * @return ID of the message's sender

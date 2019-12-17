@@ -1,10 +1,9 @@
 package org.clav;
 
 import org.clav.chat.Chat;
-import org.clav.chat.ChatInit;
 import org.clav.chat.ChatManager;
 import org.clav.chat.Message;
-import org.clav.debug.graphic.DebugModel;
+import org.clav.database.TxtChatStorage;
 import org.clav.network.CLVPacket;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
@@ -37,7 +36,7 @@ public class ProtoApp {
 			//line = "localhost";
 			InetAddress broadcastAddr = InetAddress.getByName(line);
 			networkManager = new NetworkManager(localAddr, broadcastAddr);
-			networkManager.setRelatedAgent(agent);
+			networkManager.setAppHandler(agent);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -47,46 +46,52 @@ public class ProtoApp {
 		agent.setChatManager(chatManager);
 
 		chatManager.setRelatedAgent(agent);
-
+		agent.start();
 		networkManager.startUDPListening();
 		networkManager.startUDPSignal();
 		networkManager.startTCPListening();
 		boolean over = false;
-		while (!over && (line = in.nextLine())!=null){
+
+		while (!over && (line = in.nextLine()) != null) {
 			String[] cmd = line.split("[\\s]+");
-			if(cmd.length>0) {
+			if (cmd.length > 0) {
 				switch (cmd[0]) {
 					case "END":
 						over = true;
 						break;
 					case "CHI":
-						if(cmd.length>1){
+						if (cmd.length > 1) {
 							ArrayList<User> ids = new ArrayList<>();
 							ids.add(userManager.getMainUser());
-							for(int i=1;i<cmd.length;i++){
+							for (int i = 1; i < cmd.length; i++) {
 								ids.add(userManager.getActiveUsers().get(cmd[i]));
 							}
-							Chat chat = new Chat(ids,agent);
+							Chat chat = new Chat(ids);
 							chatManager.createIfNew(chat.genChatInit());
-							for(User u : ids){
-								networkManager.TCP_IP_send(u.getIdentifier(),new CLVPacket(CHI,chat.genChatInit()));
+							for (User u : ids) {
+								networkManager.TCP_IP_send(u.getIdentifier(), new CLVPacket(CHI, chat.genChatInit()));
 							}
 						}
 						break;
 					case "MSG":
-						if(cmd.length>2){
+						if (cmd.length > 2) {
 							ArrayList<User> ids = new ArrayList<>();
 							ids.add(userManager.getMainUser());
-							for(int i=2;i<cmd.length;i++){
+							for (int i = 2; i < cmd.length; i++) {
 								ids.add(userManager.getActiveUsers().get(cmd[i]));
 							}
 							String chatHashCode = HashUtils.hashUserList(ids);
-							for(int j =1;j<ids.size();j++){//Do not send to yourself
+							for (int j = 1; j < ids.size(); j++) {//Do not send to yourself
 								User u = ids.get(j);
-								networkManager.TCP_IP_send(u.getIdentifier(),new CLVPacket(MSG,new Message(u.getIdentifier(),chatHashCode,cmd[1])));
+								networkManager.TCP_IP_send(u.getIdentifier(), new CLVPacket(MSG, new Message(u.getIdentifier(), chatHashCode, cmd[1])));
 							}
 
 						}
+						break;
+					case "SAV":
+						chatManager.save();
+					default:
+						break;
 				}
 			}
 		}

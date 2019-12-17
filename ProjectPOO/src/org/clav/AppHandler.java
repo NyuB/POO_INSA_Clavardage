@@ -11,11 +11,18 @@ public interface AppHandler {
 
 	void sendMessage(Message message);
 
-	void initiateChat(ChatInit init);
+	void initiateChat(ArrayList<User> members);
 
 	void processMessage(Message message);
 
 	void processChatInitiation(ChatInit init);
 
+	void processNewUser(User user);
+
+	boolean isActiveID(String identifier);
+
+	Iterable<String> getActivesID();
+
+	User getUserFor(String id);
 
 }

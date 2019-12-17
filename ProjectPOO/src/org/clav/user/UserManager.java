@@ -33,13 +33,6 @@ public class UserManager {
 	public boolean isActiveUser(String identifier){
 		return this.getActiveUsers().containsKey(identifier);
 	}
-	public void repr(){
-		System.out.println("[USER]Main user : "+this.getMainUser().getIdentifier());
-		System.out.println("[USER]Users list :");
-		for(String k:this.activeUsers.keySet()){
-			System.out.println("\t."+k+" "+this.activeUsers.get(k).getPseudo()+this.relatedAgent.getNetworkManager().getAddrFor(k));
-		}
-	}
 
 	public void setRelatedAgent(Agent relatedAgent) {
 		this.relatedAgent = relatedAgent;
@@ -57,11 +50,6 @@ public class UserManager {
 		//TODO
 		if(!this.activeUsers.containsKey(identifier)){
 			this.activeUsers.put(identifier,new User(identifier,pseudo));
-		}
-	}
-	public void display(){
-		for(String id : this.getActiveUsers().keySet()){
-			System.out.println(id+" | "+getActiveUsers().get(id).getPseudo());
 		}
 	}
 }

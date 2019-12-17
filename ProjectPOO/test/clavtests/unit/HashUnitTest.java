@@ -35,4 +35,12 @@ public class HashUnitTest {
 			}
 		}
 	}
+
+	@Test
+	public void hashJoe(){
+		ArrayList<String> joes = new ArrayList<>();
+		joes.add("joe");
+		joes.add("joe");
+		System.out.println("Hashing joe "+HashUtils.hashStringList(joes));
+	}
 }

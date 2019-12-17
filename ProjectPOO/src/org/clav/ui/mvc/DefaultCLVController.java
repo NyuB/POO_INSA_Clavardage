@@ -47,6 +47,7 @@ public class DefaultCLVController implements CLVController {
 			userArrayList.add(this.model.getActiveUsers().get(s));
 		}
 		this.appHandler.initiateChat(userArrayList);
+
 	}
 
 	@Override

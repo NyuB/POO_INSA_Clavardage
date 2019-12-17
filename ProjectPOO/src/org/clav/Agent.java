@@ -95,6 +95,7 @@ public class Agent implements AppHandler, CLVModel {
 		for (User u : members) {
 			this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
 		}
+		this.getUiManager().getView().refreshChat(code);
 	}
 
 	//AppHandler Impl

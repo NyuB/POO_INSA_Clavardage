@@ -8,18 +8,22 @@ import java.io.*;
 import java.net.InetAddress;
 
 public class ConfigManager {
-	private InetAddress localAddr;
-	private InetAddress broadcastAddr;
-	private String userID;
-	private boolean autoSignalUDP;
-	private boolean autoListenUDP;
-	private boolean autoListenTCP;
+	private Config config ;
 
 
-	public ConfigManager(String file) {
-		applyConfigFile(file);
+	public ConfigManager() {
+		FileInputStream file;
+		try {
+			file = new FileInputStream("Objconfig.ser");
+			ObjectInputStream in = new ObjectInputStream(file) ;
+			this.config = (Config) in.readObject() ;
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	/*
 	private void applyConfigFile(String file) {
 		File settingFile = new File(file);
 
@@ -63,38 +67,19 @@ public class ConfigManager {
 		}
 
 	}
+	*/
 
-	public InetAddress getLocalAddr() {
-		return localAddr;
-	}
-
-	public InetAddress getBroadcastAddr() {
-		return broadcastAddr;
-	}
-
-	public String getUserID() {
-		return userID;
-	}
-
-	public boolean isAutoSignalUDP() {
-		return autoSignalUDP;
-	}
-
-	public boolean isAutoListenUDP() {
-		return autoListenUDP;
-	}
-
-	public boolean isAutoListenTCP() {
-		return autoListenTCP;
+	public Config getConfig() {
+		return this.config ;
 	}
 
 	public void configNetworkManager(Agent agent) {
-		NetworkManager networkManager = new NetworkManager(this.getLocalAddr(), this.getBroadcastAddr());
+		NetworkManager networkManager = new NetworkManager(this.config.getLocalAddr(), this.config.getBroadcastAddr());
 		networkManager.setAppHandler(agent);
 		agent.setNetworkManager(networkManager);
-		if(this.autoSignalUDP)networkManager.startUDPSignal();
-		if(this.autoListenUDP)networkManager.startUDPListening();
-		if(this.autoListenTCP)networkManager.startTCPListening();
+		if(this.config.isAutoSignalUDP())networkManager.startUDPSignal();
+		if(this.config.isAutoListenUDP())networkManager.startUDPListening();
+		if(this.config.isAutoListenTCP())networkManager.startTCPListening();
 
 
 	}

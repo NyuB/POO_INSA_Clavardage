@@ -42,7 +42,7 @@ public class Config implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Config [localAddr=" + localAddr + ", broadcastAddr=" + broadcastAddr + ", userID=" + userID
+		return "Config [localAddr=" + localAddr.getHostAddress() + ", broadcastAddr=" + broadcastAddr + ", userID=" + userID
 				+ ", autoSignalUDP=" + autoSignalUDP + ", autoListenUDP=" + autoListenUDP + ", autoListenTCP="
 				+ autoListenTCP + "]";
 	}

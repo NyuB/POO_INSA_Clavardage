@@ -17,10 +17,10 @@ public class Installer {
 
 	}
 	
-	public void createDefaultConfig(String path, short mask) {
-		File config = new File(path+"/test_config.txt") ;
+	public void createDefaultConfig(short mask) {
+		//File config = new File(path+"/test_config.txt") ;
 		try {
-			PrintWriter out = new PrintWriter(new FileWriter(config)) ;
+			//PrintWriter out = new PrintWriter(new FileWriter(config)) ;
 			//get interface 
 			Enumeration<NetworkInterface> enumNet = NetworkInterface.getNetworkInterfaces() ; 
 			boolean find = false ;
@@ -36,7 +36,7 @@ public class Installer {
 					inter = iterator.next() ;
 					if (inter.getNetworkPrefixLength() == mask) {
 						address = inter.getAddress() ; 
-						System.out.println(address) ;
+						//System.out.println(address) ;
 						right = true ;
 						find = true ;
 					}
@@ -44,13 +44,17 @@ public class Installer {
 			}
 			
 			if(address!=null) {
-				out.println("ID " + System.getProperty("user.home")) ;
+				Config config = new Config( address , inter.getBroadcast() , address.getHostName(), true, true, true ) ;
+				config.save() ;
+				/*
+				 out.println("ID " + System.getProperty("user.home")) ;
 				//out.println("ID " + address.getHostName()) ;
 				out.println("LOCAL " + address.getHostAddress()) ;
 				out.println("BROAD " + inter.getBroadcast()) ;
 				out.println("UDP LISTEN SIGNAL") ;
 				out.println("TCP LISTEN") ;
 				out.close() ;
+				*/
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

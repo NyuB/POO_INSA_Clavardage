@@ -1,4 +1,0 @@
-<CHAT> 2 joe joe H���p9-��/�	�Q����-x�����gDB
-<MSG> 1998 02 01 20 55 joe slt
-<MSG> 1998 02 01 25 22 joe coucou
-<CHATEND>

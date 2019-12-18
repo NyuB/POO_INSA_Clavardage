@@ -1,6 +1,9 @@
 package org.clav.network.protocolsimpl.tcp;
 
-import org.clav.network.*;
+import org.clav.network.CLVPacket;
+import org.clav.network.CLVPacketFactory;
+import org.clav.network.Protocol;
+import org.clav.network.TCPUserLink;
 
 import static org.clav.network.CLVHeader.ACK;
 

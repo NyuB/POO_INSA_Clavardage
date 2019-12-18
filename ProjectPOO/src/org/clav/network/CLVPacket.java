@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class CLVPacket implements Serializable {
 	public CLVHeader header;
 	public Object data;
-	public CLVPacket(CLVHeader header, Object data) {
+	CLVPacket(CLVHeader header, Object data) {
 		this.header = header;
 		this.data = data;
 	}

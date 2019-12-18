@@ -1,9 +1,11 @@
 package org.clav.chat;
+
 import org.clav.Agent;
 import org.clav.database.ChatStorage;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
 import org.clav.user.User;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

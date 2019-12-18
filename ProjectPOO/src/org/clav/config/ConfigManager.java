@@ -4,8 +4,9 @@ import org.clav.Agent;
 import org.clav.network.NetworkManager;
 import org.clav.user.UserManager;
 
-import java.io.*;
-import java.net.InetAddress;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class ConfigManager {
 	private Config config ;

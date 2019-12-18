@@ -1,12 +1,13 @@
 package org.clav.database;
 
-import org.clav.AppHandler;
 import org.clav.chat.Chat;
 import org.clav.chat.History;
 import org.clav.chat.Message;
 import org.clav.user.User;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 

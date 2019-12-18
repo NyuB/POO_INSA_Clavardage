@@ -2,8 +2,7 @@ package org.clav.network;
 
 import org.clav.chat.ChatInit;
 import org.clav.chat.Message;
-
-import java.util.ArrayList;
+import org.clav.user.User;
 
 import static org.clav.network.CLVHeader.*;
 
@@ -21,5 +20,6 @@ public class CLVPacketFactory {
 	public static CLVPacket gen_CHI(ChatInit init){
 		return new CLVPacket(CHI,init);
 	}
+	public static CLVPacket gen_SIG(User u){return new CLVPacket(SIG,u);}
 
 }

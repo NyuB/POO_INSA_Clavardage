@@ -14,7 +14,7 @@ public interface CLVController {
 	void notifyChatInitiationFromDistant(String code);
 
 	void notifyNewActiveUser(User user);
-	void notifyInactiveUser(User user);
+	void notifyInactiveUser(String id);
 
 	void notifyPseudoChangeFromDistant(User user);
 	void notifyMainUserPseudoChange(String pseudo);

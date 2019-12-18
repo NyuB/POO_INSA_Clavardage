@@ -3,7 +3,7 @@ package org.clav.ui.mvc;
 import org.clav.chat.Chat;
 import org.clav.chat.History;
 import org.clav.user.User;
-import java.util.Collection;
+
 import java.util.HashMap;
 
 

@@ -1,8 +1,8 @@
 package org.clav.network.protocolsimpl.tcp;
 
 import org.clav.network.NetworkManager;
-import org.clav.network.TCPUserLink;
 import org.clav.network.ProtocolInit;
+import org.clav.network.TCPUserLink;
 
 public class TCPTalkProtocolInit extends ProtocolInit {
 	private TCPUserLink link;

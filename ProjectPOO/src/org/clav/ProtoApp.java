@@ -2,21 +2,14 @@ package org.clav;
 
 import org.clav.chat.Chat;
 import org.clav.chat.ChatManager;
-import org.clav.chat.Message;
-import org.clav.database.TxtChatStorage;
-import org.clav.network.CLVPacket;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
-import org.clav.utils.HashUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static org.clav.network.CLVHeader.CHI;
-import static org.clav.network.CLVHeader.MSG;
 
 public class ProtoApp {
 	public static void main(String[] args) {

@@ -58,14 +58,13 @@ public class DefaultCLVController implements CLVController {
 
 	@Override
 	public void notifyNewActiveUser(User user) {
-		//this.log("New user " + user.getIdentifier() + " | " + user.getPseudo());
 		this.view.refreshUsers();
 
 	}
 
 	@Override
-	public void notifyInactiveUser(User user) {
-		this.log("User " + user.getIdentifier() + " | " + user.getPseudo() + " is now inactive");
+	public void notifyInactiveUser(String id) {
+		this.log("User " + id + " | "  + " is now inactive");
 		this.view.refreshUsers();
 
 	}

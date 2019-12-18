@@ -3,9 +3,8 @@ package org.clav;
 import org.clav.ui.AgentWindow;
 import org.clav.ui.IdenticationPanel;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 public class TestAgentWindow {
 	

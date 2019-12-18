@@ -1,13 +1,9 @@
 package org.clav.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.clav.chat.Chat;
 import org.clav.chat.Message;
+
+import java.sql.*;
 
 public class LocalStorage implements ChatStorage {
 	

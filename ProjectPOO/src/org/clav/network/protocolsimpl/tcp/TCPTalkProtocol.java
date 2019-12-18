@@ -2,13 +2,8 @@ package org.clav.network.protocolsimpl.tcp;
 
 import org.clav.chat.ChatInit;
 import org.clav.chat.Message;
-import org.clav.network.CLVHeader;
 import org.clav.network.CLVPacket;
 import org.clav.network.Protocol;
-
-import java.util.ArrayList;
-
-import static org.clav.network.CLVHeader.*;
 
 public class TCPTalkProtocol extends Protocol {
 	public TCPTalkProtocol(TCPTalkProtocolInit protocolInit) {
@@ -70,6 +65,7 @@ public class TCPTalkProtocol extends Protocol {
 	@Override
 	public void run() {
 		this.getRelatedNetworkManager().log("[TCP]Starting tcp talk.Waiting tcp message from " + this.getProtocolInit().getLink().getRelatedUserID());
+
 		CLVPacket packet = this.getProtocolInit().getLink().read();
 		boolean open = true;
 		while (packet != null && open) {

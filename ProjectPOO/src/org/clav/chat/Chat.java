@@ -1,11 +1,9 @@
 package org.clav.chat;
 
-import org.clav.Agent;
 import org.clav.user.User;
 import org.clav.utils.HashUtils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class Chat {
 

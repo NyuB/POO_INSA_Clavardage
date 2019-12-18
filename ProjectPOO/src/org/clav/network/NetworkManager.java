@@ -11,13 +11,13 @@ import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
 import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
 import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 
-import static org.clav.utils.constants.NetworkConstants.*;
-
-import java.io.*;
+import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static org.clav.utils.constants.NetworkConstants.*;
 
 /**
  * Handles all the network base functions of the application via the multithreaded executions of several protocols.

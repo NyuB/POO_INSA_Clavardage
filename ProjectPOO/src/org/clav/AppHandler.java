@@ -19,6 +19,8 @@ public interface AppHandler {
 
 	void processNewUser(User user);
 
+	void processUserInaction(String id);
+
 	boolean isActiveID(String identifier);
 
 	Iterable<String> getActivesID();

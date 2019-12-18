@@ -1,8 +1,7 @@
 package org.clav.user;
 
-import org.clav.Agent;
 import org.clav.AppHandler;
-import org.clav.utils.constants.Delays;
+import org.clav.utils.constants.DelayConstants;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,8 +34,9 @@ public class UserManager {
 	public HashMap<String, User> getActiveUsers() {
 		return activeUsers;
 	}
-	public synchronized void addUserEntry(User user){
-		this.activeUsers.put(user.getIdentifier(),user);
+	public synchronized void removeUser(String id){
+		this.activeUsers.remove(id);
+		this.appHandler.processUserInaction(id);
 	}
 	public boolean isActiveUser(String identifier){
 		return this.getActiveUsers().containsKey(identifier);
@@ -44,23 +44,18 @@ public class UserManager {
 	public User getMainUser() {
 		return mainUser;
 	}
-
-	public void setMainUser(User mainUser) {
-		this.mainUser = mainUser;
-	}
-
 	public void processActive(String identifier, String pseudo) {
-		this.log("Updating user "+identifier+" "+pseudo);
+		//this.log("Updating user "+identifier+" "+pseudo);
 		if(!this.activeUsers.containsKey(identifier)){
 			this.activeUsers.put(identifier,new User(identifier,pseudo));
 			Timer timer = new Timer();
-			ActivityTimerTask task = new ActivityTimerTask(Delays.INACTIVE_DELAY_SEC,this);
+			ActivityTimerTask task = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC,identifier,this);
 			this.activityTasks.put(identifier,task);
 			timer.schedule(task,0,1000);
 
 		}
 		else{
-			this.activityTasks.get(identifier).setCounter(Delays.INACTIVE_DELAY_SEC);
+			this.activityTasks.get(identifier).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
 		}
 	}
 }

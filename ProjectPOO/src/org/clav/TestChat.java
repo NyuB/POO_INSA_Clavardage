@@ -1,11 +1,5 @@
 package org.clav;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-import org.clav.Agent;
 import org.clav.chat.Chat;
 import org.clav.chat.Message;
 import org.clav.network.NetworkManager;
@@ -14,6 +8,12 @@ import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
 import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
 import org.clav.user.User;
 import org.clav.user.UserManager;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class TestChat {
 	

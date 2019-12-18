@@ -1,6 +1,6 @@
 package org.clav.ui;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class AgentWindow extends JFrame {
 	

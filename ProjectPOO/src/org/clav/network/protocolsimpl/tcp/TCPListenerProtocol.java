@@ -1,13 +1,14 @@
 package org.clav.network.protocolsimpl.tcp;
 
-import org.clav.network.TCPUserLink;
 import org.clav.network.Protocol;
 import org.clav.network.ProtocolInit;
+import org.clav.network.TCPUserLink;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import static org.clav.utils.constants.NetworkConstants.*;
+
+import static org.clav.utils.constants.NetworkConstants.TCP_SOCKET_SERVER_PORT;
 
 /**
  * Central protocol to capture tcp connections attempts

@@ -1,15 +1,5 @@
 package org.clav;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import org.clav.config.Config;
 import org.clav.config.ConfigManager;
 import org.clav.config.Installer;
 

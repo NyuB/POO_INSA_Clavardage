@@ -1,6 +1,5 @@
 package org.clav.network.protocolsimpl.udp;
 
-import org.clav.network.CLVHeader;
 import org.clav.network.CLVPacket;
 import org.clav.network.Protocol;
 import org.clav.network.ProtocolInit;
@@ -8,12 +7,9 @@ import org.clav.user.User;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.SocketException;
 
-import static java.lang.Thread.yield;
 import static org.clav.network.CLVHeader.SIG;
 import static org.clav.utils.Serializer.fromBytes;
-import static org.clav.utils.constants.ProtocolConstants.*;
 
 
 /**

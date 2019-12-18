@@ -5,8 +5,8 @@ import org.clav.config.ConfigManager;
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
 import org.clav.network.NetworkManager;
-import org.clav.ui.mvc.CLVModel;
 import org.clav.ui.UIManager;
+import org.clav.ui.mvc.CLVModel;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.HashUtils;
@@ -146,6 +146,13 @@ public class Agent implements AppHandler, CLVModel {
 	public void processNewUser(User user) {
 		this.getUserManager().processActive(user.getIdentifier(), user.getPseudo());
 		if (this.getUiManager() != null) this.uiManager.getController().notifyNewActiveUser(user);
+
+	}
+
+	@Override
+	public void processUserInaction(String id) {
+		this.getNetworkManager().closeConnectionTCP(id);
+		this.getUiManager().getController().notifyInactiveUser(id);
 
 	}
 

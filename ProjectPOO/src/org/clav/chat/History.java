@@ -10,7 +10,7 @@ public class History {
 		this.messageHistory = new ArrayList<>() ;
 	}
 	
-	public void insertMessage(Message message){
+	public synchronized void insertMessage(Message message){
 		int n = 0 ;
 		for (Message m : messageHistory) {
 			if (message.getDate().after(m.getDate())) {
@@ -25,7 +25,7 @@ public class History {
 		return this.printHistory();
 	}
 
-	public String printHistory() {
+	public synchronized String printHistory() {
 		String textHist = "" ;
 		for(Message m : messageHistory) {
 			textHist += m.getUserID() + " " + m.getDate()+ "\n" ;

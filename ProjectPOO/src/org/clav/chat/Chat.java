@@ -28,7 +28,8 @@ public class Chat {
 		this.insertMessage(message,true);
 	}
 
-	public void insertMessage(Message message,boolean emetted){
+	public void insertMessage(Message message,boolean emetted)
+	{
 		history.insertMessage(message);
 	}
 

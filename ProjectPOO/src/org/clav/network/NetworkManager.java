@@ -1,6 +1,5 @@
 package org.clav.network;
 
-import org.clav.Agent;
 import org.clav.AppHandler;
 import org.clav.debug.ConsoleLogger;
 import org.clav.debug.DebugPlugin;
@@ -17,7 +16,8 @@ import static org.clav.utils.constants.NetworkConstants.*;
 import java.io.*;
 import java.net.*;
 import java.util.HashMap;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Handles all the network base functions of the application via the multithreaded executions of several protocols.
@@ -37,8 +37,8 @@ public class NetworkManager implements Pluggable {
 	private DatagramSocket receiveSocketUDP;
 	private HashMap<String, TCPUserLink> tcpConnections;
 
-	private ThreadPoolExecutor signalProtocolPool;
-	private ThreadPoolExecutor listeningProtocolPool;
+	private ExecutorService signalProtocolService;//TODO
+	private ExecutorService broadcastListeningProtocolService;//TODO
 
 	private AppHandler appHandler;//Application to interact with when receiving/interpreting messages
 
@@ -67,7 +67,8 @@ public class NetworkManager implements Pluggable {
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
-		
+		this.signalProtocolService = Executors.newSingleThreadExecutor();
+		this.broadcastListeningProtocolService = Executors.newSingleThreadExecutor();
 		this.debug = new ConsoleLogger();
 	}
 
@@ -161,7 +162,7 @@ public class NetworkManager implements Pluggable {
 	/**
 	 * Crucial method to allow the network manager to serve multiple components of the agent
 	 * For any new agent component need, implement a new Protocol to serve it
-	 * @param protocol A runnable class using the network manager methods and interacting with the other managers
+	 * @param protocol A runnable class using the network manager methods and interacting with the AppHandler
 	 */
 	public void executeProtocol(Protocol protocol) {
 		Thread t = new Thread(protocol);
@@ -184,19 +185,33 @@ public class NetworkManager implements Pluggable {
 		this.startBroadcastListening(new UDPListenerProtocol(new ProtocolInit(this)));
 	}
 
+	public void startUDPSignal(){
+		this.startActivitySignal(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this)));
+	}
+
+
 	public void startTCPListening(){
 		this.executeProtocol(new TCPListenerProtocol(new ProtocolInit(this)));
 	}
 
 	public void startActivitySignal(ActivitySignalProtocol protocol){
-		this.executeProtocol(protocol);
-	}
-	public void startBroadcastListening(UDPListenerProtocol protocol){
-		this.executeProtocol(protocol);
+		this.signalProtocolService.execute(protocol);
 	}
 
-	public void startUDPSignal(){
-		this.startActivitySignal(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this)));
+	public void startBroadcastListening(UDPListenerProtocol protocol){
+		this.broadcastListeningProtocolService.execute(protocol);
+	}
+
+	public void stopActivitySignal(){
+		this.signalProtocolService.shutdown();
+		this.signalProtocolService.shutdownNow();
+		this.signalProtocolService = Executors.newSingleThreadExecutor();
+	}
+	public void stopBroadcastListening(){
+		System.out.println("Shutting down udp listening");
+		this.broadcastListeningProtocolService.shutdown();
+		this.broadcastListeningProtocolService.shutdownNow();
+		this.broadcastListeningProtocolService =Executors.newSingleThreadExecutor();
 	}
 
 	public AppHandler getAppHandler() {

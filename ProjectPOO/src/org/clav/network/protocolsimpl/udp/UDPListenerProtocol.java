@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.SocketException;
 
+import static java.lang.Thread.yield;
 import static org.clav.network.CLVHeader.SIG;
 import static org.clav.utils.Serializer.fromBytes;
 import static org.clav.utils.constants.ProtocolConstants.*;
@@ -31,18 +32,14 @@ public class UDPListenerProtocol extends Protocol {
 			while (true) {//TODO Delegate treatment of packet's content to the appropriate managers
 
 				getRelatedNetworkManager().getReceiveSocketUDP().receive(packetUDP);
-				//String toTxt = new String(packetUDP.getData(), 0, packetUDP.getLength());
 				CLVPacket packet = (CLVPacket) fromBytes(packetUDP.getData());
-
-				//this.log("[UDP]Receiving UDP packet : " + toTxt);
-				//String[] data = toTxt.split(SIGACT_HEADER);
 				if( packet.header==SIG/*data.length>1*/){
 					User user = (User)(packet.data);
 					String[] ids = new String[] {user.getIdentifier(),user.getPseudo()};
 
 					boolean toRepr = !getRelatedNetworkManager().getAppHandler().isActiveID(ids[0]);//DEBUG PURPOSE
 					if(true || !ids[0].equals(getRelatedNetworkManager().getAppHandler().getMainUser().getIdentifier())) {//TODO Stop talking to yourself
-						//getRelatedNetworkManager().getRelatedAgent().getUserManager().createIfAbsent(ids[0], ids[1]);
+
 						getRelatedNetworkManager().addAddrFor(ids[0], packetUDP.getAddress());
 						getRelatedNetworkManager().getAppHandler().processNewUser(user);
 
@@ -53,8 +50,8 @@ public class UDPListenerProtocol extends Protocol {
 						}
 					}
 				}
-
 			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

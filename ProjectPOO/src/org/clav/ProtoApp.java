@@ -68,26 +68,42 @@ public class ProtoApp {
 							agent.getUiManager().getController().notifyChatInitiationFromUser(ids);
 						}
 						break;
-					case "MSG":
-						if (cmd.length > 2) {
-							ArrayList<User> ids = new ArrayList<>();
-							ids.add(userManager.getMainUser());
-							for (int i = 2; i < cmd.length; i++) {
-								ids.add(userManager.getActiveUsers().get(cmd[i]));
-							}
-							String chatHashCode = HashUtils.hashUserList(ids);
-							for (int j = 1; j < ids.size(); j++) {//Do not send to yourself
-								User u = ids.get(j);
-								networkManager.TCP_IP_send(u.getIdentifier(), new CLVPacket(MSG, new Message(u.getIdentifier(), chatHashCode, cmd[1])));
-							}
-
-						}
-						break;
 					case "SAV":
 						chatManager.save();
 						break;
 					case "CHNB":
-						System.out.println(chatManager.getChats().size()+" active chats");
+						System.out.println(chatManager.getChats().size() + " active chats");
+						break;
+					case "HIS":
+						for(Chat chat:chatManager.getChats().values()){
+							System.out.println(chat.getHistory().printHistory());
+						}
+						break;
+					case "SIG":
+						switch (cmd[1]) {
+							case "on":
+								networkManager.startUDPSignal();
+								break;
+							case "off":
+								networkManager.stopActivitySignal();
+								break;
+							default:
+								break;
+						}
+						break;
+					case "LIS":
+						switch (cmd[1]) {
+							case "on":
+								networkManager.startUDPListening();
+								break;
+							case "off":
+								networkManager.stopBroadcastListening();
+								break;
+							default:
+								break;
+						}
+						break;
+
 					default:
 						break;
 				}

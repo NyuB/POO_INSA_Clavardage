@@ -25,7 +25,6 @@ public class CLVFrame extends JFrame implements CLVView {
 
 	@Override
 	public void refreshChat(String code) {
-		System.out.println("Frame refreshing chat with code "+code);
 		this.chatGrid.refreshChat(code);
 	}
 

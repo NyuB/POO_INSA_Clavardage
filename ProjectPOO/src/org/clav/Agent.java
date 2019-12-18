@@ -144,7 +144,7 @@ public class Agent implements AppHandler, CLVModel {
 	//AppHandler Impl
 	@Override
 	public void processNewUser(User user) {
-		this.getUserManager().createIfAbsent(user.getIdentifier(), user.getPseudo());
+		this.getUserManager().processActive(user.getIdentifier(), user.getPseudo());
 		if (this.getUiManager() != null) this.uiManager.getController().notifyNewActiveUser(user);
 
 	}

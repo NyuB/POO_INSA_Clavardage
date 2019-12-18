@@ -11,10 +11,11 @@ public class ChatPanelGrid extends JPanel {
 
 	private CLVController controller;
 	private CLVModel model;
-	private HashMap<String,ChatPanel> activeChats;
+	private HashMap<String, ChatPanel> activeChats;
 	private int r;
 	private int c;
-	public ChatPanelGrid(CLVController controller,CLVModel model) {
+
+	public ChatPanelGrid(CLVController controller, CLVModel model) {
 		super(new GridLayout(1, 0));
 		this.controller = controller;
 		this.model = model;
@@ -22,6 +23,7 @@ public class ChatPanelGrid extends JPanel {
 		this.r = 0;
 		this.c = 0;
 	}
+
 	private void checkDisplay() {
 		System.out.println("Chat grid checking display");
 		this.removeAll();
@@ -32,7 +34,6 @@ public class ChatPanelGrid extends JPanel {
 	}
 
 	private synchronized void createChat(String code) {
-		System.out.println("Chat grid creating chat");
 		if (!this.activeChats.containsKey(code)) {
 			if (this.activeChats.size() >= this.r * this.c) {
 				this.removeAll();
@@ -46,10 +47,12 @@ public class ChatPanelGrid extends JPanel {
 					this.add(chatPanel);
 				}
 			}
-			System.out.println("Chat grid adding chat from model");
 			ChatPanel chat = new ChatPanel(this.model.getChatFor(code));
-			chat.addTypeActionListener(l->{
-				this.controller.notifyMessageSending(code,chat.consumeTypeField());
+			chat.addTypeActionListener(l -> {
+				synchronized (chat) {
+					System.out.println("Sending message from typefield");
+					this.controller.notifyMessageSending(code, chat.consumeTypeField());
+				}
 			});
 			this.activeChats.put(code, chat);
 			this.add(chat);
@@ -76,13 +79,13 @@ public class ChatPanelGrid extends JPanel {
 		}
 	}
 
-	public void refreshChat(String code){
+	public synchronized void refreshChat(String code) {
 		System.out.println("Refreshing chat");
-		if(this.activeChats.containsKey(code)) {
+		if (this.activeChats.containsKey(code)) {
 			this.activeChats.get(code).getTextArea().setText(this.model.getHistoryFor(code).printHistory());
 			this.revalidate();
-		}
-		else{
+
+		} else {
 			this.createChat(code);
 		}
 	}

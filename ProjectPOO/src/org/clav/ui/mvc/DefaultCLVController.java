@@ -49,7 +49,7 @@ public class DefaultCLVController implements CLVController {
 
 	@Override
 	public void notifyChatInitiationFromDistant(String code) {
-		this.log("Distant Chat initiation code "+code+"\nwith users : ");
+		this.log("Distant Chat initiation with users : ");
 		for (User u : this.model.getChatFor(code).getMembers()) {
 			System.out.println("\t" + u.getIdentifier());
 		}

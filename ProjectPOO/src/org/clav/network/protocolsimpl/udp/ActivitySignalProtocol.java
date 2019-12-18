@@ -17,13 +17,15 @@ public class ActivitySignalProtocol extends Protocol {
 	}
 	@Override
 	public void run() {
-		while(true){
+		boolean over = false;
+		while(!over){
 			CLVPacket packet = new CLVPacket(CLVHeader.SIG,getRelatedNetworkManager().getAppHandler().getMainUser());
 			byte[] buf = Serializer.toBytes(packet);
 			getRelatedNetworkManager().broadcast(buf);
 			try {
 				Thread.sleep(ACTIVITY_SIGNAL_DELAY);
 			} catch (InterruptedException e) {
+				over = true;
 				e.printStackTrace();
 			}
 		}

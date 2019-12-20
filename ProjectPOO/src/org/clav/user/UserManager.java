@@ -19,11 +19,15 @@ public class UserManager {
 		System.out.println("[USR]"+txt);
 	}
 
-	public UserManager(AppHandler appHandler, User mainUser) {
-		this.appHandler = appHandler;
+	public UserManager(User mainUser) {
 		this.mainUser = mainUser;
 		this.activeUsers = new HashMap<>();
+		this.activeUsers.put(mainUser.getIdentifier(),mainUser);
 		this.activityTasks = new HashMap<>();
+	}
+
+	public void setAppHandler(AppHandler appHandler) {
+		this.appHandler = appHandler;
 	}
 
 	public boolean changeMainUserPseudo(String newPseudo){
@@ -55,6 +59,7 @@ public class UserManager {
 
 		}
 		else{
+			if(!identifier.equals(this.mainUser.getIdentifier()))
 			this.activityTasks.get(identifier).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
 		}
 	}

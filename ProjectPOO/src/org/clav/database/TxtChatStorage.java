@@ -24,6 +24,7 @@ public class TxtChatStorage implements ChatStorage {
 		StringBuilder sb = new StringBuilder();
 		for(Chat chat : chats){
 			sb.append("<CHAT> ");
+
 			for(int i =0;i< chat.getMembers().size();i++){
 				sb.append(chat.getMembers().get(i).getIdentifier()+" ");
 			}
@@ -32,6 +33,7 @@ public class TxtChatStorage implements ChatStorage {
 				sb.append(chat.getHistory().getMessageHistory().get(m).getText());//TODO
 			}
 		}
+
 
 	}
 

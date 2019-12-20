@@ -21,5 +21,6 @@ public class CLVPacketFactory {
 		return new CLVPacket(CHI,init);
 	}
 	public static CLVPacket gen_SIG(User u){return new CLVPacket(SIG,u);}
+	public static CLVPacket gen_ERR(){return new CLVPacket(ERR,null);}
 
 }

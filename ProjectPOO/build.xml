@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="CLV" default = "compile">
-    <property name="src_dir" value ="./src"/>
-    <property name="build_dir" value = "./build"/>
-    <property name="data_dir" value="./data"/>
-    <property name="exe_dir" value="./exe"/>
-    <property name="lib_dir" value="./lib"/>
-    <property name="dist_dir" value="./distribution"/>
+    <property name="src_dir" value ="src"/>
+    <property name="build_dir" value = "build"/>
+    <property name="data_dir" value="data"/>
+    <property name="exe_dir" value="exe"/>
+    <property name="lib_dir" value="lib"/>
+    <property name="dist_dir" value="distribution"/>
     <property name="windist_dir" value="${dist_dir}/win"/>
     <property name="lindist_dir" value="${dist_dir}/lin"/>
 
@@ -57,38 +57,11 @@
         </junit>
     </target>
 
-    <target name="executable_ProtoRcv" depends="compile">
-        <delete file="${exe_dir}/${exe_proto}Rcv.jar"/>
-        <jar destfile="${exe_dir}/${exe_proto}Rcv.jar" basedir="${build_dir}">
-            <manifest>
-                <attribute name="Main-Class" value="org.clav.ProtoRcv"/>
-            </manifest>
-        </jar>
-    </target>
-
-    <target name="executable_ProtoSnd" depends="compile">
-        <delete file="${exe_dir}/${exe_proto}Snd.jar"/>
-        <jar destfile="${exe_dir}/${exe_proto}Snd.jar" basedir="${build_dir}">
-            <manifest>
-                <attribute name="Main-Class" value="org.clav.ProtoSnd"/>
-            </manifest>
-        </jar>
-    </target>
-
-    <target name="executable_ProtoTCP" depends="compile">
-        <delete file="${exe_dir}/${exe_proto}TCP.jar"/>
-        <jar destfile="${exe_dir}/${exe_proto}TCP.jar" basedir="${build_dir}">
-            <manifest>
-                <attribute name="Main-Class" value="org.clav.ProtoTCP"/>
-            </manifest>
-        </jar>
-    </target>
-
     <target name="executable_TestChat" depends="compile">
         <delete file="${exe_dir}/TestChat.jar"/>
         <jar destfile="${exe_dir}/TestChat.jar" basedir="${build_dir}">
             <manifest>
-                <attribute name="Main-Class" value="org.clav.chat.TestChat"/>
+                <attribute name="Main-Class" value="org.clav.TestChat"/>
             </manifest>
         </jar>
     </target>
@@ -110,19 +83,28 @@
         </jar>
     </target>
 
+    <target name="executable_ProtoLocal" depends="compile">
+        <delete file="${exe_dir}/${exe_proto}Local.jar"/>
+        <jar destfile="${exe_dir}/${exe_proto}Local.jar" basedir="${build_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.ProtoLocal"/>
+            </manifest>
+        </jar>
+    </target>
+
+
     <target
-            name="executable_Proto"
-            depends="executable_ProtoRcv,executable_ProtoSnd,executable_ProtoTCP,executable_ProtoMonitor,executable_ProtoApp"
+            name="executable_proto"
+            depends="executable_ProtoMonitor,executable_ProtoApp,executable_ProtoLocal"
     />
 
-    <target name="distribution" depends="unit,executable_ProtoMonitor">
-        <delete dir="${dist_dir}"/>
-        <mkdir dir="win"/>
-        <mkdir dir="lin"/>
-        <copy file="${exe_dir}/ProtoMonitor.jar" tofile="${windist_dir}/ProtoMonitor.jar"/>
-        <copy file="${exe_dir}/ProtoMonitor.jar" tofile="${lindist_dir}/ProtoMonitor.jar"/>
-        <copy file="launcher.bat" tofile="${windist_dir}/launcher.bat"/>
-        <copy file="launcher.sh" tofile="${lindist_dir}/launcher.sh"/>
+    <target name="distribution" depends="unit,executable_ProtoApp">
+        <delete dir="${windist_dir}"/>
+        <delete dir="${lindist_dir}"/>
+        <copy file="${exe_dir}/ProtoApp.jar" tofile="${windist_dir}/ProtoApp.jar"/>
+        <copy file="${exe_dir}/ProtoApp.jar" tofile="${lindist_dir}/ProtoApp.jar"/>
+        <copy file="${dist_dir}/launcher.bat" tofile="${windist_dir}/launcher.bat"/>
+        <copy file="${dist_dir}/launcher.sh" tofile="${lindist_dir}/launcher.sh"/>
     </target>
 
     <target name="git_clean">

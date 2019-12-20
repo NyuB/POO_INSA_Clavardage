@@ -86,6 +86,6 @@ public class ConfigManager {
 	}
 
 	public UserManager configUserManager(Agent agent) {
-		return new UserManager(agent, null);//TODO
+		return new UserManager(null);//TODO
 	}
 }

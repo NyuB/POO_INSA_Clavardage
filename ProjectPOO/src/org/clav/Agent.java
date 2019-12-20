@@ -62,9 +62,18 @@ public class Agent implements AppHandler, CLVModel {
 	}
 
 
-	public void start() {
-		this.uiManager = new UIManager(this, this);
-		this.uiManager.start();
+	public void start() throws NullPointerException {
+		if(this.networkManager!=null && this.chatManager!=null && this.userManager!=null) {
+			this.uiManager = new UIManager(this, this);
+			this.uiManager.start();
+			this.uiManager.getView().refreshUsers();
+		}
+		else{
+			throw new NullPointerException();
+		}
+	}
+	public void stop(){
+		this.uiManager.getView().turnOff();
 	}
 
 
@@ -80,22 +89,23 @@ public class Agent implements AppHandler, CLVModel {
 		message.setUserID(this.getMainUser().getIdentifier());
 		CLVPacket packet = CLVPacketFactory.gen_MSG(message);
 		boolean selfTalk = true;
+		boolean success = true;
 		for (User u : this.getChatManager().getChat(message.getChatHashCode()).getMembers()) {
 			if(u.getIdentifier().equals(this.getMainUser().getIdentifier())){
 				System.out.println("[APPHANDLER]Skipping main user");
 			}
 			else {
-				this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
-
+				success = success && this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
 				selfTalk = false;
 			}
 		}
 		if(selfTalk){
-			this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(),packet);
+			success = success && this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(),packet);
 		}
-		this.getChatManager().processMessageEmission(message);
-		this.getUiManager().getView().refreshChat(message.getChatHashCode());
-
+		if(success) {
+			this.getChatManager().processMessageEmission(message);
+			this.getUiManager().getView().refreshChat(message.getChatHashCode());
+		}
 	}
 
 	//AppHandler Impl
@@ -144,6 +154,7 @@ public class Agent implements AppHandler, CLVModel {
 	//AppHandler Impl
 	@Override
 	public void processNewUser(User user) {
+		System.out.println("[APPH]Processing new user");
 		this.getUserManager().processActive(user.getIdentifier(), user.getPseudo());
 		if (this.getUiManager() != null) this.uiManager.getController().notifyNewActiveUser(user);
 

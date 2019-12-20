@@ -1,6 +1,7 @@
 package org.clav.ui.components;
 
 import org.clav.chat.Chat;
+import org.clav.chat.History;
 import org.clav.user.User;
 
 import javax.swing.*;
@@ -30,7 +31,7 @@ public class ChatPanel extends JPanel {
 		gbc.weighty = 0.15;
 		StringBuilder sb = new StringBuilder();
 		for(User u:chat.getMembers()){
-			sb.append(u.getIdentifier());
+			sb.append(u.getPseudo());
 			sb.append(" ; ");
 		}
 		this.title = new JLabel(sb.toString());
@@ -41,7 +42,7 @@ public class ChatPanel extends JPanel {
 		gbc.weighty = 0.6;
 		this.textArea = new ScrollTextArea();
 		this.add(textArea,gbc);
-		this.textArea.getTextArea().setText(chat.getHistory().printHistory());
+
 
 		//TypeField
 		gbc.gridy = 3;
@@ -49,7 +50,6 @@ public class ChatPanel extends JPanel {
 		this.typeField = new JTextField();
 		this.add(typeField,gbc);
 	}
-
 	public JTextArea getTextArea() {
 		return textArea.getTextArea();
 	}

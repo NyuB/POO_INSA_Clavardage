@@ -40,9 +40,12 @@ public class DefaultCLVController implements CLVController {
 
 	@Override
 	public void notifyChatInitiationFromUser(ArrayList<String> distantIdentifiers) {
+		this.log("Receiving chat initiation command. Distant user list : ");
 		ArrayList<User> userArrayList = new ArrayList<>();
 		for (String s : distantIdentifiers) {
-			userArrayList.add(this.model.getActiveUsers().get(s));
+			User u = this.model.getActiveUsers().get(s);
+			System.out.println("\t"+u.getIdentifier()+" "+u.getPseudo());
+			userArrayList.add(u);
 		}
 		this.appHandler.initiateChat(userArrayList);
 	}
@@ -50,6 +53,7 @@ public class DefaultCLVController implements CLVController {
 	@Override
 	public void notifyChatInitiationFromDistant(String code) {
 		this.log("Distant Chat initiation with users : ");
+
 		for (User u : this.model.getChatFor(code).getMembers()) {
 			System.out.println("\t" + u.getIdentifier());
 		}

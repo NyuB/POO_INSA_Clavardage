@@ -48,6 +48,6 @@ public class CLVFrame extends JFrame implements CLVView {
 	@Override
 	public void turnOff() {
 		this.setVisible(false);
-
+		this.dispose();
 	}
 }

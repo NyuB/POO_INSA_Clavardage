@@ -25,7 +25,8 @@ public class TestChat {
 		String name = in.nextLine();
 		Agent agent = new Agent();
 		User mainUser = new User(name,name);
-		UserManager userManager = new UserManager(agent,mainUser);
+		UserManager userManager = new UserManager(mainUser);
+		userManager.setAppHandler(agent);
 		NetworkManager networkManager = null;
 		String line;
 		try {
@@ -42,8 +43,8 @@ public class TestChat {
 		agent.setUserManager(userManager);
 		
 		//protocole reseau
-		networkManager.executeProtocol(new UDPListenerProtocol(new ProtocolInit(networkManager)));
-		networkManager.executeProtocol(new TCPListenerProtocol(new ProtocolInit(networkManager)));
+		networkManager.executeProtocol(new UDPListenerProtocol(new ProtocolInit(networkManager)),true);
+		networkManager.executeProtocol(new TCPListenerProtocol(new ProtocolInit(networkManager)),true);
 		
 		//chat
 		ArrayList<User> members = new ArrayList<User>() ;

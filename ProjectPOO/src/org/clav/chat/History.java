@@ -1,6 +1,9 @@
 package org.clav.chat;
 
+import org.clav.user.User;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class History {
 	
@@ -8,6 +11,17 @@ public class History {
 	
 	public History() { 
 		this.messageHistory = new ArrayList<>() ;
+	}
+
+	public static String historyRepr(History history,HashMap<String, User> activeMap){
+		StringBuilder sb = new StringBuilder();
+		synchronized (history) {
+			for (Message m : history.getMessageHistory()) {
+				sb.append(((activeMap.containsKey(m.getUserID())) ? activeMap.get(m.getUserID()).getPseudo() : m.getUserID()) + " " + m.getDate() + "\n");
+				sb.append(m.getText() + "\n");
+			}
+			return sb.toString();
+		}
 	}
 	
 	public synchronized void insertMessage(Message message){

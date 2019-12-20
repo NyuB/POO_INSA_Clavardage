@@ -10,13 +10,11 @@ import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
 import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
 import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
 import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
-
 import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import static org.clav.utils.constants.NetworkConstants.*;
 
 /**
@@ -27,18 +25,22 @@ import static org.clav.utils.constants.NetworkConstants.*;
  * -Initiates and maintains TCP connections
  * -Send broadcast UDP messages
  * -Send single-target TCP message
+ *
  * @see Protocol
  */
 public class NetworkManager implements Pluggable {
 	private InetAddress networkAddress;
 	private InetAddress broadcastAddress;
-	private HashMap<String, InetAddress> addrMap;
 	private DatagramSocket sendSocketUDP;
 	private DatagramSocket receiveSocketUDP;
-	private HashMap<String, TCPUserLink> tcpConnections;
 
-	private ExecutorService signalProtocolService;//TODO
-	private ExecutorService broadcastListeningProtocolService;//TODO
+	private final HashMap<String, InetAddress> addrMap;
+	private final HashMap<String, TCPUserLink> tcpConnections;
+
+	private final ExecutorService protocolService;
+
+	private ExecutorService signalProtocolService;
+	private ExecutorService broadcastListeningProtocolService;
 
 	private AppHandler appHandler;//Application to interact with when receiving/interpreting messages
 
@@ -46,75 +48,92 @@ public class NetworkManager implements Pluggable {
 	public DebugPlugin getDebug() {
 		return debug;
 	}
+	public int TCP_LOCAL_DEBUG_PORT;
+	public int TCP_DISTANT_DEBUG_PORT;
+
+	public int UDP_LOCAL_DEBUG_PORT;
+	public int UDP_DISTANT_DEBUG_PORT;
 
 
 	@Override
 	public void plug(DebugPlugin plugin) {
 		this.debug = plugin;
 	}
-	public void log(String message){
+
+	public void log(String message) {
 		this.debug.log(message);
 	}
 
+	public NetworkManager(InetAddress broadcastAddress,int udpPortLocal,int tcpPortLocal,int udpPortDistant,int tcpPortDistant){
+		this.TCP_LOCAL_DEBUG_PORT = tcpPortLocal;
+		this.UDP_LOCAL_DEBUG_PORT = udpPortLocal;
+		this.TCP_DISTANT_DEBUG_PORT = tcpPortDistant;
+		this.UDP_DISTANT_DEBUG_PORT = udpPortDistant;
+		this.broadcastAddress = broadcastAddress;
+		this.addrMap = new HashMap<>();
+		this.tcpConnections = new HashMap<>();
+		try {
+			this.receiveSocketUDP = new DatagramSocket(udpPortLocal);
+			this.sendSocketUDP = new DatagramSocket();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		this.signalProtocolService = Executors.newSingleThreadExecutor();
+		this.broadcastListeningProtocolService = Executors.newSingleThreadExecutor();
+		this.protocolService = Executors.newCachedThreadPool();
+		this.debug = new ConsoleLogger();
+	}
+
 	public NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress) {
+		this.UDP_DISTANT_DEBUG_PORT = UDPSOCKET_RECEIVE_PORT;
+		this.UDP_LOCAL_DEBUG_PORT = UDPSOCKET_RECEIVE_PORT;
+		this.TCP_DISTANT_DEBUG_PORT = TCP_SOCKET_SERVER_PORT;
+		this.TCP_LOCAL_DEBUG_PORT = TCP_SOCKET_SERVER_PORT;
 		this.networkAddress = networkAddress;
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
 		this.tcpConnections = new HashMap<>();
 		try {
 			this.receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE_PORT);
-			this.sendSocketUDP = new DatagramSocket(UDPSOCKET_SEND_PORT);
+			this.sendSocketUDP = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
 		this.signalProtocolService = Executors.newSingleThreadExecutor();
 		this.broadcastListeningProtocolService = Executors.newSingleThreadExecutor();
+		this.protocolService = Executors.newCachedThreadPool();
 		this.debug = new ConsoleLogger();
 	}
 
-	public synchronized void initiateConnectionTCP(String user){
+	private void initiateConnectionTCP(String user, boolean parallel) {
 		if (!this.tcpConnections.containsKey(user)) {
 			try {
 				this.log("[TCP]Initiating tcp connection");
-				Socket distant = new Socket(this.addrMap.get(user), TCP_SOCKET_SERVER_PORT);
-				this.log("[TCP]Socket created,link protocol started");
-				TCPUserLink link = new TCPUserLink(user,distant);
-				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,link, LinkTCPUserProtocolInit.Mode.CONNECT,user);
-				this.executeProtocol(new LinkTCPUserProtocol(init));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private void initiateConnectionTCP(String user,boolean blocking){
-		if (!this.tcpConnections.containsKey(user)) {
-			try {
-				this.log("[TCP]Initiating tcp connection");
-				Socket distant = new Socket(this.addrMap.get(user), TCP_SOCKET_SERVER_PORT);
+				Socket distant = new Socket(this.addrMap.get(user), this.TCP_DISTANT_DEBUG_PORT);
 				this.log("Socket created,link protocolsimpl started");
-				TCPUserLink link = new TCPUserLink(user,distant);
-				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this,link, LinkTCPUserProtocolInit.Mode.CONNECT,user);
-				this.executeProtocol(new LinkTCPUserProtocol(init),blocking);
+				TCPUserLink link = new TCPUserLink(user, distant);
+				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this, link, LinkTCPUserProtocolInit.Mode.CONNECT, user);
+				this.executeProtocol(new LinkTCPUserProtocol(init), parallel);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public synchronized void linkTCP(String identifier, TCPUserLink link){
-		if(this.getTCPLinkFor(identifier)==null){
-			this.tcpConnections.put(identifier,link);
-		}
-		else{
-			this.log("Network manager already has an active link with user "+identifier);
+	public void linkTCP(String identifier, TCPUserLink link) {
+		synchronized (this.tcpConnections) {
+			if (this.getTCPLinkFor(identifier) == null) {
+				this.tcpConnections.put(identifier, link);
+			} else {
+				this.log("Network manager already has an active link with user " + identifier);
+			}
 		}
 	}
 
-	public synchronized void closeConnectionTCP(String identifier){
-		if(this.tcpConnections.containsKey(identifier)){
+	public synchronized void closeConnectionTCP(String identifier) {
+		if (this.tcpConnections.containsKey(identifier)) {
 			try {
-				this.log("[TCP]Closing TCP connection with user "+identifier);
+				this.log("[TCP]Closing TCP connection with user " + identifier);
 				this.tcpConnections.get(identifier).getDistant().close();
 				this.tcpConnections.remove(identifier);
 			} catch (IOException e) {
@@ -123,95 +142,86 @@ public class NetworkManager implements Pluggable {
 		}
 	}
 
-	public synchronized void broadcast(byte[] bytes) {
+	public void broadcast(byte[] bytes) {
 		this.UDP_Send(bytes, this.broadcastAddress);
 	}
 
-	public synchronized void UDP_Send(byte[] bytes, InetAddress address) {//TODO transmit objects instead of strings
+	private void UDP_Send(byte[] bytes, InetAddress address) {
 		synchronized (this.sendSocketUDP) {
 			try {
-				DatagramPacket packetUDP = new DatagramPacket(bytes, bytes.length, address, UDPSOCKET_RECEIVE_PORT);
+				DatagramPacket packetUDP = new DatagramPacket(bytes, bytes.length, address, this.UDP_DISTANT_DEBUG_PORT);
 				this.sendSocketUDP.send(packetUDP);
-			} catch (SocketException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
-	public void TCP_IP_send_str(String id, String message) {
-		this.log("[TCP]Sending message to user "+id);
-		this.TCP_IP_send(id,CLVPacketFactory.gen_STR(message));
-		this.getDebug().writeChatMessageTo(id,message);
-	}
-
-
-	public void TCP_IP_send(String id,CLVPacket packet){
+	public boolean TCP_IP_send(String id, CLVPacket packet) {
 		TCPUserLink link = this.getTCPLinkFor(id);
-		if(link==null){
-			this.log("No TCP link established with user "+id);
+		if (link == null) {
+			this.log("No TCP link established with user " + id);
 			this.log("Trying to initiate connection");
-			this.initiateConnectionTCP(id,true);
+			this.initiateConnectionTCP(id, false);
 			link = this.getTCPLinkFor(id);
 		}
-		this.log("[TCP]Sending packet to user "+id);
-		link.send(packet);
-	}
-
-	/**
-	 * Crucial method to allow the network manager to serve multiple components of the agent
-	 * For any new agent component need, implement a new Protocol to serve it
-	 * @param protocol A runnable class using the network manager methods and interacting with the AppHandler
-	 */
-	public void executeProtocol(Protocol protocol) {
-		Thread t = new Thread(protocol);
-		t.start();
-	}
-
-	private void executeProtocol(Protocol protocol,boolean join){
-		Thread t = new Thread(protocol);
-		t.start();
-		if(join){
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		if (link != null) {
+			this.log("[TCP]Sending packet to user " + id);
+			link.send(packet);
+			return true;
+		} else {
+			this.log("Unable to initiate connection with user " + id);
+			return false;
 		}
 	}
 
-	public void startUDPListening(){
+	private void executeProtocol(Protocol protocol) {
+		this.protocolService.execute(protocol);
+	}
+
+	public void executeProtocol(Protocol protocol, boolean parallel) {
+		if(parallel){
+			this.executeProtocol(protocol);
+		}
+		else{
+			protocol.run();
+		}
+
+
+	}
+
+	public void startUDPListening() {
 		this.startBroadcastListening(new UDPListenerProtocol(new ProtocolInit(this)));
 	}
 
-	public void startUDPSignal(){
+	public void startUDPSignal() {
 		this.startActivitySignal(new ActivitySignalProtocol(new ActivitySignalProtocolInit(this)));
 	}
 
 
-	public void startTCPListening(){
+	public void startTCPListening() {
 		this.executeProtocol(new TCPListenerProtocol(new ProtocolInit(this)));
 	}
 
-	public void startActivitySignal(ActivitySignalProtocol protocol){
+	public void startActivitySignal(ActivitySignalProtocol protocol) {
 		this.signalProtocolService.execute(protocol);
 	}
 
-	public void startBroadcastListening(UDPListenerProtocol protocol){
+	public void startBroadcastListening(UDPListenerProtocol protocol) {
 		this.broadcastListeningProtocolService.execute(protocol);
 	}
 
-	public void stopActivitySignal(){
+	public void stopActivitySignal() {
+		System.out.println("Shutting down udp signal");
 		this.signalProtocolService.shutdown();
 		this.signalProtocolService.shutdownNow();
 		this.signalProtocolService = Executors.newSingleThreadExecutor();
 	}
-	public void stopBroadcastListening(){
+
+	public void stopBroadcastListening() {
 		System.out.println("Shutting down udp listening");
 		this.broadcastListeningProtocolService.shutdown();
 		this.broadcastListeningProtocolService.shutdownNow();
-		this.broadcastListeningProtocolService =Executors.newSingleThreadExecutor();
+		this.broadcastListeningProtocolService = Executors.newSingleThreadExecutor();
 	}
 
 	public AppHandler getAppHandler() {
@@ -222,17 +232,17 @@ public class NetworkManager implements Pluggable {
 		this.appHandler = appHandler;
 	}
 
-	public void addAddrFor(String identifier, InetAddress addr){
+	public void addAddrFor(String identifier, InetAddress addr) {
 		synchronized (this.addrMap) {
-			this.addrMap.put(identifier,addr);
+			this.addrMap.put(identifier, addr);
 		}
 	}
 
-	public String getAddrFor(String identifier){
+	public String getAddrFor(String identifier) {
 		return this.addrMap.get(identifier).toString();
 	}
 
-	private TCPUserLink getTCPLinkFor(String user){
+	private TCPUserLink getTCPLinkFor(String user) {
 		return this.tcpConnections.get(user);
 	}
 

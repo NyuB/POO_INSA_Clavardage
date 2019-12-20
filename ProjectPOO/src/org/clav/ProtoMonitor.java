@@ -1,6 +1,7 @@
 package org.clav;
 
 import org.clav.debug.graphic.DebugModel;
+import org.clav.network.CLVPacketFactory;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
@@ -16,7 +17,8 @@ public class ProtoMonitor {
 		String name = in.nextLine();
 		Agent agent = new Agent();
 		User mainUser = new User(name, name);
-		UserManager userManager = new UserManager(agent, mainUser);
+		UserManager userManager = new UserManager( mainUser);
+		userManager.setAppHandler(agent);
 		NetworkManager networkManager = null;
 		String line;
 		try {
@@ -56,7 +58,7 @@ public class ProtoMonitor {
 							sb.append(" ");
 							sb.append(cmd[i]);
 						}
-						agent.getNetworkManager().TCP_IP_send_str(cmd[1],sb.toString());
+						agent.getNetworkManager().TCP_IP_send(cmd[1], CLVPacketFactory.gen_STR(sb.toString()));
 					}
 					break;
 				default:

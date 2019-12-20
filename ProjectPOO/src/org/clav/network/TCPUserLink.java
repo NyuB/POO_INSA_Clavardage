@@ -6,13 +6,9 @@ import java.net.Socket;
 
 import static org.clav.network.CLVHeader.STR;
 
-public class TCPUserLink {//TODO Implement object streams instead of string
+public class TCPUserLink {
 	private String relatedUser;
 	private Socket distant;
-	PrintWriter outWriter;
-	BufferedReader inReader;
-
-
 	private ObjectOutputStream objOut;
 	private ObjectInputStream objIn;
 
@@ -20,8 +16,6 @@ public class TCPUserLink {//TODO Implement object streams instead of string
 		this.relatedUser = relatedUser;
 		this.distant = distant;
 		try {
-			//this.outWriter = new PrintWriter(distant.getOutputStream(),true);
-			//this.inReader = new BufferedReader(new InputStreamReader(distant.getInputStream()));
 			this.objOut = new ObjectOutputStream(distant.getOutputStream());
 			this.objIn = new ObjectInputStream(distant.getInputStream());
 		} catch (IOException e) {
@@ -31,10 +25,6 @@ public class TCPUserLink {//TODO Implement object streams instead of string
 
 	public void setRelatedUser(String relatedUser) {
 		this.relatedUser = relatedUser;
-	}
-
-	public void send(String message) {
-		this.send(new CLVPacket(STR, message));
 	}
 
 	public void send(CLVPacket packet) {
@@ -57,7 +47,7 @@ public class TCPUserLink {//TODO Implement object streams instead of string
 			try {
 				return (CLVPacket) this.objIn.readObject();
 			} catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
+				System.out.println("[TCPLINK]Error reading object");
 				return new CLVPacket(CLVHeader.ERR, null);
 			}
 		}

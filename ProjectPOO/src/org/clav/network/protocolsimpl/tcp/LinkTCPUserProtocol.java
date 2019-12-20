@@ -32,22 +32,23 @@ public class LinkTCPUserProtocol extends Protocol {
 				link.send(CLVPacketFactory.gen_ACK());
 				this.log("[TCP]TCP Link established with user " + identifier);
 				TCPTalkProtocolInit init = new TCPTalkProtocolInit(getRelatedNetworkManager(),link);
-				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init));
+				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init),true);
 			} else {
 				this.log("User trying to link with id " + identifier + " is unknown from UserManager");
+				link.send(CLVPacketFactory.gen_ERR());
 			}
 		} else if (getProtocolInit().getMode() == LinkTCPUserProtocolInit.Mode.CONNECT) {
 			identifier = getProtocolInit().getDistantID();
 			String id = getProtocolInit().getNetworkManager().getAppHandler().getMainUser().getIdentifier();
 			this.log("[TCP]Trying to send identifier " + id + " to connect target");
-			link.send(id);
+			link.send(CLVPacketFactory.gen_STR(id));
 			this.log("[TCP]Waiting " + identifier + " ACK for TCP linking");
 			CLVPacket ack = link.read();
 			if (ack.header == ACK) {
 				this.log("[TCP]Receiving ACK from " + identifier);
 				getRelatedNetworkManager().linkTCP(identifier,link);
 				TCPTalkProtocolInit init = new TCPTalkProtocolInit(getRelatedNetworkManager(),link);
-				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init));
+				getRelatedNetworkManager().executeProtocol(new TCPTalkProtocol(init),true);
 			} else {
 				this.log("[TCP]Receiving unvalid ack message");
 			}

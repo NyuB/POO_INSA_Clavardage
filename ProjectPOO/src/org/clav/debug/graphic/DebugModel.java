@@ -2,6 +2,7 @@ package org.clav.debug.graphic;
 
 import org.clav.Agent;
 import org.clav.debug.DebugPlugin;
+import org.clav.network.CLVPacketFactory;
 
 
 /**
@@ -12,7 +13,7 @@ public class DebugModel implements DebugPlugin {
 	public DebugFrame debugFrame;
 
 	public void sendMsg(String distant,String message){
-		this.agent.getNetworkManager().TCP_IP_send_str(distant,message);
+		this.agent.getNetworkManager().TCP_IP_send(distant, CLVPacketFactory.gen_STR(message));
 	}
 
 	public DebugModel(Agent agent) {

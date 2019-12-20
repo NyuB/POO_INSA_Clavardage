@@ -1,5 +1,6 @@
 package org.clav.ui.components;
 
+import org.clav.chat.History;
 import org.clav.ui.mvc.CLVController;
 import org.clav.ui.mvc.CLVModel;
 
@@ -48,6 +49,7 @@ public class ChatPanelGrid extends JPanel {
 				}
 			}
 			ChatPanel chat = new ChatPanel(this.model.getChatFor(code));
+			chat.getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
 			chat.addTypeActionListener(l -> {
 				synchronized (chat) {
 					System.out.println("Sending message from typefield");
@@ -82,7 +84,7 @@ public class ChatPanelGrid extends JPanel {
 	public synchronized void refreshChat(String code) {
 		System.out.println("Refreshing chat");
 		if (this.activeChats.containsKey(code)) {
-			this.activeChats.get(code).getTextArea().setText(this.model.getHistoryFor(code).printHistory());
+			this.activeChats.get(code).getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
 			this.revalidate();
 
 		} else {

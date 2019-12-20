@@ -5,7 +5,6 @@ import org.clav.chat.ChatManager;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
-import org.clav.utils.HashUtils;
 import org.clav.utils.constants.FormatConstant;
 
 import java.net.InetAddress;
@@ -13,7 +12,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ProtoApp {
+public class ProtoLocal {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter user name");
@@ -29,7 +28,19 @@ public class ProtoApp {
 			System.out.println("Enter broadcast address");
 			line = in.nextLine();
 			InetAddress broadcastAddr = InetAddress.getByName(line);
-			networkManager = new NetworkManager(localAddr,broadcastAddr);
+			System.out.println("Enter config nb");
+			int mode = Integer.valueOf(args[0]);
+			int udp = 1034;
+			int tcp = 1035;
+			int udpDist = 1036;
+			int tcpDist = 1037;
+			if(mode>0){
+				udp = 1036;
+				tcp = 1037;
+				udpDist = 1034;
+				tcpDist = 1035;
+			}
+			networkManager = new NetworkManager(broadcastAddr,udp,tcp,udpDist,tcpDist);
 			networkManager.setAppHandler(agent);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

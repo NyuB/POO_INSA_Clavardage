@@ -16,7 +16,7 @@ public class JTextAreaOutputStream extends OutputStream {
 		this.stringBuilder = new StringBuilder();
 	}
 	@Override
-	public void write(int b) throws IOException {
+	public void write(int b) {
 		switch (b) {
 			case '\r':
 				break;

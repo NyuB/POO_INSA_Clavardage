@@ -20,14 +20,11 @@ public class ActivitySignalProtocol extends Protocol {
 
 	@Override
 	public void run() {
-		boolean over = false;
 		try {
 			while (true) {
 				CLVPacket packet = CLVPacketFactory.gen_SIG(getRelatedNetworkManager().getAppHandler().getMainUser());
-
 				byte[] buf = Serializer.toBytes(packet);
 				getRelatedNetworkManager().broadcast(buf);
-
 				Thread.sleep(ACTIVITY_SIGNAL_DELAY);
 			}
 		} catch (InterruptedException e) {

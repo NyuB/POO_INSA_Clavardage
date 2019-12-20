@@ -24,10 +24,11 @@ public class ActiveUsersPanel extends JPanel {
 	}
 	public void refreshUsers(Iterable<User> users, CLVController clvController){
 		refreshUsers(users);
-		for(JButton b : this.userButtons.values()){
+		for(String id : this.userButtons.keySet()){
+			JButton b = this.userButtons.get(id);
 			b.addActionListener(l->{
 				ArrayList<String> ids = new ArrayList<>();
-				ids.add(b.getText());
+				ids.add(id);
 				clvController.notifyChatInitiationFromUser(ids);
 			});
 		}

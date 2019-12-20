@@ -18,7 +18,7 @@ public class TCPListenerProtocol extends Protocol {
 	public TCPListenerProtocol(ProtocolInit protocolInit) {
 		super(protocolInit);
 		try {
-			this.serverSocket = new ServerSocket(TCP_SOCKET_SERVER_PORT);
+			this.serverSocket = new ServerSocket(this.getRelatedNetworkManager().TCP_LOCAL_DEBUG_PORT);//new ServerSocket(TCP_SOCKET_SERVER_PORT);
 			this.getRelatedNetworkManager().log("TCP Server created");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -34,7 +34,7 @@ public class TCPListenerProtocol extends Protocol {
 				this.log("[TCP]Server receiving connection request, engaging link protocol");
 				TCPUserLink link = new TCPUserLink(null,distant);
 				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this.getRelatedNetworkManager(),link, LinkTCPUserProtocolInit.Mode.ACCEPT);
-				this.getRelatedNetworkManager().executeProtocol(new LinkTCPUserProtocol(init));
+				this.getRelatedNetworkManager().executeProtocol(new LinkTCPUserProtocol(init),true);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

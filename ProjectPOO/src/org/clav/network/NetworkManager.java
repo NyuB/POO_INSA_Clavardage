@@ -4,12 +4,12 @@ import org.clav.AppHandler;
 import org.clav.debug.ConsoleLogger;
 import org.clav.debug.DebugPlugin;
 import org.clav.debug.Pluggable;
-import org.clav.network.protocolsimpl.tcp.LinkTCPUserProtocol;
-import org.clav.network.protocolsimpl.tcp.LinkTCPUserProtocolInit;
-import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
-import org.clav.network.protocolsimpl.udp.ActivitySignalProtocol;
-import org.clav.network.protocolsimpl.udp.ActivitySignalProtocolInit;
-import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
+import org.clav.network.protocols.tcp.LinkTCPUserProtocol;
+import org.clav.network.protocols.tcp.LinkTCPUserProtocolInit;
+import org.clav.network.protocols.tcp.TCPListenerProtocol;
+import org.clav.network.protocols.udp.ActivitySignalProtocol;
+import org.clav.network.protocols.udp.ActivitySignalProtocolInit;
+import org.clav.network.protocols.udp.UDPListenerProtocol;
 import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
@@ -48,9 +48,10 @@ public class NetworkManager implements Pluggable {
 	public DebugPlugin getDebug() {
 		return debug;
 	}
+
+	//TODO Remove on final version, useful to launch multiple sessions on localhost
 	public int TCP_LOCAL_DEBUG_PORT;
 	public int TCP_DISTANT_DEBUG_PORT;
-
 	public int UDP_LOCAL_DEBUG_PORT;
 	public int UDP_DISTANT_DEBUG_PORT;
 
@@ -64,6 +65,14 @@ public class NetworkManager implements Pluggable {
 		this.debug.log(message);
 	}
 
+	/**
+	 * A debug constructor, allows ports specifications to prevent interferences when launching multiple sessions on localhost
+	 * @param broadcastAddress Address to broadcast udp packets
+	 * @param udpPortLocal Port to listen udp packets
+	 * @param tcpPortLocal Port to listen tcp requests
+	 * @param udpPortDistant Port to send udp packets to
+	 * @param tcpPortDistant Port to sent tcp connection requests to
+	 */
 	public NetworkManager(InetAddress broadcastAddress,int udpPortLocal,int tcpPortLocal,int udpPortDistant,int tcpPortDistant){
 		this.TCP_LOCAL_DEBUG_PORT = tcpPortLocal;
 		this.UDP_LOCAL_DEBUG_PORT = udpPortLocal;
@@ -110,7 +119,7 @@ public class NetworkManager implements Pluggable {
 			try {
 				this.log("[TCP]Initiating tcp connection");
 				Socket distant = new Socket(this.addrMap.get(user), this.TCP_DISTANT_DEBUG_PORT);
-				this.log("Socket created,link protocolsimpl started");
+				this.log("Socket created,link protocols started");
 				TCPUserLink link = new TCPUserLink(user, distant);
 				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this, link, LinkTCPUserProtocolInit.Mode.CONNECT, user);
 				this.executeProtocol(new LinkTCPUserProtocol(init), parallel);
@@ -120,6 +129,11 @@ public class NetworkManager implements Pluggable {
 		}
 	}
 
+	/**
+	 * Register a TCP connection in the network manager table
+	 * @param identifier distant user id
+	 * @param link an initialized tcp connection with socket and streams ready
+	 */
 	public void linkTCP(String identifier, TCPUserLink link) {
 		synchronized (this.tcpConnections) {
 			if (this.getTCPLinkFor(identifier) == null) {
@@ -130,6 +144,11 @@ public class NetworkManager implements Pluggable {
 		}
 	}
 
+
+	/**
+	 * If existing, closes the current tcp socket and streams associated with the distant user
+	 * @param identifier distant user id
+	 */
 	public synchronized void closeConnectionTCP(String identifier) {
 		if (this.tcpConnections.containsKey(identifier)) {
 			try {
@@ -142,11 +161,15 @@ public class NetworkManager implements Pluggable {
 		}
 	}
 
+	/**
+	 * Send a packet to all the local network
+	 * @param bytes the packet to broadcast
+	 */
 	public void broadcast(byte[] bytes) {
 		this.UDP_Send(bytes, this.broadcastAddress);
 	}
 
-	private void UDP_Send(byte[] bytes, InetAddress address) {
+	public void UDP_Send(byte[] bytes, InetAddress address) {
 		synchronized (this.sendSocketUDP) {
 			try {
 				DatagramPacket packetUDP = new DatagramPacket(bytes, bytes.length, address, this.UDP_DISTANT_DEBUG_PORT);
@@ -156,6 +179,7 @@ public class NetworkManager implements Pluggable {
 			}
 		}
 	}
+
 	public boolean TCP_IP_send(String id, CLVPacket packet) {
 		TCPUserLink link = this.getTCPLinkFor(id);
 		if (link == null) {
@@ -218,14 +242,14 @@ public class NetworkManager implements Pluggable {
 	}
 
 	public void stopBroadcastListening() {
-		System.out.println("Shutting down udp listening");
+		System.out.println("Shutting down broadcast listening");
 		this.broadcastListeningProtocolService.shutdown();
 		this.broadcastListeningProtocolService.shutdownNow();
 		this.broadcastListeningProtocolService = Executors.newSingleThreadExecutor();
 	}
 
 	public AppHandler getAppHandler() {
-		return appHandler;
+		return this.appHandler;
 	}
 
 	public void setAppHandler(AppHandler appHandler) {

@@ -74,6 +74,12 @@ public class DefaultCLVController implements CLVController {
 	}
 
 	@Override
+	public void notifyInvalidPseudo() {
+		this.log("Starting invalid pseudo correction procedure");
+
+	}
+
+	@Override
 	public void notifyPseudoChangeFromDistant(User user) {
 		System.out.println("[MODEL]Changing " + user.getIdentifier() + " pseudo to " + user.getPseudo());
 	}

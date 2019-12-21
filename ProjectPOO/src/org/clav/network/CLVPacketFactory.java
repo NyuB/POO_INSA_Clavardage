@@ -2,7 +2,10 @@ package org.clav.network;
 
 import org.clav.chat.ChatInit;
 import org.clav.chat.Message;
+import org.clav.user.PseudoRejection;
 import org.clav.user.User;
+
+import java.util.Date;
 
 import static org.clav.network.CLVHeader.*;
 
@@ -22,5 +25,6 @@ public class CLVPacketFactory {
 	}
 	public static CLVPacket gen_SIG(User u){return new CLVPacket(SIG,u);}
 	public static CLVPacket gen_ERR(){return new CLVPacket(ERR,null);}
+	public static CLVPacket gen_REJ(PseudoRejection rejection){return new CLVPacket(REJ,rejection);}
 
 }

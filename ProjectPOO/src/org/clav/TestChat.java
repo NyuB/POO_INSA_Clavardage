@@ -4,8 +4,8 @@ import org.clav.chat.Chat;
 import org.clav.chat.Message;
 import org.clav.network.NetworkManager;
 import org.clav.network.ProtocolInit;
-import org.clav.network.protocolsimpl.tcp.TCPListenerProtocol;
-import org.clav.network.protocolsimpl.udp.UDPListenerProtocol;
+import org.clav.network.protocols.tcp.TCPListenerProtocol;
+import org.clav.network.protocols.udp.UDPListenerProtocol;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 

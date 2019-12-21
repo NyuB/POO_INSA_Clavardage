@@ -51,7 +51,7 @@ public class ChatManager {
 		this.log("Creating chat");
 		Chat chat = new Chat(members);
 		this.chats.put(chat.getChatHashCode(), chat);
-		this.log("Chat created "+chat.getChatHashCode());
+		this.log("Chat created");
 	}
 
 	public void createIfNew(ChatInit init) {
@@ -62,10 +62,6 @@ public class ChatManager {
 			}
 			this.createChat(users);
 		}
-	}
-
-	public void createIfNew(ArrayList<User> users) {
-		this.createIfNew(new Chat(users).genChatInit());
 	}
 
 	private boolean haveSameMembers(Chat chat, ArrayList<String> identifiers) {

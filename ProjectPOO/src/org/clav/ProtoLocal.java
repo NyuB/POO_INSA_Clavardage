@@ -28,8 +28,8 @@ public class ProtoLocal {
 			System.out.println("Enter broadcast address");
 			line = in.nextLine();
 			InetAddress broadcastAddr = InetAddress.getByName(line);
-			System.out.println("Enter config nb");
 			int mode = Integer.valueOf(args[0]);
+			System.out.println("Config : "+mode);
 			int udp = 1034;
 			int tcp = 1035;
 			int udpDist = 1036;
@@ -63,6 +63,7 @@ public class ProtoLocal {
 				switch (cmd[0]) {
 					case "END":
 						over = true;
+						agent.stop();
 						break;
 					case "CHI":
 						if (cmd.length > 1) {

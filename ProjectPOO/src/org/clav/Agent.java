@@ -7,6 +7,7 @@ import org.clav.network.CLVPacketFactory;
 import org.clav.network.NetworkManager;
 import org.clav.ui.UIManager;
 import org.clav.ui.mvc.CLVModel;
+import org.clav.user.PseudoRejection;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.HashUtils;
@@ -100,7 +101,7 @@ public class Agent implements AppHandler, CLVModel {
 			}
 		}
 		if(selfTalk){
-			success = success && this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(),packet);
+			success = this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(),packet);
 		}
 		if(success) {
 			this.getChatManager().processMessageEmission(message);
@@ -154,16 +155,32 @@ public class Agent implements AppHandler, CLVModel {
 	//AppHandler Impl
 	@Override
 	public void processNewUser(User user) {
-		System.out.println("[APPH]Processing new user");
+		System.out.println("[APPH]Processing new user "+user.getIdentifier());
 		this.getUserManager().processActive(user.getIdentifier(), user.getPseudo());
 		if (this.getUiManager() != null) this.uiManager.getController().notifyNewActiveUser(user);
+		for(User u  : this.getActiveUsers().values()){
+			System.out.println("[APPH]User : "+u.getIdentifier()+" "+u.getPseudo());
+		}
 
 	}
 
+	//AppHandler Impl
 	@Override
 	public void processUserInaction(String id) {
 		this.getNetworkManager().closeConnectionTCP(id);
 		this.getUiManager().getController().notifyInactiveUser(id);
+
+	}
+
+	//AppHandler Impl
+	@Override
+	public void processPseudoRejection(PseudoRejection rejection) {//TODO
+		synchronized (this.getMainUser().getPseudo()) {
+			if (rejection.getDate().before(this.getMainUser().getDate()) && rejection.getPseudo().equals(this.getMainUser().getPseudo())) {
+				this.getNetworkManager().stopActivitySignal();
+				this.uiManager.getController().notifyInvalidPseudo();
+			}
+		}
 
 	}
 
@@ -193,8 +210,8 @@ public class Agent implements AppHandler, CLVModel {
 
 	//AppHandler, CLVModel Impl
 	@Override
-	public User getUserFor(String id) {
-		return this.getUserManager().getActiveUsers().get(id);
+	public User getUserFor(String identifier) {
+		return this.getUserManager().getActiveUsers().get(identifier);
 	}
 
 

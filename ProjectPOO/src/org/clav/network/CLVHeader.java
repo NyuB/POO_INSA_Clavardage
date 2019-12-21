@@ -7,5 +7,6 @@ public enum CLVHeader {
 	ACK,//Network only
 	END,//Applicative and network
 	CHI,//Applicative, chat initiation
+	REJ,//Applicative, pseudo rejected
 	ERR;
 }

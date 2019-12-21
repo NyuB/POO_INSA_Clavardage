@@ -1,4 +1,4 @@
-package org.clav.network.protocolsimpl.tcp;
+package org.clav.network.protocols.tcp;
 
 import org.clav.chat.ChatInit;
 import org.clav.chat.Message;

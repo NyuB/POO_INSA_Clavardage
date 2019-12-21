@@ -1,4 +1,4 @@
-package org.clav.network.protocolsimpl.tcp;
+package org.clav.network.protocols.tcp;
 
 import org.clav.network.NetworkManager;
 import org.clav.network.ProtocolInit;

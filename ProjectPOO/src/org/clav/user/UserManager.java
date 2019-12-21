@@ -10,9 +10,9 @@ import java.util.Timer;
 public class UserManager {
 
 	private AppHandler appHandler;
-	private HashMap<String, User> activeUsers;
-	private HashSet<String> knownUsers;
-	private HashMap<String,ActivityTimerTask> activityTasks;
+	private final HashMap<String, User> activeUsers;
+	private final HashSet<String> pseudoSet;
+	private final HashMap<String,ActivityTimerTask> activityTasks;
 	private User mainUser;
 
 	private void  log(String txt){
@@ -24,6 +24,8 @@ public class UserManager {
 		this.activeUsers = new HashMap<>();
 		this.activeUsers.put(mainUser.getIdentifier(),mainUser);
 		this.activityTasks = new HashMap<>();
+		this.pseudoSet = new HashSet<>();
+		this.pseudoSet.add(mainUser.getPseudo());
 	}
 
 	public void setAppHandler(AppHandler appHandler) {
@@ -31,8 +33,19 @@ public class UserManager {
 	}
 
 	public boolean changeMainUserPseudo(String newPseudo){
-		//TODO
-		return false;
+
+		synchronized (this.pseudoSet) {
+			if(!this.pseudoSet.contains(newPseudo)) {
+				this.pseudoSet.remove(this.getMainUser().getPseudo());
+				this.pseudoSet.add(newPseudo);
+				this.mainUser.changePseudo(newPseudo);
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+
 	}
 
 	public HashMap<String, User> getActiveUsers() {
@@ -49,7 +62,6 @@ public class UserManager {
 		return mainUser;
 	}
 	public void processActive(String identifier, String pseudo) {
-		//this.log("Updating user "+identifier+" "+pseudo);
 		if(!this.activeUsers.containsKey(identifier)){
 			this.activeUsers.put(identifier,new User(identifier,pseudo));
 			Timer timer = new Timer();

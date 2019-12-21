@@ -1,4 +1,4 @@
-package org.clav.network.protocolsimpl.udp;
+package org.clav.network.protocols.udp;
 
 import org.clav.network.NetworkManager;
 import org.clav.network.ProtocolInit;

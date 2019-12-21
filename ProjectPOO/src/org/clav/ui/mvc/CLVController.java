@@ -16,6 +16,7 @@ public interface CLVController {
 	void notifyNewActiveUser(User user);
 	void notifyInactiveUser(String id);
 
+	void notifyInvalidPseudo();
 	void notifyPseudoChangeFromDistant(User user);
 	void notifyMainUserPseudoChange(String pseudo);
 	void notifyMainUserPseudoRejected(String old);

@@ -1,4 +1,4 @@
-package org.clav.network.protocolsimpl.tcp;
+package org.clav.network.protocols.tcp;
 
 import org.clav.network.Protocol;
 import org.clav.network.ProtocolInit;
@@ -8,10 +8,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static org.clav.utils.constants.NetworkConstants.TCP_SOCKET_SERVER_PORT;
-
 /**
- * Central protocol to capture tcp connections attempts
+ * Central protocol to capture tcp connections attempts. Launches parallel threads to handle communication after connection
+ * @see TCPTalkProtocol
  */
 public class TCPListenerProtocol extends Protocol {
 	private ServerSocket serverSocket;

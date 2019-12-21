@@ -1,4 +1,4 @@
-package org.clav.network.protocolsimpl.tcp;
+package org.clav.network.protocols.tcp;
 
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
@@ -7,6 +7,11 @@ import org.clav.network.TCPUserLink;
 
 import static org.clav.network.CLVHeader.ACK;
 
+/**
+ * Executes the tcp linkage (from the applicative point of view) between a distant user and the main user
+ * If protocolInit field is in accept mode, waits the distant user identifier, then send a ack and update network manager tcp link table if the identifier is valid(aka present in active list of the network manager appHandler user list)
+ * If protocolInit field is in connect mode, sends the main user identifier, then wait a ack to update the network manager tcp links table
+ */
 public class LinkTCPUserProtocol extends Protocol {
 	public LinkTCPUserProtocol(LinkTCPUserProtocolInit protocolInit) {
 		super(protocolInit);

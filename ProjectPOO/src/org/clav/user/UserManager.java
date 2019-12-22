@@ -12,17 +12,22 @@ public class UserManager {
 	private AppHandler appHandler;
 	private final HashMap<String, User> activeUsers;
 	private final HashSet<String> pseudoSet;
-	private final HashMap<String,ActivityTimerTask> activityTasks;
+	private final HashMap<String, ActivityTimerTask> activityTasks;
+
+	public HashSet<String> getPseudoSet() {
+		return pseudoSet;
+	}
+
 	private User mainUser;
 
-	private void  log(String txt){
-		System.out.println("[USR]"+txt);
+	private void log(String txt) {
+		System.out.println("[USR]" + txt);
 	}
 
 	public UserManager(User mainUser) {
 		this.mainUser = mainUser;
 		this.activeUsers = new HashMap<>();
-		this.activeUsers.put(mainUser.getIdentifier(),mainUser);
+		this.activeUsers.put(mainUser.getIdentifier(), mainUser);
 		this.activityTasks = new HashMap<>();
 		this.pseudoSet = new HashSet<>();
 		this.pseudoSet.add(mainUser.getPseudo());
@@ -32,16 +37,14 @@ public class UserManager {
 		this.appHandler = appHandler;
 	}
 
-	public boolean changeMainUserPseudo(String newPseudo){
-
+	public boolean changeMainUserPseudo(String newPseudo) {
 		synchronized (this.pseudoSet) {
-			if(!this.pseudoSet.contains(newPseudo)) {
+			if (!this.pseudoSet.contains(newPseudo)) {
 				this.pseudoSet.remove(this.getMainUser().getPseudo());
 				this.pseudoSet.add(newPseudo);
 				this.mainUser.changePseudo(newPseudo);
 				return true;
-			}
-			else{
+			} else {
 				return false;
 			}
 		}
@@ -51,28 +54,75 @@ public class UserManager {
 	public HashMap<String, User> getActiveUsers() {
 		return activeUsers;
 	}
-	public synchronized void removeUser(String id){
+
+	/**
+	 * Removes the related user from the active users list and his pseudo from the pseudo set
+	 * @param id User identifier
+	 */
+	public synchronized void removeUser(String id) {
 		this.activeUsers.remove(id);
+		this.pseudoSet.remove(this.getActiveUsers().get(id).getPseudo());
 		this.appHandler.processUserInaction(id);
 	}
-	public boolean isActiveUser(String identifier){
+
+	public boolean isActiveUser(String identifier) {
 		return this.getActiveUsers().containsKey(identifier);
 	}
+
 	public User getMainUser() {
 		return mainUser;
 	}
-	public void processActive(String identifier, String pseudo) {
-		if(!this.activeUsers.containsKey(identifier)){
-			this.activeUsers.put(identifier,new User(identifier,pseudo));
-			Timer timer = new Timer();
-			ActivityTimerTask task = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC,identifier,this);
-			this.activityTasks.put(identifier,task);
-			timer.schedule(task,0,1000);
 
+	private User findUserByPseudo(String pseudo) {
+		for (User u : this.getActiveUsers().values()) {
+			if (u.getPseudo().equals(pseudo)) {
+				return u;
+			}
 		}
-		else{
-			if(!identifier.equals(this.mainUser.getIdentifier()))
-			this.activityTasks.get(identifier).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
+		return null;
+	}
+
+	/**
+	 * Handles the reception of an activity signal from a distant user. Resolves conflicting pseudos following a "first chosen" priority rule.
+	 * @param activeUser The user signaling his presence
+	 * @return true if the user ids and pseudos have been accepted and added to the active users list, false otherwise
+	 */
+	public boolean processActive(User activeUser) {
+		String identifier = activeUser.getIdentifier();
+		String pseudo = activeUser.getPseudo();
+		boolean valid = true;
+		if (this.pseudoSet.contains(pseudo)) {//TODO pseudo unicity problem
+			if (!isActiveUser(identifier) || !this.getActiveUsers().get(identifier).getPseudo().equals(pseudo)) {//If the user owning this pseudo isn't the one signaling
+				User conflicting = this.findUserByPseudo(pseudo);
+				if (conflicting.getDate().after(activeUser.getDate())) {
+					this.removeUser(conflicting.getIdentifier());
+				} else {
+					valid = false;
+				}
+			}
 		}
+		if (valid) {
+			if (!this.activeUsers.containsKey(identifier)) {//If the signaling user isn't already known by the agent introduce it and set up an inactivity timer
+				this.activeUsers.put(identifier, activeUser);
+				this.pseudoSet.add(pseudo);
+				Timer timer = new Timer();
+				ActivityTimerTask task = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC, identifier, this);
+				this.activityTasks.put(identifier, task);
+				timer.schedule(task, 0, 1000);
+
+			} else {//If the user is already considered active, reset it's inactivity timer
+				if (!identifier.equals(this.mainUser.getIdentifier())) {
+					User user = this.getActiveUsers().get(identifier);
+					if (this.pseudoSet.contains(user.getPseudo())) {
+						this.pseudoSet.remove(user.getPseudo());
+					}
+					this.pseudoSet.add(pseudo);
+					user.syncPseudo(activeUser);
+					this.activityTasks.get(identifier).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
+
+				}
+			}
+		}
+		return valid;
 	}
 }

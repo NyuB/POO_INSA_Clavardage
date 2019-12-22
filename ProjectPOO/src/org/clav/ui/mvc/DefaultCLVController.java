@@ -5,6 +5,7 @@ import org.clav.chat.Message;
 import org.clav.user.User;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class DefaultCLVController implements CLVController {
 	private AppHandler appHandler;
@@ -74,9 +75,12 @@ public class DefaultCLVController implements CLVController {
 	}
 
 	@Override
-	public void notifyInvalidPseudo() {
+	public void notifyInvalidPseudo() {//TODO Pop an option Pane or something to interact with user
 		this.log("Starting invalid pseudo correction procedure");
-
+		int i = 0;
+		while(!this.appHandler.processMainUserPseudoChange(String.valueOf(i))){
+			i++;
+		}
 	}
 
 	@Override

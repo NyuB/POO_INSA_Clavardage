@@ -29,4 +29,8 @@ public class User implements Serializable {
 	public Date getDate() {
 		return date;
 	}
+	public void syncPseudo(User mirror){
+		this.pseudo = mirror.getPseudo();
+		this.date = mirror.getDate();
+	}
 }

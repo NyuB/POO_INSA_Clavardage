@@ -58,6 +58,8 @@ public interface AppHandler {
 	 */
 	void processPseudoRejection(PseudoRejection rejection);
 
+	boolean processMainUserPseudoChange(String newPseudo);
+
 	/**
 	 * @param identifier User unique id
 	 * @return true if a User with id identifier is currently active

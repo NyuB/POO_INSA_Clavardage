@@ -36,7 +36,7 @@ public class UDPListenerProtocol extends Protocol {
 				CLVPacket packet = (CLVPacket) fromBytes(packetUDP.getData());
 				if (packet.header == SIG) {
 					User user = (User) (packet.data);
-					//TODO test rejection protocol
+					//TODO test rejection protocol, moe thisto applicative level?
 					if (user.getPseudo().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getPseudo())) {
 						PseudoRejection rejection = new PseudoRejection(user.getPseudo(), getRelatedNetworkManager().getAppHandler().getMainUser().getDate());
 						CLVPacket rejectionPacket = CLVPacketFactory.gen_REJ(rejection);

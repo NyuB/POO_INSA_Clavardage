@@ -127,7 +127,7 @@ public class UserManagerUnitTest {
 	}
 
 	@Test
-	public void pseudoConflictTest() throws InterruptedException {
+	public void pseudoConflictTestFirstCreatedFirstAdded() throws InterruptedException {
 		User mainUser = new User("Main","Main");
 		User otherUser = new User("Other","Conflict");
 		Thread.sleep(1000);
@@ -139,5 +139,19 @@ public class UserManagerUnitTest {
 		Assert.assertTrue(userManager.isActiveUser(otherUser.getIdentifier()));
 		Assert.assertFalse(userManager.isActiveUser(lastUser.getIdentifier()));
 
+	}
+
+	@Test
+	public void pseudoConflictTestFirstCreatedSecondAdded() throws InterruptedException {
+		User mainUser = new User("Main","Main");
+		User otherUser = new User("Other","Conflict");
+		Thread.sleep(1000);
+		User lastUser = new User("Last","Conflict");
+		UserManager userManager = new UserManager(mainUser);
+		userManager.setAppHandler(emptyAppHandler);
+		userManager.processActive(lastUser);
+		userManager.processActive(otherUser);
+		Assert.assertTrue(userManager.isActiveUser(otherUser.getIdentifier()));
+		Assert.assertFalse(userManager.isActiveUser(lastUser.getIdentifier()));
 	}
 }

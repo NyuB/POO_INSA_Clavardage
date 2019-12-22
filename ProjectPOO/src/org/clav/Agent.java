@@ -90,13 +90,13 @@ public class Agent implements AppHandler, CLVModel {
 		message.setUserID(this.getMainUser().getIdentifier());
 		CLVPacket packet = CLVPacketFactory.gen_MSG(message);
 		boolean selfTalk = true;
-		boolean success = true;
+		boolean success = false;
 		for (User u : this.getChatManager().getChat(message.getChatHashCode()).getMembers()) {
 			if(u.getIdentifier().equals(this.getMainUser().getIdentifier())){
 				System.out.println("[APPHANDLER]Skipping main user");
 			}
 			else {
-				success = success && this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
+				success = success || this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
 				selfTalk = false;
 			}
 		}

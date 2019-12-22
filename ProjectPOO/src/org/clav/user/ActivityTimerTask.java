@@ -18,9 +18,9 @@ public class ActivityTimerTask extends TimerTask {
 		synchronized (this.counter) {
 			if (this.counter > 0) {
 				this.counter--;
-				System.out.println("[TIM]Counting " + this.counter);
+				//System.out.println("[TIM]Counting " + this.counter);
 			} else {
-				System.out.println("[TIM]Expiration user "+this.id);//TODO implement inactive management
+				System.out.println("[TIM]Expiration user "+this.id);
 				this.userManager.removeUser(this.id);
 				cancel();
 			}

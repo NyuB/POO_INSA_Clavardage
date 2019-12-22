@@ -1,5 +1,4 @@
 package org.clav.user;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,6 +24,7 @@ public class User implements Serializable {
 		this.pseudo = pseudo;
 		this.date = new Date();
 	}
+
 
 	public Date getDate() {
 		return date;

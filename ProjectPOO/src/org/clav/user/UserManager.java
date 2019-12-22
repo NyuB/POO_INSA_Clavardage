@@ -60,9 +60,11 @@ public class UserManager {
 	 * @param id User identifier
 	 */
 	public synchronized void removeUser(String id) {
-		this.activeUsers.remove(id);
-		this.pseudoSet.remove(this.getActiveUsers().get(id).getPseudo());
-		this.appHandler.processUserInaction(id);
+		if(this.isActiveUser(id)) {
+			this.pseudoSet.remove(this.getActiveUsers().get(id).getPseudo());
+			this.activeUsers.remove(id);
+			this.appHandler.processUserInaction(id);
+		}
 	}
 
 	public boolean isActiveUser(String identifier) {
@@ -91,7 +93,7 @@ public class UserManager {
 		String identifier = activeUser.getIdentifier();
 		String pseudo = activeUser.getPseudo();
 		boolean valid = true;
-		if (this.pseudoSet.contains(pseudo)) {//TODO pseudo unicity problem
+		if (this.pseudoSet.contains(pseudo)) {//Resolve pseudo conflicts
 			if (!isActiveUser(identifier) || !this.getActiveUsers().get(identifier).getPseudo().equals(pseudo)) {//If the user owning this pseudo isn't the one signaling
 				User conflicting = this.findUserByPseudo(pseudo);
 				if (conflicting.getDate().after(activeUser.getDate())) {
@@ -101,6 +103,7 @@ public class UserManager {
 				}
 			}
 		}
+		//Add or update user
 		if (valid) {
 			if (!this.activeUsers.containsKey(identifier)) {//If the signaling user isn't already known by the agent introduce it and set up an inactivity timer
 				this.activeUsers.put(identifier, activeUser);
@@ -113,9 +116,7 @@ public class UserManager {
 			} else {//If the user is already considered active, reset it's inactivity timer
 				if (!identifier.equals(this.mainUser.getIdentifier())) {
 					User user = this.getActiveUsers().get(identifier);
-					if (this.pseudoSet.contains(user.getPseudo())) {
-						this.pseudoSet.remove(user.getPseudo());
-					}
+					this.pseudoSet.remove(user.getPseudo());
 					this.pseudoSet.add(pseudo);
 					user.syncPseudo(activeUser);
 					this.activityTasks.get(identifier).setCounter(DelayConstants.INACTIVE_DELAY_SEC);

@@ -18,7 +18,7 @@ public class ActiveUsersPanel extends JPanel {
 	public void refreshUsers(Iterable<User> users) {
 		this.userButtons.clear();
 		for (User user : users) {
-			this.userButtons.put(user.getIdentifier(), new JButton(user.getPseudo()));
+			this.userButtons.put(user.getIdentifier(), CLVComponentFactory.createButton(user.getPseudo()));
 		}
 		this.checkDisplay();
 	}

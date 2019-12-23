@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CLVPanel extends JPanel {
-	private CLVChatDisplay chatDisplay;
+	private CLVMultiChatDisplay chatDisplay;
 	private ActiveUsersPanel activeUsersPanel;
 	private ButtonsTopBar topBar;
 	public CLVPanel(CLVController clvController, CLVView view,CLVModel model) {
@@ -48,7 +48,7 @@ public class CLVPanel extends JPanel {
 
 	}
 
-	public CLVChatDisplay getChatDisplay() {
+	public CLVMultiChatDisplay getChatDisplay() {
 		return chatDisplay;
 	}
 

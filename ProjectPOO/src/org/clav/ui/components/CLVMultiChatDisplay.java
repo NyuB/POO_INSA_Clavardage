@@ -2,7 +2,7 @@ package org.clav.ui.components;
 
 import javax.swing.*;
 
-public interface CLVChatDisplay {
+public interface CLVMultiChatDisplay {
 	/**
 	 * If present, delete the chat from the display
 	 * @param code chat unique hashcode

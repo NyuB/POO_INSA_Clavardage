@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class CLVChatGridPanel extends JPanel implements CLVChatDisplay {
+public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 
 	private CLVController controller;
 	private CLVModel model;

@@ -5,7 +5,6 @@ import org.clav.chat.ChatManager;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
-import org.clav.utils.HashUtils;
 import org.clav.utils.constants.FormatConstant;
 
 import java.net.InetAddress;
@@ -61,7 +60,7 @@ public class ProtoApp {
 							for (int i = 1; i < cmd.length; i++) {
 								ids.add(cmd[i]);
 							}
-							agent.getUiManager().getController().notifyChatInitiationFromUser(ids);
+							agent.getGUIManager().getController().notifyChatInitiationFromUser(ids);
 						}
 						break;
 					case "SAV":

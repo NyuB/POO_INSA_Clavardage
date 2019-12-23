@@ -8,7 +8,7 @@ public class ButtonsTopBar extends JPanel {
 	public ButtonsTopBar(int nbButtons) {
 		super(new GridLayout(1,nbButtons));
 		for(int i = 0;i<nbButtons;i++){
-			this.add(new JButton("VOID"));
+			this.add(CLVComponentFactory.createButton("VOID"));
 		}
 	}
 	public void setUpButton(int index, String text,ActionListener l){

@@ -72,7 +72,7 @@ public class ProtoLocal {
 							for (int i = 1; i < cmd.length; i++) {
 								ids.add(cmd[i]);
 							}
-							agent.getUiManager().getController().notifyChatInitiationFromUser(ids);
+							agent.getGUIManager().getController().notifyChatInitiationFromUser(ids);
 						}
 						break;
 					case "SAV":

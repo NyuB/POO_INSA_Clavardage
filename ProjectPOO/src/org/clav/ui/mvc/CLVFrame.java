@@ -3,13 +3,12 @@ package org.clav.ui.mvc;
 import org.clav.ui.components.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class CLVFrame extends JFrame implements CLVView {
 	private CLVController controller;
 	private CLVModel model;
-	private CLVChatDisplay chatDisplay;
+	private CLVMultiChatDisplay chatDisplay;
 	private CLVPanel contentPane;
 	public CLVFrame(CLVController controller, CLVModel model) {
 		super("CLV APP "+model.getMainUser().getIdentifier());

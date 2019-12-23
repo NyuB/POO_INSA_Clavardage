@@ -17,10 +17,7 @@ public class UserSelectionPanel extends JPanel {
 		for(User u : this.usersArrayList){
 			this.add(new LabeledTickBox(new JLabel(u.getPseudo(),SwingConstants.CENTER)));
 		}
-		for(int i = 0;i<30;i++){
-			this.add(new JButton("FILLER"));
-		}
-		this.validateButton = new JButton("V");
+		this.validateButton = CLVComponentFactory.createButton("V");
 		this.add(this.validateButton);
 	}
 	public ArrayList<String> getSelected(){

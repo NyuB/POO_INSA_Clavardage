@@ -5,7 +5,7 @@ import org.clav.config.ConfigManager;
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
 import org.clav.network.NetworkManager;
-import org.clav.ui.UIManager;
+import org.clav.ui.GUIManager;
 import org.clav.ui.mvc.CLVModel;
 import org.clav.user.PseudoRejection;
 import org.clav.user.User;
@@ -24,7 +24,7 @@ public class Agent implements AppHandler, CLVModel {
 	private ChatManager chatManager;
 	private UserManager userManager;
 	private ConfigManager configManager;
-	private UIManager uiManager;
+	private GUIManager GUIManager;
 
 	public ChatManager getChatManager() {
 		return chatManager;
@@ -58,26 +58,26 @@ public class Agent implements AppHandler, CLVModel {
 		this.networkManager = networkManager;
 	}
 
-	public UIManager getUiManager() {
-		return uiManager;
+	public GUIManager getGUIManager() {
+		return GUIManager;
 	}
 
-	public void setUiManager(UIManager uiManager) {
-		this.uiManager = uiManager;
+	public void setGUIManager(GUIManager GUIManager) {
+		this.GUIManager = GUIManager;
 	}
 
 	public void start() throws NullPointerException {
 		if(this.networkManager!=null && this.chatManager!=null && this.userManager!=null) {
-			this.uiManager = new UIManager(this, this);
-			this.uiManager.start();
-			this.uiManager.getView().refreshUsers();
+			this.GUIManager = new GUIManager(this, this);
+			this.GUIManager.start();
+			this.GUIManager.getView().refreshUsers();
 		}
 		else{
 			throw new NullPointerException();
 		}
 	}
 	public void stop(){
-		this.uiManager.getView().turnOff();
+		this.GUIManager.getView().turnOff();
 	}
 
 
@@ -108,7 +108,7 @@ public class Agent implements AppHandler, CLVModel {
 		}
 		if(success) {
 			this.getChatManager().processMessageEmission(message);
-			this.getUiManager().getView().refreshChat(message.getChatHashCode());
+			this.getGUIManager().getView().refreshChat(message.getChatHashCode());
 		}
 	}
 
@@ -126,21 +126,21 @@ public class Agent implements AppHandler, CLVModel {
 		for (User u : distantMembers) {
 			this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
 		}
-		this.getUiManager().getView().refreshChat(code);
+		this.getGUIManager().getView().refreshChat(code);
 	}
 
 	//AppHandler Impl
 	@Override
 	public void processMessage(Message message) {
 		this.getChatManager().processMessageReception(message);
-		this.getUiManager().getController().notifyMessageReception(message);
+		this.getGUIManager().getController().notifyMessageReception(message);
 	}
 
 	//AppHandler Impl
 	@Override
 	public void processChatInitiation(ChatInit init) {
 		this.getChatManager().createIfNew(init);
-		this.getUiManager().getController().notifyChatInitiationFromDistant(init.getChatHashCode());
+		this.getGUIManager().getController().notifyChatInitiationFromDistant(init.getChatHashCode());
 	}
 
 	//AppHandler Impl
@@ -160,7 +160,7 @@ public class Agent implements AppHandler, CLVModel {
 	public void processNewUser(User user) {
 		System.out.println("[APPH]Processing new user "+user.getIdentifier());
 		this.getUserManager().processActive(user);
-		if (this.getUiManager() != null) this.uiManager.getController().notifyNewActiveUser(user);
+		if (this.getGUIManager() != null) this.GUIManager.getController().notifyNewActiveUser(user);
 		for(User u  : this.getActiveUsers().values()){
 			System.out.println("[APPH]User : "+u.getIdentifier()+" "+u.getPseudo());
 		}
@@ -171,7 +171,7 @@ public class Agent implements AppHandler, CLVModel {
 	@Override
 	public void processUserInaction(String id) {
 		this.getNetworkManager().closeConnectionTCP(id);
-		this.getUiManager().getController().notifyInactiveUser(id);
+		this.getGUIManager().getController().notifyInactiveUser(id);
 
 	}
 
@@ -181,7 +181,7 @@ public class Agent implements AppHandler, CLVModel {
 		synchronized (this.getMainUser().getPseudo()) {
 			if (rejection.getDate().before(this.getMainUser().getPseudoDate()) && rejection.getPseudo().equals(this.getMainUser().getPseudo())) {
 				this.getNetworkManager().stopActivitySignal();
-				this.uiManager.getController().notifyInvalidPseudo();
+				this.GUIManager.getController().notifyInvalidPseudo();
 				this.getNetworkManager().startUDPSignal();
 			}
 		}

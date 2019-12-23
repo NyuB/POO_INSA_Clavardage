@@ -21,7 +21,7 @@ public class ChatPanel extends JPanel {
 	public ChatPanel(Chat chat) {
 		super(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		this.setBorder(BorderFactory.createLineBorder(Color.RED));
+		this.setBorder(BorderFactory.createLineBorder(CLVColors.CLV_DEFAULT_COLOR));
 		//Top bar
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -33,26 +33,28 @@ public class ChatPanel extends JPanel {
 
 		//Title
 		gbc.gridy = 1;
-		gbc.weighty = 0.15;
+		gbc.weighty = 0.05;
 		StringBuilder sb = new StringBuilder();
 		for(User u:chat.getMembers()){
 			sb.append(u.getPseudo());
 			sb.append(" | ");
 		}
 		this.title = new JLabel(sb.toString());
+		this.title.setBorder(BorderFactory.createLineBorder(CLVColors.CLV_DEFAULT_COLOR));
 		this.add(this.title,gbc);
 
 		//TextArea
 		gbc.gridy = 2;
-		gbc.weighty = 0.65;
-		this.textArea = new ScrollComponent<>(new JTextArea());
+		gbc.weighty = 0.8;
+		JTextArea textArea = CLVComponentFactory.createTextArea();
+		this.textArea = new ScrollComponent<>(textArea);
 		this.add(textArea,gbc);
 
 
 		//TypeField
 		gbc.gridy = 3;
-		gbc.weighty = 0.15;
-		this.typeField = new JTextField();
+		gbc.weighty = 0.1;
+		this.typeField = CLVComponentFactory.createTextField();
 		this.add(typeField,gbc);
 	}
 	public JTextArea getTextArea() {

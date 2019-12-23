@@ -11,7 +11,6 @@ public class TestAgentWindow {
 	public static void main(String[] args) {
 		JFrame myFrame = new AgentWindow() ;
 		myFrame.getContentPane().add(new IdenticationPanel(), BorderLayout.CENTER) ;
-		//myFrame.setContentPane(new ChatPanel());
 		myFrame.setVisible(true) ;
 	}
 

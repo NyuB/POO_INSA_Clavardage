@@ -4,20 +4,35 @@ import org.clav.AppHandler;
 import org.clav.chat.Chat;
 import org.clav.ui.mvc.*;
 
-public class UIManager {
+import javax.swing.*;
+
+
+public class GUIManager {
 	private AppHandler appHandler;
 	private CLVModel model;
 	private CLVView view;
 	private CLVController controller;
 
-	public UIManager(AppHandler appHandler,CLVModel model) {
+	public GUIManager(AppHandler appHandler, CLVModel model) {
 		this.appHandler = appHandler;
 		this.model = model;
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		this.controller = new DefaultCLVController(appHandler,model);
 		this.view = new CLVFrame(controller,model);
 	}
 
 	public void start(){
+
 		this.view.turnOn();
 		//Notify the view of each initial chat
 		for(Chat chat:this.getModel().getActiveChats().values()){

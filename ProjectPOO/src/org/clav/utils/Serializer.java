@@ -4,8 +4,14 @@ package org.clav.utils;
 import java.io.*;
 
 
-//From StackOverFlow
-public class Serializer {
+//Methods copied from StackOverFlow
+public final class Serializer {
+
+	private Serializer(){
+		//Ensure no instance of this class can be created
+		assert(false);
+	}
+
 	public static Object fromBytes(byte[] bytes){
 		ByteArrayInputStream in = new ByteArrayInputStream(bytes);
 		try {

@@ -11,10 +11,14 @@ import org.clav.user.PseudoRejection;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.HashUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Central class of the CLV application
+ * Divided into diverse manager classes handling the main needs of the application(network, chat history, users identification, ui...)
+ * The agent serves as a hub between the managers
+ */
 public class Agent implements AppHandler, CLVModel {
 	private NetworkManager networkManager;
 	private ChatManager chatManager;
@@ -175,7 +179,7 @@ public class Agent implements AppHandler, CLVModel {
 	@Override
 	public void processPseudoRejection(PseudoRejection rejection) {
 		synchronized (this.getMainUser().getPseudo()) {
-			if (rejection.getDate().before(this.getMainUser().getDate()) && rejection.getPseudo().equals(this.getMainUser().getPseudo())) {
+			if (rejection.getDate().before(this.getMainUser().getPseudoDate()) && rejection.getPseudo().equals(this.getMainUser().getPseudo())) {
 				this.getNetworkManager().stopActivitySignal();
 				this.uiManager.getController().notifyInvalidPseudo();
 				this.getNetworkManager().startUDPSignal();

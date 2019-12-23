@@ -2,6 +2,10 @@ package org.clav.user;
 
 import java.util.TimerTask;
 
+/**
+ * Set up a counter on an user id, and notify the related UserManager by calling the removeUser methods when the counter reaches 0
+ * The counter can be dynamically reset from outside the thread, without having to interrupt and restart it
+ */
 public class ActivityTimerTask extends TimerTask {
 	private Integer counter;
 	private String id;

@@ -8,7 +8,14 @@ import java.util.ArrayList;
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-public class CLVOptionPane {
+/**
+ * Pure static class to handle dialogs in CLV application, following the model of JOptionPane static methods
+ */
+public final class CLVOptionPane {
+	private CLVOptionPane(){
+		//Ensure no instance of this class can be created
+		assert(false);
+	}
 	public static ArrayList<String> showUserSelectionDialog(JFrame frame, CLVModel model){
 		UserSelectionPanel selectionPanel = new UserSelectionPanel(model.getActiveUsers().values());
 		JDialog dialog = new JDialog(frame,"Select users",true);

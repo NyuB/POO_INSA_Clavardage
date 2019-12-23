@@ -98,9 +98,9 @@ public class UserManager {
 		if (this.pseudoSet.contains(pseudo)) {//Resolve pseudo conflicts
 			if (!isActiveUser(identifier) || !this.getActiveUsers().get(identifier).getPseudo().equals(pseudo)) {//If the user owning this pseudo isn't the one signaling
 				User conflicting = this.findUserByPseudo(pseudo);
-				if (conflicting.getDate().after(activeUser.getDate())) {
+				if (conflicting.getPseudoDate().after(activeUser.getPseudoDate())) {
 					if (conflicting == this.getMainUser()) {
-						this.appHandler.processPseudoRejection(new PseudoRejection(pseudo, activeUser.getDate()));
+						this.appHandler.processPseudoRejection(new PseudoRejection(pseudo, activeUser.getPseudoDate()));
 					} else {
 						this.removeUser(conflicting.getIdentifier());
 					}

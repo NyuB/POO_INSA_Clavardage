@@ -1,6 +1,10 @@
 package org.clav.utils.constants;
 
-public class NetworkConstants {
+public final class NetworkConstants {
+	private NetworkConstants(){
+		//Ensure no instance of this class can be created
+		assert(false);
+	}
 	//PORTS
 	public static int UDPSOCKET_SEND_PORT = 1034;
 	public static int UDPSOCKET_RECEIVE_PORT = 1035;

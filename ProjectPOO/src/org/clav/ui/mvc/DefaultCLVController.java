@@ -5,7 +5,6 @@ import org.clav.chat.Message;
 import org.clav.user.User;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class DefaultCLVController implements CLVController {
 	private AppHandler appHandler;
@@ -77,24 +76,20 @@ public class DefaultCLVController implements CLVController {
 	@Override
 	public void notifyInvalidPseudo() {//TODO Pop an option Pane or something to interact with user
 		this.log("Starting invalid pseudo correction procedure");
-		int i = 0;
-		while(!this.appHandler.processMainUserPseudoChange(String.valueOf(i))){
-			i++;
+		String newPseudo = this.view.popInvalidPseudoDialog();
+		while(!this.appHandler.processMainUserPseudoChange(newPseudo)){
+			newPseudo = this.view.popInvalidPseudoDialog();
 		}
-	}
-
-	@Override
-	public void notifyPseudoChangeFromDistant(User user) {
-		System.out.println("[MODEL]Changing " + user.getIdentifier() + " pseudo to " + user.getPseudo());
+		this.view.refreshUsers();
 	}
 
 	@Override
 	public void notifyMainUserPseudoChange(String pseudo) {
-		this.log("Main user changed pseudo to " + pseudo);
-	}
+		this.log("Main user trying to change his pseudo to " + pseudo);
+		if(this.appHandler.processMainUserPseudoChange(pseudo)){
+			this.log("Pseudo change success");
+			this.view.refreshUsers();
+		}
 
-	@Override
-	public void notifyMainUserPseudoRejected(String old) {
-		this.log("Rejection of pseudo change");
 	}
 }

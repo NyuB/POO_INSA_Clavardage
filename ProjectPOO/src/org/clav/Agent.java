@@ -174,11 +174,12 @@ public class Agent implements AppHandler, CLVModel {
 
 	//AppHandler Impl
 	@Override
-	public void processPseudoRejection(PseudoRejection rejection) {//TODO
+	public void processPseudoRejection(PseudoRejection rejection) {
 		synchronized (this.getMainUser().getPseudo()) {
 			if (rejection.getDate().before(this.getMainUser().getDate()) && rejection.getPseudo().equals(this.getMainUser().getPseudo())) {
 				this.getNetworkManager().stopActivitySignal();
 				this.uiManager.getController().notifyInvalidPseudo();
+				this.getNetworkManager().startUDPSignal();
 			}
 		}
 

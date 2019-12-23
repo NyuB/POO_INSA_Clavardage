@@ -3,6 +3,7 @@ package org.clav.ui.components;
 import org.clav.chat.History;
 import org.clav.ui.mvc.CLVController;
 import org.clav.ui.mvc.CLVModel;
+import org.clav.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,6 +86,11 @@ public class ChatPanelGrid extends JPanel {
 		System.out.println("Refreshing chat");
 		if (this.activeChats.containsKey(code)) {
 			this.activeChats.get(code).getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
+			StringBuilder sb = new StringBuilder();
+			for(User u : this.model.getChatFor(code).getMembers()){
+				sb.append(u.getPseudo()+" | ");
+			}
+			this.activeChats.get(code).getTitle().setText(sb.toString());
 			this.revalidate();
 
 		} else {

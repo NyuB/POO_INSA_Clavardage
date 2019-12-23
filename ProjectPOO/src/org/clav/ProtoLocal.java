@@ -15,6 +15,8 @@ import java.util.Scanner;
 public class ProtoLocal {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
+		int mode = Integer.valueOf(args[0]);
+		System.out.println("Config : "+mode);
 		System.out.println("Enter user name");
 		String[] name = in.nextLine().split(FormatConstant.spaceRegex);
 		Agent agent = new Agent();
@@ -28,8 +30,6 @@ public class ProtoLocal {
 			System.out.println("Enter broadcast address");
 			line = in.nextLine();
 			InetAddress broadcastAddr = InetAddress.getByName(line);
-			int mode = Integer.valueOf(args[0]);
-			System.out.println("Config : "+mode);
 			int udp = 1034;
 			int tcp = 1035;
 			int udpDist = 1036;
@@ -107,6 +107,16 @@ public class ProtoLocal {
 								break;
 							default:
 								break;
+						}
+						break;
+					case "PSC":
+						if(cmd.length>1){
+							agent.processMainUserPseudoChange(cmd[1]);
+						}
+						break;
+					case "USR":
+						for(User u:agent.getActiveUsers().values()){
+							System.out.println(u.getIdentifier()+" | "+u.getPseudo());
 						}
 						break;
 

@@ -24,11 +24,11 @@ public class HashUnitTest {
 				String code = HashUtils.hashStringList(shuffle.get(0));
 				Assert.assertFalse("No collision for different ids",codes.contains(code));
 				codes.add(code);
-				System.out.println("Permutation K = "+k+" #"+index+" "+code);
+				//System.out.println("Permutation K = "+k+" #"+index+" "+code);
 				index++;
 				int sindex = 1;
 				for(ArrayList s : shuffle){
-					System.out.println("Rotation #"+sindex);
+					//System.out.println("Rotation #"+sindex);
 					sindex++;
 					Assert.assertEquals("Code of permutations should be equals",code,HashUtils.hashStringList(s));
 				}

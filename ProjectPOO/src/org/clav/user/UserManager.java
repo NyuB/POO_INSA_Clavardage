@@ -57,10 +57,11 @@ public class UserManager {
 
 	/**
 	 * Removes the related user from the active users list and his pseudo from the pseudo set
+	 *
 	 * @param id User identifier
 	 */
 	public synchronized void removeUser(String id) {
-		if(this.isActiveUser(id)) {
+		if (this.isActiveUser(id)) {
 			this.pseudoSet.remove(this.getActiveUsers().get(id).getPseudo());
 			this.activeUsers.remove(id);
 			this.appHandler.processUserInaction(id);
@@ -86,6 +87,7 @@ public class UserManager {
 
 	/**
 	 * Handles the reception of an activity signal from a distant user. Resolves conflicting pseudos following a "first chosen" priority rule.
+	 *
 	 * @param activeUser The user signaling his presence
 	 * @return true if the user ids and pseudos have been accepted and added to the active users list, false otherwise
 	 */
@@ -97,7 +99,11 @@ public class UserManager {
 			if (!isActiveUser(identifier) || !this.getActiveUsers().get(identifier).getPseudo().equals(pseudo)) {//If the user owning this pseudo isn't the one signaling
 				User conflicting = this.findUserByPseudo(pseudo);
 				if (conflicting.getDate().after(activeUser.getDate())) {
-					this.removeUser(conflicting.getIdentifier());
+					if (conflicting == this.getMainUser()) {
+						this.appHandler.processPseudoRejection(new PseudoRejection(pseudo, activeUser.getDate()));
+					} else {
+						this.removeUser(conflicting.getIdentifier());
+					}
 				} else {
 					valid = false;
 				}
@@ -113,15 +119,12 @@ public class UserManager {
 				this.activityTasks.put(identifier, task);
 				timer.schedule(task, 0, 1000);
 
-			} else {//If the user is already considered active, reset it's inactivity timer
-				if (!identifier.equals(this.mainUser.getIdentifier())) {
-					User user = this.getActiveUsers().get(identifier);
-					this.pseudoSet.remove(user.getPseudo());
-					this.pseudoSet.add(pseudo);
-					user.syncPseudo(activeUser);
-					this.activityTasks.get(identifier).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
-
-				}
+			} else if (!identifier.equals(this.mainUser.getIdentifier())) {//If the user is already considered active, reset it's inactivity timer
+				User user = this.getActiveUsers().get(identifier);
+				this.pseudoSet.remove(user.getPseudo());
+				this.pseudoSet.add(pseudo);
+				user.syncPseudo(activeUser);
+				this.activityTasks.get(identifier).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
 			}
 		}
 		return valid;

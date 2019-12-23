@@ -36,7 +36,6 @@ public class LocalStorage implements ChatStorage {
 			if (con!= null){
 	            System.out.println("Connection created successfully");
 	            stm = con.createStatement() ;
-	            
 	         }
 			else{
 	            System.out.println("Problem with creating connection");

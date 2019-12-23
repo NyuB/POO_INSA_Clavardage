@@ -31,11 +31,9 @@ public class NetworkManagerUnitTest {
 		networkManager = new NetworkManager(localhost, localhost);
 		networkManager.startUDPSignal();
 		Thread.sleep(1000);
-		//Assert.assertEquals("UDP launch should have failed due to appHandler absence",initialCount,Thread.activeCount());
 		networkManager.stopActivitySignal();
 		networkManager.startUDPSignal();
 		Thread.sleep(1000);
-		//Assert.assertEquals("UDP launch should have failed due to appHandler absence",initialCount,Thread.activeCount());
 		networkManager.stopActivitySignal();
 	}
 

@@ -17,7 +17,8 @@ public class ProtoApp {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter user name");
-		String[] name = in.nextLine().split(FormatConstant.spaceRegex);
+		//String[] name = in.nextLine().split(FormatConstant.spaceRegex);
+		String [] name = {"A"};
 		Agent agent = new Agent();
 		User mainUser = new User(name[0], (name.length>1)?name[1]:name[0]);
 		UserManager userManager = new UserManager(mainUser);
@@ -27,7 +28,8 @@ public class ProtoApp {
 		try {
 			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
 			System.out.println("Enter broadcast address");
-			line = in.nextLine();
+			//line = in.nextLine();
+			line = "localhost";
 			InetAddress broadcastAddr = InetAddress.getByName(line);
 			networkManager = new NetworkManager(localAddr,broadcastAddr);
 			networkManager.setAppHandler(agent);
@@ -95,6 +97,11 @@ public class ProtoApp {
 								break;
 							default:
 								break;
+						}
+						break;
+					case "USR":
+						for(User u:agent.getActiveUsers().values()){
+							System.out.println(u.getIdentifier()+" | "+u.getPseudo());
 						}
 						break;
 

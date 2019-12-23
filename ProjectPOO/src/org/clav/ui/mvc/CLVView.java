@@ -1,4 +1,5 @@
 package org.clav.ui.mvc;
+import java.util.ArrayList;
 
 public interface CLVView {
 	void refreshChat(String code);
@@ -6,4 +7,7 @@ public interface CLVView {
 	void turnOff();
 	void refreshUsers();
 	void refreshAll();
+	ArrayList<String> popUserSelectionDialog();
+	String popInvalidPseudoDialog();
+
 }

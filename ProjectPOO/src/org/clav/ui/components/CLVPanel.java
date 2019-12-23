@@ -2,6 +2,7 @@ package org.clav.ui.components;
 
 import org.clav.ui.mvc.CLVController;
 import org.clav.ui.mvc.CLVModel;
+import org.clav.ui.mvc.CLVView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,15 +10,31 @@ import java.awt.*;
 public class CLVPanel extends JPanel {
 	private ChatPanelGrid chatPanelGrid;
 	private ActiveUsersPanel activeUsersPanel;
-	public CLVPanel(CLVController clvController, CLVModel model) {
+	private ButtonsTopBar topBar;
+	public CLVPanel(CLVController clvController, CLVView view,CLVModel model) {
 		super(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.weightx= 0.9;
-		gbc.weighty= 1;
+		gbc.gridwidth = 2;
+		gbc.weightx= 1;
+		gbc.weighty= 0.1;
 		gbc.fill = GridBagConstraints.BOTH;
+		this.topBar = new ButtonsTopBar(4);
+		this.topBar.setUpButton(0,"PSEUDO",l->{
+			clvController.notifyMainUserPseudoChange(JOptionPane.showInputDialog(this,"New pseudo"));
+		});
+		this.topBar.setUpButton(1,"CHAT",l->{
+			System.out.println("CHI Request from UI");
+			clvController.notifyChatInitiationFromUser(view.popUserSelectionDialog());
+		});
+		this.add(topBar,gbc);
+
+		gbc.gridwidth = 1;
+		gbc.gridy = 1;
+		gbc.weightx= 0.9;
+		gbc.weighty= 0.9;
 		this.chatPanelGrid = new ChatPanelGrid(clvController,model);
 		this.add(chatPanelGrid,gbc);
 

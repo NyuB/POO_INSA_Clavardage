@@ -16,6 +16,7 @@ public class ChatManager {
 	public ChatManager() {
 		this.chats = new HashMap<>();
 		this.storage = new EmptyChatStorage();
+		this.load();
 	}
 
 	public void setStorage(ChatStorage storage) {

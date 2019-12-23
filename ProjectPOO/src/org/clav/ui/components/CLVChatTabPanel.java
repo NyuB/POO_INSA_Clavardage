@@ -8,7 +8,7 @@ import org.clav.user.User;
 import javax.swing.*;
 import java.util.HashMap;
 
-public class CLVChatTabPanel extends JTabbedPane implements CLVChatDisplayer {
+public class CLVChatTabPanel extends JTabbedPane implements CLVChatDisplay {
 	private CLVController controller;
 	private CLVModel model;
 	private HashMap<String,ChatPanel> activeChats;
@@ -29,7 +29,7 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVChatDisplayer {
 	}
 
 	@Override
-	public void updateChat(String code) {
+	public synchronized void updateChat(String code) {
 		if(this.activeChats.containsKey(code)){
 			this.activeChats.get(code).getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
 			StringBuilder sb = new StringBuilder();

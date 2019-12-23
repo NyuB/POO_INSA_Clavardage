@@ -62,7 +62,6 @@ public class Agent implements AppHandler, CLVModel {
 		this.uiManager = uiManager;
 	}
 
-
 	public void start() throws NullPointerException {
 		if(this.networkManager!=null && this.chatManager!=null && this.userManager!=null) {
 			this.uiManager = new UIManager(this, this);

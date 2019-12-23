@@ -42,12 +42,18 @@ public class DefaultCLVController implements CLVController {
 	public void notifyChatInitiationFromUser(ArrayList<String> distantIdentifiers) {
 		this.log("Receiving chat initiation command. Distant user list : ");
 		ArrayList<User> userArrayList = new ArrayList<>();
-		for (String s : distantIdentifiers) {
-			User u = this.model.getActiveUsers().get(s);
-			System.out.println("\t"+u.getIdentifier()+" "+u.getPseudo());
-			userArrayList.add(u);
+		try {
+			for (String s : distantIdentifiers) {
+				User u = this.model.getActiveUsers().get(s);
+				System.out.println("\t" + u.getIdentifier() + " " + u.getPseudo());
+				userArrayList.add(u);
+			}
+			this.appHandler.initiateChat(userArrayList);
 		}
-		this.appHandler.initiateChat(userArrayList);
+		catch (NullPointerException e){
+			this.log("Invalid identifiers in chat initiation request");
+		}
+
 	}
 
 	@Override
@@ -74,7 +80,7 @@ public class DefaultCLVController implements CLVController {
 	}
 
 	@Override
-	public void notifyInvalidPseudo() {//TODO Pop an option Pane or something to interact with user
+	public void notifyInvalidPseudo() {
 		this.log("Starting invalid pseudo correction procedure");
 		String newPseudo = this.view.popInvalidPseudoDialog();
 		while(!this.appHandler.processMainUserPseudoChange(newPseudo)){

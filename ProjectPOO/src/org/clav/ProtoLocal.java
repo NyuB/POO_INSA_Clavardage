@@ -28,7 +28,8 @@ public class ProtoLocal {
 		try {
 			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
 			System.out.println("Enter broadcast address");
-			line = in.nextLine();
+			//line = in.nextLine();
+			line = "localhost";
 			InetAddress broadcastAddr = InetAddress.getByName(line);
 			int udp = 1034;
 			int tcp = 1035;

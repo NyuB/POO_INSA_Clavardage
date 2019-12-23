@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class ChatPanelGrid extends JPanel {
+public class CLVChatGridPanel extends JPanel implements CLVChatDisplayer {
 
 	private CLVController controller;
 	private CLVModel model;
@@ -17,7 +17,7 @@ public class ChatPanelGrid extends JPanel {
 	private int r;
 	private int c;
 
-	public ChatPanelGrid(CLVController controller, CLVModel model) {
+	public CLVChatGridPanel(CLVController controller, CLVModel model) {
 		super(new GridLayout(1, 0));
 		this.controller = controller;
 		this.model = model;
@@ -63,6 +63,7 @@ public class ChatPanelGrid extends JPanel {
 		}
 	}
 
+	@Override
 	public void deleteChat(String code) {
 		if (this.activeChats.containsKey(code)) {
 			this.remove(this.activeChats.get(code));
@@ -82,7 +83,8 @@ public class ChatPanelGrid extends JPanel {
 		}
 	}
 
-	public synchronized void refreshChat(String code) {
+	@Override
+	public synchronized void updateChat(String code) {
 		System.out.println("Refreshing chat");
 		if (this.activeChats.containsKey(code)) {
 			this.activeChats.get(code).getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
@@ -96,5 +98,10 @@ public class ChatPanelGrid extends JPanel {
 		} else {
 			this.createChat(code);
 		}
+	}
+
+	@Override
+	public JComponent getComponent() {
+		return this;
 	}
 }

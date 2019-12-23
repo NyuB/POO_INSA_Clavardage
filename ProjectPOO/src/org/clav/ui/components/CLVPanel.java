@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CLVPanel extends JPanel {
-	private ChatPanelGrid chatPanelGrid;
+	private CLVChatDisplayer chatPanelGrid;
 	private ActiveUsersPanel activeUsersPanel;
 	private ButtonsTopBar topBar;
 	public CLVPanel(CLVController clvController, CLVView view,CLVModel model) {
@@ -35,8 +35,8 @@ public class CLVPanel extends JPanel {
 		gbc.gridy = 1;
 		gbc.weightx= 0.9;
 		gbc.weighty= 0.9;
-		this.chatPanelGrid = new ChatPanelGrid(clvController,model);
-		this.add(chatPanelGrid,gbc);
+		this.chatPanelGrid = new CLVChatTabPanel(clvController,model);
+		this.add(chatPanelGrid.getComponent(),gbc);
 
 
 
@@ -48,7 +48,7 @@ public class CLVPanel extends JPanel {
 
 	}
 
-	public ChatPanelGrid getChatPanelGrid() {
+	public CLVChatDisplayer getChatPanelGrid() {
 		return chatPanelGrid;
 	}
 

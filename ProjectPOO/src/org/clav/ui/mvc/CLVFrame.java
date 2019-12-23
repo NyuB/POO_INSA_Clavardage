@@ -1,9 +1,6 @@
 package org.clav.ui.mvc;
 
-import org.clav.ui.components.CLVPanel;
-import org.clav.ui.components.ChatPanelGrid;
-import org.clav.ui.components.ScrollComponent;
-import org.clav.ui.components.UserSelectionPanel;
+import org.clav.ui.components.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +9,7 @@ import java.util.ArrayList;
 public class CLVFrame extends JFrame implements CLVView {
 	private CLVController controller;
 	private CLVModel model;
-	private ChatPanelGrid chatGrid;
+	private CLVChatDisplayer chatGrid;
 	private CLVPanel contentPane;
 	public CLVFrame(CLVController controller, CLVModel model) {
 		super("CLV APP "+model.getMainUser().getIdentifier());
@@ -28,7 +25,7 @@ public class CLVFrame extends JFrame implements CLVView {
 
 	@Override
 	public void refreshChat(String code) {
-		this.chatGrid.refreshChat(code);
+		this.chatGrid.updateChat(code);
 	}
 
 	@Override

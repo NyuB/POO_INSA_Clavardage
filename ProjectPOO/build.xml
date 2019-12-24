@@ -98,7 +98,7 @@
             depends="executable_ProtoMonitor,executable_ProtoApp,executable_ProtoLocal"
     />
 
-    <target name="distribution" depends="unit,executable_ProtoApp">
+    <target name="distribution" depends="unit,executable_proto">
         <delete dir="${windist_dir}"/>
         <delete dir="${lindist_dir}"/>
         <copy file="${exe_dir}/ProtoApp.jar" tofile="${windist_dir}/ProtoApp.jar"/>

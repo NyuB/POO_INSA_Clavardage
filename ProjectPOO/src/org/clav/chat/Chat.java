@@ -25,12 +25,10 @@ public class Chat {
 	public void emitMessage(Message message){
 		this.insertMessage(message,true);
 	}
-
 	public void insertMessage(Message message,boolean emetted)
 	{
 		history.insertMessage(message);
 	}
-
 	public ArrayList<User> getMembers() {
 		return members;
 	}

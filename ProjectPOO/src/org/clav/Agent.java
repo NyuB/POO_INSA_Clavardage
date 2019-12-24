@@ -79,15 +79,18 @@ public class Agent implements AppHandler, CLVModel {
 	public void stop(){
 		this.GUIManager.getView().turnOff();
 	}
+	private void log(String txt){
+		System.out.println("[APPH]"+txt);
+	}
 
 
-	//AppHandler,CLVModel Impl
+	//AppHandler,CLVModel
 	@Override
 	public User getMainUser() {
 		return getUserManager().getMainUser();
 	}
 
-	//AppHandler Impl
+	//AppHandler
 	@Override
 	public void sendMessage(Message message) {
 		message.setUserID(this.getMainUser().getIdentifier());
@@ -96,7 +99,7 @@ public class Agent implements AppHandler, CLVModel {
 		boolean success = false;
 		for (User u : this.getChatManager().getChat(message.getChatHashCode()).getMembers()) {
 			if(u.getIdentifier().equals(this.getMainUser().getIdentifier())){
-				System.out.println("[APPHANDLER]Skipping main user");
+				this.log("Skipping main user");
 			}
 			else {
 				success = success || this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
@@ -112,7 +115,7 @@ public class Agent implements AppHandler, CLVModel {
 		}
 	}
 
-	//AppHandler Impl
+	//AppHandler
 	@Override
 	public void initiateChat(ArrayList<User> distantMembers) {
 		ArrayList<User> withMain = new ArrayList<>(distantMembers);
@@ -129,45 +132,55 @@ public class Agent implements AppHandler, CLVModel {
 		this.getGUIManager().getView().refreshChat(code);
 	}
 
-	//AppHandler Impl
+	@Override
+	public void processChatClosedByUser(String code){
+		for(User u : chatManager.getChat(code).getMembers()){
+			if( this.getUserManager().isActiveUser(u.getIdentifier())){
+				this.getNetworkManager().closeConnectionTCP(u.getIdentifier());
+			}
+		}
+	}
+
+	//AppHandler
 	@Override
 	public void processMessage(Message message) {
 		this.getChatManager().processMessageReception(message);
 		this.getGUIManager().getController().notifyMessageReception(message);
 	}
 
-	//AppHandler Impl
+	//AppHandler
 	@Override
 	public void processChatInitiation(ChatInit init) {
 		this.getChatManager().createIfNew(init);
 		this.getGUIManager().getController().notifyChatInitiationFromDistant(init.getChatHashCode());
 	}
 
-	//AppHandler Impl
+	//AppHandler
 	@Override
 	public boolean isActiveID(String identifier) {
 		return this.getUserManager().isActiveUser(identifier);
 	}
 
+	//AppHandler
 	@Override
 	public Iterable<String> getActivesID() {
 		return this.getUserManager().getActiveUsers().keySet();
 
 	}
 
-	//AppHandler Impl
+	//AppHandler
 	@Override
 	public void processNewUser(User user) {
-		System.out.println("[APPH]Processing new user "+user.getIdentifier());
+		//this.log("Processing new user "+user.getIdentifier());
 		this.getUserManager().processActive(user);
 		if (this.getGUIManager() != null) this.GUIManager.getController().notifyNewActiveUser(user);
-		for(User u  : this.getActiveUsers().values()){
-			System.out.println("[APPH]User : "+u.getIdentifier()+" "+u.getPseudo());
-		}
+		/*for(User u  : this.getActiveUsers().values()){
+			//this.log("User : "+u.getIdentifier()+" "+u.getPseudo());
+		}*/
 
 	}
 
-	//AppHandler Impl
+	//AppHandler
 	@Override
 	public void processUserInaction(String id) {
 		this.getNetworkManager().closeConnectionTCP(id);
@@ -175,7 +188,7 @@ public class Agent implements AppHandler, CLVModel {
 
 	}
 
-	//AppHandler Impl
+	//AppHandler
 	@Override
 	public void processPseudoRejection(PseudoRejection rejection) {
 		synchronized (this.getMainUser().getPseudo()) {
@@ -188,36 +201,37 @@ public class Agent implements AppHandler, CLVModel {
 
 	}
 
+	//AppHandler
 	@Override
 	public boolean processMainUserPseudoChange(String newPseudo) {
 		return this.getUserManager().changeMainUserPseudo(newPseudo);
 	}
 
-	//CLVModel Impl
+	//CLVModel
 	@Override
 	public History getHistoryFor(String code) {
 		return this.getChatManager().getChat(code).getHistory();
 	}
 
-	//CLVModel Impl
+	//CLVModel
 	@Override
 	public HashMap<String, User> getActiveUsers() {
 		return this.getUserManager().getActiveUsers();
 	}
 
-	//CLVModel Impl
+	//CLVModel
 	@Override
 	public HashMap<String, Chat> getActiveChats() {
 		return this.chatManager.getChats();
 	}
 
-	//CLVModel Impl
+	//CLVModel
 	@Override
 	public Chat getChatFor(String code) {
 		return this.getChatManager().getChat(code);
 	}
 
-	//AppHandler, CLVModel Impl
+	//AppHandler, CLVModel
 	@Override
 	public User getUserFor(String identifier) {
 		return this.getUserManager().getActiveUsers().get(identifier);

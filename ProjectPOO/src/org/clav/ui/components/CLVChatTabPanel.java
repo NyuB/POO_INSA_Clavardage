@@ -6,6 +6,8 @@ import org.clav.ui.mvc.CLVModel;
 import org.clav.user.User;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay {
@@ -18,7 +20,7 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 		this.controller = controller;
 		this.model = model;
 		this.activeChats = new HashMap<>();
-		this.setBackground(CLVColors.CLV_DEFAULT_COLOR);
+		this.setBackground(CLVComponentFactory.getMainColor());
 
 	}
 
@@ -40,7 +42,7 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 				sb.append(u.getPseudo() + " | ");
 			}
 			chat.getTitle().setText(sb.toString());
-			for (int i = 0; i < this.getComponentCount(); i++) {
+			for (int i = 0; i < this.getTabCount(); i++) {
 				if (this.getComponentAt(i) == chat) {
 					this.setTitleAt(i, sb.toString());
 				}
@@ -57,8 +59,14 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 			});
 			this.activeChats.put(code, chat);
 			this.add(chat.getTitle().getText(), chat);
-			this.setBackgroundAt(this.getTabCount() - 1, CLVColors.CLV_DEFAULT_COLOR);
-
+			ActionListener l = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					deleteChat(code);
+					controller.notifyChatClosedByUser(code);
+				}
+			};
+			this.setTabComponentAt(this.getTabCount()-1,CLVComponentFactory.createTabCloseLabel(chat.getTitle().getText(),l));
 			this.revalidate();
 		}
 

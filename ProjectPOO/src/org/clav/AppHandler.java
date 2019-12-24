@@ -39,6 +39,8 @@ public interface AppHandler {
 	 */
 	void processChatInitiation(ChatInit init);
 
+	void processChatClosedByUser(String code);
+
 	/**
 	 * Handle the activity detection of a distant user
 	 * @param user Signaled user

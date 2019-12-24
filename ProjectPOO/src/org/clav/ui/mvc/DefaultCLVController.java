@@ -67,6 +67,11 @@ public class DefaultCLVController implements CLVController {
 	}
 
 	@Override
+	public void notifyChatClosedByUser(String code) {
+		this.appHandler.processChatClosedByUser(code);
+	}
+
+	@Override
 	public void notifyNewActiveUser(User user) {
 		this.view.refreshUsers();
 

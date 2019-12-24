@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class LabeledTickBox extends JPanel {
 	private JCheckBox checkBox;
-
+	private JLabel label;
 	public LabeledTickBox(JLabel label) {
 		super(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -15,7 +15,8 @@ public class LabeledTickBox extends JPanel {
 		gbc.weightx = 0.9;
 		gbc.fill = GridBagConstraints.BOTH;
 		this.checkBox = new JCheckBox();
-		this.add(label,gbc);
+		this.label = label;
+		this.add(this.label,gbc);
 		gbc.gridx = 1;
 		gbc.weightx = 0.1;
 		this.add(this.checkBox,gbc);
@@ -23,5 +24,13 @@ public class LabeledTickBox extends JPanel {
 
 	public boolean isSelected(){
 		return this.checkBox.isSelected();
+	}
+
+	public JCheckBox getCheckBox() {
+		return checkBox;
+	}
+
+	public JLabel getLabel() {
+		return label;
 	}
 }

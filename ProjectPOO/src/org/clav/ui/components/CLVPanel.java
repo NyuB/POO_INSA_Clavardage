@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class CLVPanel extends JPanel {
 	private CLVMultiChatDisplay chatDisplay;
-	private ActiveUsersPanel activeUsersPanel;
+	private ActiveUsersDisplay activeUsersPanel;
 	private ButtonsTopBar topBar;
 	public CLVPanel(CLVController clvController, CLVView view,CLVModel model) {
 		super(new GridBagLayout());
@@ -42,8 +42,8 @@ public class CLVPanel extends JPanel {
 
 		gbc.gridx = 1;
 		gbc.weightx = 0.1;
-		this.activeUsersPanel = new ActiveUsersPanel();
-		this.add(activeUsersPanel,gbc);
+		this.activeUsersPanel = new ActiveUsersScrollPane();
+		this.add(activeUsersPanel.getComponent(),gbc);
 
 
 	}
@@ -52,7 +52,7 @@ public class CLVPanel extends JPanel {
 		return chatDisplay;
 	}
 
-	public ActiveUsersPanel getActiveUsersPanel() {
+	public ActiveUsersDisplay getActiveUsersPanel() {
 		return activeUsersPanel;
 	}
 }

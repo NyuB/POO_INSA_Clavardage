@@ -30,7 +30,6 @@ public class CLVFrame extends JFrame implements CLVView {
 	@Override
 	public void refreshUsers() {
 		this.contentPane.getActiveUsersPanel().refreshUsers(this.model.getActiveUsers().values(),this.controller);
-
 	}
 
 	@Override

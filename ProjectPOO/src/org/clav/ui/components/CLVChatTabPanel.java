@@ -44,9 +44,10 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 			chat.getTitle().setText(sb.toString());
 			for (int i = 0; i < this.getTabCount(); i++) {
 				if (this.getComponentAt(i) == chat) {
-					this.setTitleAt(i, sb.toString());
+					((CloseLabel) this.getTabComponentAt(i)).getLabel().setText(sb.toString());
 				}
 			}
+
 			this.revalidate();
 		} else {
 			ChatPanel chat = new ChatPanel(this.model.getChatFor(code));

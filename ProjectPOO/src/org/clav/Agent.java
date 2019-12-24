@@ -171,12 +171,8 @@ public class Agent implements AppHandler, CLVModel {
 	//AppHandler
 	@Override
 	public void processNewUser(User user) {
-		//this.log("Processing new user "+user.getIdentifier());
 		this.getUserManager().processActive(user);
 		if (this.getGUIManager() != null) this.GUIManager.getController().notifyNewActiveUser(user);
-		/*for(User u  : this.getActiveUsers().values()){
-			//this.log("User : "+u.getIdentifier()+" "+u.getPseudo());
-		}*/
 
 	}
 

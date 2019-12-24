@@ -7,6 +7,7 @@ import org.clav.network.Protocol;
 
 /**
  * Packet header which will be processed : STR,MSG,CHI (allow maintaining the connection) ERR,END (close the connection)
+ * @see org.clav.network.CLVHeader
  */
 public class TCPTalkProtocol extends Protocol {
 	public TCPTalkProtocol(TCPTalkProtocolInit protocolInit) {
@@ -22,9 +23,14 @@ public class TCPTalkProtocol extends Protocol {
 		return (TCPTalkProtocolInit) super.getProtocolInit();
 	}
 
-	//Return false if the connection has to be closed
-	//Override with call to super to ADD more header type processing
+	/**
+	 * Override with call to super to add more header type processing
+	 * @param packet the CLV packet to treat
+	 * @return false if the connection has to be closed
+	 */
+
 	protected boolean processPacket(CLVPacket packet) {
+
 		switch (packet.header) {
 			case END:
 				return this.process_END(packet);
@@ -38,6 +44,7 @@ public class TCPTalkProtocol extends Protocol {
 				return this.process_ERR(packet);
 			default:
 				return true;
+
 		}
 
 	}

@@ -119,11 +119,13 @@ public class UserManager {
 				this.activityTasks.put(identifier, task);
 				timer.schedule(task, 0, 1000);
 
-			} else if (!identifier.equals(this.mainUser.getIdentifier())) {//If the user is already considered active, reset it's inactivity timer
+			} else if (!identifier.equals(this.mainUser.getIdentifier())) {//If the user is already considered active, update pseudo if necessary and reset it's inactivity timer
 				User user = this.getActiveUsers().get(identifier);
-				this.pseudoSet.remove(user.getPseudo());
-				this.pseudoSet.add(pseudo);
-				user.syncPseudo(activeUser);
+				if(!user.getPseudo().equals(pseudo)) {
+					this.pseudoSet.remove(user.getPseudo());
+					this.pseudoSet.add(pseudo);
+					user.syncPseudo(activeUser);
+				}
 				this.activityTasks.get(identifier).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
 			}
 		}

@@ -66,9 +66,9 @@ public class TCPTalkProtocol extends Protocol {
 	public void run() {
 		this.getRelatedNetworkManager().log("[TCP]Starting tcp talk.Waiting tcp message from " + this.getProtocolInit().getLink().getRelatedUserID());
 
-		CLVPacket packet = this.getProtocolInit().getLink().read();
+		CLVPacket packet;
 		boolean open = true;
-		while (packet != null && open) {
+		while (open && (packet = this.getProtocolInit().getLink().read())!=null) {
 			switch (packet.header) {
 				case END:
 					open = false;
@@ -88,9 +88,6 @@ public class TCPTalkProtocol extends Protocol {
 				default:
 					break;
 			}
-			packet = this.getProtocolInit().getLink().read();
-
-
 		}
 		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());
 

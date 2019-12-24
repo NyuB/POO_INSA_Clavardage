@@ -5,6 +5,9 @@ import org.clav.chat.Message;
 import org.clav.network.CLVPacket;
 import org.clav.network.Protocol;
 
+/**
+ * Packet header which will be processed : STR,MSG,CHI (allow maintaining the connection) ERR,END (close the connection)
+ */
 public class TCPTalkProtocol extends Protocol {
 	public TCPTalkProtocol(TCPTalkProtocolInit protocolInit) {
 		super(protocolInit);
@@ -19,47 +22,50 @@ public class TCPTalkProtocol extends Protocol {
 		return (TCPTalkProtocolInit) super.getProtocolInit();
 	}
 
-	protected void processPacket(CLVPacket packet) {
+	//Return false if the connection has to be closed
+	//Override with call to super to ADD more header type processing
+	protected boolean processPacket(CLVPacket packet) {
 		switch (packet.header) {
 			case END:
-				this.process_END(packet);
-				break;
+				return this.process_END(packet);
 			case STR:
-				this.process_STR(packet);
-				break;
+				return this.process_STR(packet);
 			case MSG:
-				this.process_MSG(packet);
-				break;
+				return this.process_MSG(packet);
 			case CHI:
-				this.process_CHI(packet);
-				break;
+				return this.process_CHI(packet);
 			case ERR:
-				this.process_ERR(packet);
-				break;
+				return this.process_ERR(packet);
 			default:
-				break;
+				return true;
 		}
 
 	}
 
-	protected void process_END(CLVPacket packet) {
+	//Override each of these method to CHANGE processing of each header type
+
+	protected boolean process_END(CLVPacket packet) {
 		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());
+		return false;
 	}
 
-	protected void process_STR(CLVPacket packet) {
+	protected boolean process_STR(CLVPacket packet) {
 		this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(), (String) packet.data);
+		return true;
 	}
 
-	protected void process_MSG(CLVPacket packet) {
+	protected boolean process_MSG(CLVPacket packet) {
 		this.getRelatedNetworkManager().getAppHandler().processMessage((Message) packet.data);
+		return true;
 	}
 
-	protected void process_CHI(CLVPacket packet) {
+	protected boolean process_CHI(CLVPacket packet) {
 		this.getRelatedNetworkManager().getAppHandler().processChatInitiation((ChatInit) packet.data);
+		return true;
 	}
 
-	protected void process_ERR(CLVPacket packet) {
-
+	protected boolean process_ERR(CLVPacket packet) {
+		return false;
 	}
 
 	@Override
@@ -69,6 +75,8 @@ public class TCPTalkProtocol extends Protocol {
 		CLVPacket packet;
 		boolean open = true;
 		while (open && (packet = this.getProtocolInit().getLink().read())!=null) {
+			open = this.processPacket(packet);
+			/*
 			switch (packet.header) {
 				case END:
 					open = false;
@@ -87,7 +95,7 @@ public class TCPTalkProtocol extends Protocol {
 					break;
 				default:
 					break;
-			}
+			}*/
 		}
 		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());
 

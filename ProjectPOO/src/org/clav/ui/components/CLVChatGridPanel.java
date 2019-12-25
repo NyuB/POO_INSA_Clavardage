@@ -56,8 +56,8 @@ public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 			}
 			ChatPanel chatPanel = new ChatPanel(this.componentFactory);
 			StringBuilder sb = new StringBuilder();
-			for (User u : this.model.getChatFor(code).getMembers()) {
-				sb.append(this.model.getPseudoFor(u.getIdentifier()) + " | ");
+			for (String id : this.model.getChatFor(code).getMembers()) {
+				sb.append(this.model.getPseudoFor(id) + " | ");
 			}
 			chatPanel.getTitle().setText(sb.toString());
 			chatPanel.getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
@@ -99,8 +99,8 @@ public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 		if (this.activeChats.containsKey(code)) {
 			this.activeChats.get(code).getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
 			StringBuilder sb = new StringBuilder();
-			for(User u : this.model.getChatFor(code).getMembers()){
-				sb.append(u.getPseudo()+" | ");
+			for(String id : this.model.getChatFor(code).getMembers()){
+				sb.append(this.model.getPseudoFor(id)+" | ");
 			}
 			this.activeChats.get(code).getTitle().setText(sb.toString());
 			this.revalidate();

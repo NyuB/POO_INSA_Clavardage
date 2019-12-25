@@ -97,14 +97,14 @@ public class Agent implements AppHandler, CLVModel {
 		CLVPacket packet = CLVPacketFactory.gen_MSG(message);
 		boolean selfTalk = true;
 		boolean success = false;
-		for (User u : this.getChatManager().getChat(message.getChatHashCode()).getMembers()) {
-			if(u.getIdentifier().equals(this.getMainUser().getIdentifier())){//Don't talk to yourself
+		for (String id : this.getChatManager().getChat(message.getChatHashCode()).getMembers()) {
+			if(id.equals(this.getMainUser().getIdentifier())){//Don't talk to yourself
 				this.log("Skipping main user");
 			}
 			else {
 				selfTalk = false;
-				if (this.isActiveID(u.getIdentifier())) {
-					success = success || this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
+				if (this.isActiveID(id)) {
+					success = success || this.getNetworkManager().TCP_IP_send(id, packet);
 				}
 
 			}
@@ -120,26 +120,26 @@ public class Agent implements AppHandler, CLVModel {
 
 	//AppHandler
 	@Override
-	public void initiateChat(ArrayList<User> distantMembers) {
-		ArrayList<User> withMain = new ArrayList<>(distantMembers);
-		withMain.add(this.getMainUser());
-		String code = HashUtils.hashUserList(withMain);
+	public void initiateChat(ArrayList<String> distantMembers) {
+		ArrayList<String> withMain = new ArrayList<>(distantMembers);
+		withMain.add(this.getMainUser().getIdentifier());
+		String code = HashUtils.hashStringList(withMain);
 		if (!this.getChatManager().getChats().containsKey(code)) {
 			this.getChatManager().createChat(withMain);
 		}
 		ChatInit init = this.getActiveChats().get(code).genChatInit();
 		CLVPacket packet = CLVPacketFactory.gen_CHI(init);
-		for (User u : distantMembers) {
-			this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
+		for (String id : distantMembers) {
+			this.getNetworkManager().TCP_IP_send(id, packet);
 		}
 		this.getGUIManager().getView().refreshChat(code);
 	}
 
 	@Override
 	public void processChatClosedByUser(String code){
-		for(User u : chatManager.getChat(code).getMembers()){
-			if( this.getUserManager().isActiveUser(u.getIdentifier())){
-				this.getNetworkManager().closeConnectionTCP(u.getIdentifier());
+		for(String id : chatManager.getChat(code).getMembers()){
+			if( this.getUserManager().isActiveUser(id)){
+				this.getNetworkManager().closeConnectionTCP(id);
 			}
 		}
 	}

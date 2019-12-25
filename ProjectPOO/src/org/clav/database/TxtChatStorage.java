@@ -26,7 +26,7 @@ public class TxtChatStorage implements ChatStorage {
 			sb.append("<CHAT> ");
 
 			for(int i =0;i< chat.getMembers().size();i++){
-				sb.append(chat.getMembers().get(i).getIdentifier()+" ");
+				sb.append(chat.getMembers().get(i)+" ");
 			}
 
 			for(int m = 0;m<chat.getHistory().getMessageHistory().size();m++){
@@ -55,7 +55,7 @@ public class TxtChatStorage implements ChatStorage {
 			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			History history = new History();
 			String chatHashCode = null;
-			ArrayList<User> users = new ArrayList<>();
+			ArrayList<String> users = new ArrayList<>();
 			String line;
 			while ((line = reader.readLine())!=null){
 				String[] cmd = line.split("[\\s]+");
@@ -74,7 +74,7 @@ public class TxtChatStorage implements ChatStorage {
 						users.clear();
 						int i;
 						for(i = 2;i<2+nbUsers;i++){
-							users.add(new User(cmd[i],cmd[i]));//TODO
+							users.add(cmd[i]);
 						}
 						StringBuilder sb = new StringBuilder();
 						for(i = nbUsers+2;i<cmd.length;i++){

@@ -25,7 +25,7 @@ public interface AppHandler {
 	 * Handle a chat initiation request from the main user
 	 * @param distantMembers The list of distant members (not including the main user) of this chat
 	 */
-	void initiateChat(ArrayList<User> distantMembers);
+	void initiateChat(ArrayList<String> distantMembers);
 
 	/**
 	 * Handle the reception of a message

@@ -41,14 +41,8 @@ public class DefaultCLVController implements CLVController {
 	@Override
 	public void notifyChatInitiationFromUser(ArrayList<String> distantIdentifiers) {
 		this.log("Receiving chat initiation command. Distant user list : ");
-		ArrayList<User> userArrayList = new ArrayList<>();
 		try {
-			for (String s : distantIdentifiers) {
-				User u = this.model.getActiveUsers().get(s);
-				System.out.println("\t" + u.getIdentifier() + " " + u.getPseudo());
-				userArrayList.add(u);
-			}
-			this.appHandler.initiateChat(userArrayList);
+			this.appHandler.initiateChat(distantIdentifiers);
 		}
 		catch (NullPointerException e){
 			this.log("Invalid identifiers in chat initiation request");
@@ -60,8 +54,8 @@ public class DefaultCLVController implements CLVController {
 	public void notifyChatInitiationFromDistant(String code) {
 		this.log("Distant Chat initiation with users : ");
 
-		for (User u : this.model.getChatFor(code).getMembers()) {
-			System.out.println("\t" + u.getIdentifier());
+		for (String id : this.model.getChatFor(code).getMembers()) {
+			System.out.println("\t" + id);
 		}
 		this.view.refreshChat(code);
 	}

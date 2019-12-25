@@ -48,7 +48,7 @@ public class ChatManager {
 		return this.chats.containsKey(chatHashCode);
 	}
 
-	public void createChat(ArrayList<User> members) {
+	public void createChat(ArrayList<String> members) {
 		this.log("Creating chat");
 		Chat chat = new Chat(members);
 		this.chats.put(chat.getChatHashCode(), chat);
@@ -57,18 +57,14 @@ public class ChatManager {
 
 	public void createIfNew(ChatInit init) {
 		if (!this.containsChat(init.getChatHashCode())) {
-			ArrayList<User> users = new ArrayList<>();
-			for (String id : init.getIdentifiers()) {
-				users.add(this.getAppHandler().getUserFor(id));
-			}
-			this.createChat(users);
+			this.createChat(init.getIdentifiers());
 		}
 	}
 
 	private boolean haveSameMembers(Chat chat, ArrayList<String> identifiers) {
 		if (chat.getMembers().size() != identifiers.size()) return false;
-		for (User u : chat.getMembers()) {
-			if (!identifiers.contains(u.getIdentifier())) return false;
+		for (String id : chat.getMembers()) {
+			if (!identifiers.contains(id)) return false;
 		}
 		return true;
 	}

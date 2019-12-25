@@ -10,8 +10,8 @@ public class ChatInit implements Serializable {
 	private String chatHashCode;
 	public ChatInit(Chat chat) {
 		this.identifiers = new ArrayList<>();
-		for(User u : chat.getMembers()){
-			this.identifiers.add(u.getIdentifier());
+		for(String id : chat.getMembers()){
+			this.identifiers.add(id);
 		}
 		this.chatHashCode = chat.getChatHashCode();
 	}

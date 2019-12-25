@@ -8,13 +8,13 @@ import java.util.ArrayList;
 public class Chat {
 
 	//Le mainUser est inclus dans members
-	private ArrayList<User> members;
+	private ArrayList<String> members;
 	private String chatHashCode;
 	private History history;
-	public Chat(ArrayList<User> members) {
-		this.members = members ;
+	public Chat(ArrayList<String> members) {
+		this.members = members;
 		this.history = new History();
-		this.chatHashCode = HashUtils.hashUserList(members);
+		this.chatHashCode = HashUtils.hashStringList(members);
 	}
 	public void insertMessage(Message message) {
 		history.insertMessage(message) ;
@@ -29,7 +29,7 @@ public class Chat {
 	{
 		history.insertMessage(message);
 	}
-	public ArrayList<User> getMembers() {
+	public ArrayList<String> getMembers() {
 		return members;
 	}
 

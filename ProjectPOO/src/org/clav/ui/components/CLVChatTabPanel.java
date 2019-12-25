@@ -41,8 +41,8 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 			ChatPanel chatPanel = this.activeChats.get(code);
 			chatPanel.getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code), this.model.getActiveUsers()));
 			StringBuilder sb = new StringBuilder();
-			for (User u : this.model.getChatFor(code).getMembers()) {
-				sb.append(u.getPseudo() + " | ");
+			for (String id : this.model.getChatFor(code).getMembers()) {
+				sb.append(this.model.getPseudoFor(id) + " | ");
 			}
 			chatPanel.getTitle().setText(sb.toString());
 			for (int i = 0; i < this.getTabCount(); i++) {
@@ -55,8 +55,8 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 		} else {
 			ChatPanel chatPanel = new ChatPanel(this.componentFactory);
 			StringBuilder sb = new StringBuilder();
-			for (User u : this.model.getChatFor(code).getMembers()) {
-				sb.append(this.model.getPseudoFor(u.getIdentifier()) + " | ");
+			for (String id : this.model.getChatFor(code).getMembers()) {
+				sb.append(this.model.getPseudoFor(id) + " | ");
 			}
 			chatPanel.getTitle().setText(sb.toString());
 			chatPanel.getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code), this.model.getActiveUsers()));

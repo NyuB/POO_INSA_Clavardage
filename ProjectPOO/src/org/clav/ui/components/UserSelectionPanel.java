@@ -11,13 +11,13 @@ import java.util.Collection;
 public class UserSelectionPanel extends JPanel {
 	ArrayList<User> usersArrayList;
 	JButton validateButton;
-	public UserSelectionPanel(Collection<User> users) {
+	public UserSelectionPanel(Collection<User> users,ComponentFactory componentFactory) {
 		super(new GridLayout(users.size()+1+30,1));
 		this.usersArrayList = new ArrayList<>(users);
 		for(User u : this.usersArrayList){
-			this.add(CLVComponentFactory.createLabeledTickBox(new JLabel(u.getPseudo(),SwingConstants.CENTER)));
+			this.add(componentFactory.createLabeledTickBox(new JLabel(u.getPseudo(),SwingConstants.CENTER)));
 		}
-		this.validateButton = CLVComponentFactory.createButton("V");
+		this.validateButton = componentFactory.createButton("V");
 		this.add(this.validateButton);
 	}
 	public ArrayList<String> getSelected(){

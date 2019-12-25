@@ -16,8 +16,8 @@ public final class CLVOptionPane {
 		//Ensure no instance of this class can be created
 		assert(false);
 	}
-	public static ArrayList<String> showUserSelectionDialog(JFrame frame, CLVModel model){
-		UserSelectionPanel selectionPanel = new UserSelectionPanel(model.getActiveUsers().values());
+	public static ArrayList<String> showUserSelectionDialog(JFrame frame, CLVModel model,ComponentFactory factory){
+		UserSelectionPanel selectionPanel = new UserSelectionPanel(model.getActiveUsers().values(),factory);
 		JDialog dialog = new JDialog(frame,"Select users",true);
 		dialog.setSize(500,500);
 		dialog.setContentPane(new ScrollComponent<UserSelectionPanel>(selectionPanel));

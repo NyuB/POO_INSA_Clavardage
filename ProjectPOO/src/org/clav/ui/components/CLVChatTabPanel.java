@@ -14,14 +14,19 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 	private CLVController controller;
 	private CLVModel model;
 	private HashMap<String, ChatPanel> activeChats;
+	private ComponentFactory componentFactory = DefaultComponentFactory.DEFAULT;
 
 	public CLVChatTabPanel(CLVController controller, CLVModel model) {
 		super();
 		this.controller = controller;
 		this.model = model;
 		this.activeChats = new HashMap<>();
-		this.setBackground(CLVComponentFactory.getMainColor());
 
+	}
+
+	public CLVChatTabPanel(CLVController controller, CLVModel model, ComponentFactory componentFactory) {
+		this(controller,model);
+		this.componentFactory = componentFactory;
 	}
 
 	@Override
@@ -50,7 +55,7 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 
 			this.revalidate();
 		} else {
-			ChatPanel chat = new ChatPanel(this.model.getChatFor(code));
+			ChatPanel chat = new ChatPanel(this.model.getChatFor(code),this.componentFactory);
 			chat.getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code), this.model.getActiveUsers()));
 			chat.addTypeActionListener(l -> {
 				synchronized (chat) {
@@ -67,7 +72,7 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 					controller.notifyChatClosedByUser(code);
 				}
 			};
-			this.setTabComponentAt(this.getTabCount()-1,CLVComponentFactory.createTabCloseLabel(chat.getTitle().getText(),l));
+			this.setTabComponentAt(this.getTabCount()-1,this.componentFactory.createTabCloseLabel(chat.getTitle().getText(),l));
 			this.revalidate();
 		}
 

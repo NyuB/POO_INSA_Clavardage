@@ -11,7 +11,7 @@ public class CLVPanel extends JPanel {
 	private CLVMultiChatDisplay chatDisplay;
 	private ActiveUsersDisplay activeUsersPanel;
 	private ButtonsTopBar topBar;
-	public CLVPanel(CLVController clvController, CLVView view,CLVModel model) {
+	public CLVPanel(CLVController clvController, CLVView view,CLVModel model,ComponentFactory componentFactory) {
 		super(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 
@@ -21,7 +21,7 @@ public class CLVPanel extends JPanel {
 		gbc.weightx= 1;
 		gbc.weighty= 0.1;
 		gbc.fill = GridBagConstraints.BOTH;
-		this.topBar = new ButtonsTopBar(4);
+		this.topBar = new ButtonsTopBar(4,componentFactory);
 		this.topBar.setUpButton(0,"PSEUDO",l->{
 			clvController.notifyMainUserPseudoChange(JOptionPane.showInputDialog(this,"New pseudo"));
 		});
@@ -35,14 +35,12 @@ public class CLVPanel extends JPanel {
 		gbc.gridy = 1;
 		gbc.weightx= 0.9;
 		gbc.weighty= 0.9;
-		this.chatDisplay = new CLVChatTabPanel(clvController,model);
+		this.chatDisplay = new CLVChatTabPanel(clvController,model,componentFactory);
 		this.add(chatDisplay.getComponent(),gbc);
-
-
 
 		gbc.gridx = 1;
 		gbc.weightx = 0.1;
-		this.activeUsersPanel = new ActiveUsersScrollPane();
+		this.activeUsersPanel = new ActiveUsersScrollPane(componentFactory);
 		this.add(activeUsersPanel.getComponent(),gbc);
 
 

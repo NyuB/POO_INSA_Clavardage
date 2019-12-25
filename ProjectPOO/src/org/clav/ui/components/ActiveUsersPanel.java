@@ -10,16 +10,21 @@ import java.util.HashMap;
 
 public class ActiveUsersPanel extends JPanel implements ActiveUsersDisplay {
 	private HashMap<String, JButton> userButtons;
+	private ComponentFactory componentFactory = DefaultComponentFactory.DEFAULT;
 	public ActiveUsersPanel() {
 		super(new GridLayout(0, 1));
 		this.userButtons = new HashMap<>();
+	}
+	public ActiveUsersPanel(CLVComponentFactory componentFactory){
+		this();
+		this.componentFactory = componentFactory;
 	}
 
 
 	private void refreshUsers(Iterable<User> users) {
 		this.userButtons.clear();
 		for (User user : users) {
-			this.userButtons.put(user.getIdentifier(), CLVComponentFactory.createButton(user.getPseudo()));
+			this.userButtons.put(user.getIdentifier(), componentFactory.createButton(user.getPseudo()));
 		}
 		this.checkDisplay();
 	}

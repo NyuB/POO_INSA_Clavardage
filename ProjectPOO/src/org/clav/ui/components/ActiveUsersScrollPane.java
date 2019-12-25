@@ -12,10 +12,22 @@ public class ActiveUsersScrollPane extends JPanel implements ActiveUsersDisplay 
 	private HashMap<String, JButton> userButtons;
 	private JLabel title;
 	private ScrollComponent<JPanel> userPanel;
+	private ComponentFactory componentFactory = DefaultComponentFactory.DEFAULT;
 
 	public ActiveUsersScrollPane() {
 		super(new GridBagLayout());
 		this.userButtons = new HashMap<>();
+		this.init();
+	}
+
+	public ActiveUsersScrollPane(ComponentFactory componentFactory) {
+		super(new GridBagLayout());
+		this.userButtons = new HashMap<>();
+		this.componentFactory = componentFactory;
+		this.init();
+	}
+
+	private void init(){
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -23,7 +35,7 @@ public class ActiveUsersScrollPane extends JPanel implements ActiveUsersDisplay 
 		gbc.weighty = 0.1;
 		gbc.fill = GridBagConstraints.BOTH;
 
-		this.title = CLVComponentFactory.createLabel("ACTIVE USERS");
+		this.title = this.componentFactory.createLabel("ACTIVE USERS");
 		this.add(title,gbc);
 
 		gbc.gridy = 1;
@@ -41,13 +53,14 @@ public class ActiveUsersScrollPane extends JPanel implements ActiveUsersDisplay 
 	@Override
 	public void refreshUsers(Iterable<User> users,CLVController clvController) {
 		this.userPanel.getComponent().removeAll();
+		this.userButtons.clear();
 		for(User u : users){
 			if(this.userButtons.containsKey(u.getIdentifier())){
 				this.userButtons.get(u.getIdentifier()).setText(u.getPseudo());
 				this.userPanel.getComponent().add(this.userButtons.get(u.getIdentifier()));
 			}
 			else{
-				JButton button = CLVComponentFactory.createButton(u.getPseudo());
+				JButton button = this.componentFactory.createButton(u.getPseudo());
 				button.addActionListener(l->{
 					ArrayList<String> ids = new ArrayList<>();
 					ids.add(u.getIdentifier());

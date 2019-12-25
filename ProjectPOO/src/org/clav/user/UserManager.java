@@ -11,6 +11,7 @@ public class UserManager {
 
 	private AppHandler appHandler;
 	private final HashMap<String, User> activeUsers;
+	private final HashMap<String, User> inactiveUsers;
 	private final HashSet<String> pseudoSet;
 	private final HashMap<String, ActivityTimerTask> activityTasks;
 
@@ -27,6 +28,7 @@ public class UserManager {
 	public UserManager(User mainUser) {
 		this.mainUser = mainUser;
 		this.activeUsers = new HashMap<>();
+		this.inactiveUsers = new HashMap<>();
 		this.activeUsers.put(mainUser.getIdentifier(), mainUser);
 		this.activityTasks = new HashMap<>();
 		this.pseudoSet = new HashSet<>();

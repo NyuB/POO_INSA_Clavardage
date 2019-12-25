@@ -4,24 +4,52 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class CLVComponentFactory {
+public class CLVComponentFactory implements ComponentFactory {
 	private static Color MAIN_COLOR = new Color(50,150,150);
+	private static Color DANGER_COLOR = new Color(219, 22, 63);
 	private static Color BORDER_COLOR = new Color(100,150,150);
 	private static Color TEXT_COLOR = new Color(145, 23, 255);
+
 	private static Font MAIN_FONT = new Font("Arial",Font.PLAIN,15);
 	private static Font MAIN_FONT_BOLD = new Font("Arial",Font.BOLD,15);
 	private static Font MAIN_FONT_ITALIC = new Font("Arial",Font.ITALIC,15);
 	private static Font MAIN_FONT_ITALIC_BOLD = new Font("Arial Bold",Font.ITALIC,15);
 
-	public static JLabel createLabel(String title){
-		JLabel label = new JLabel(title);
+	private Color mainColor;
+	private Color dangerColor;
+	private Color borderColor;
+	private Color textColor;
+	private Font mainFont;
+	private Font mainFontBold;
+	private Font mainFontItalic;
+	private Font mainFontItalicBold;
+
+	private CLVComponentFactory(Color mainColor, Color dangerColor, Color borderColor, Color textColor, Font mainFont, Font mainFontBold, Font mainFontItalic, Font mainFontItalicBold) {
+		this.mainColor = mainColor;
+		this.dangerColor = dangerColor;
+		this.borderColor = borderColor;
+		this.textColor = textColor;
+		this.mainFont = mainFont;
+		this.mainFontBold = mainFontBold;
+		this.mainFontItalic = mainFontItalic;
+		this.mainFontItalicBold = mainFontItalicBold;
+	}
+
+	public static CLVComponentFactory DEFAULT_FACTORY = new CLVComponentFactory(MAIN_COLOR,DANGER_COLOR,BORDER_COLOR,TEXT_COLOR,MAIN_FONT,MAIN_FONT_BOLD,MAIN_FONT_ITALIC,MAIN_FONT_ITALIC_BOLD);
+
+
+
+	@Override
+	public JLabel createLabel(String title){
+		JLabel label = new JLabel(title,SwingConstants.CENTER);
 		label.setForeground(TEXT_COLOR);
 		label.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
 		label.setFont(MAIN_FONT_ITALIC);
 		return label;
 	}
 
-	public static JTextArea createTextArea(){
+	@Override
+	public JTextArea createTextArea(){
 		JTextArea textArea = new JTextArea();
 		textArea.setForeground(TEXT_COLOR);
 		textArea.setFont(MAIN_FONT_BOLD);
@@ -29,7 +57,8 @@ public class CLVComponentFactory {
 	}
 
 
-	public static JTextField createTextField(){
+	@Override
+	public JTextField createTextField(){
 		JTextField textField = new JTextField();
 		textField.setCaretColor(Color.BLUE);
 		textField.setFont(MAIN_FONT_ITALIC_BOLD);
@@ -37,85 +66,125 @@ public class CLVComponentFactory {
 		return textField;
 	}
 
-	public static JCheckBox createCheckBox(){
+	@Override
+	public  JCheckBox createCheckBox(){
 		JCheckBox checkBox = new JCheckBox();
+		checkBox.setForeground(MAIN_COLOR);
 		return checkBox;
 	}
 
-	public static JButton createButton(String title){
+	@Override
+	public  JButton createButton(String title){
 		JButton button = new JButton(title);
 		button.setBackground(MAIN_COLOR);
 		button.setForeground(TEXT_COLOR);
 		button.setFont(MAIN_FONT_BOLD);
 		return button;
 	}
+	@Override
+	public  JButton createCloseButton(){
+		JButton button = new JButton("X");
+		button.setBackground(DANGER_COLOR);
+		button.setForeground(TEXT_COLOR);
+		button.setFont(MAIN_FONT_BOLD);
+		return button;
+	}
 
-	public static LabeledTickBox createLabeledTickBox(JLabel label){
+	@Override
+	public  LabeledTickBox createLabeledTickBox(JLabel label){
 		LabeledTickBox labeledTickBox = new LabeledTickBox(label);
 		labeledTickBox.getLabel().setBackground(MAIN_COLOR);
 		labeledTickBox.getLabel().setForeground(TEXT_COLOR);
 		labeledTickBox.getLabel().setFont(MAIN_FONT_BOLD);
 		return labeledTickBox;
 	}
-	public static CloseLabel createTabCloseLabel(String title, ActionListener l){
+	@Override
+	public  CloseLabel createTabCloseLabel(String title, ActionListener l){
 		CloseLabel closeLabel = new CloseLabel(createLabel(title));
+		closeLabel.getCloseButton().setForeground(TEXT_COLOR);
+		closeLabel.getCloseButton().setBackground(DANGER_COLOR);
 		closeLabel.addCloseAction(l);
 		return closeLabel;
 	}
 
 
-	public static Color getMainColor(){
-		return MAIN_COLOR;
+	@Override
+	public Color getMainColor() {
+		return mainColor;
 	}
 
-	public static Color getTextColor() {
-		return TEXT_COLOR;
+	@Override
+	public void setMainColor(Color mainColor) {
+		this.mainColor = mainColor;
 	}
 
-	public static Color getBorderColor() {
-		return BORDER_COLOR;
+	@Override
+	public Font getMainFontItalicBold() {
+		return mainFontItalicBold;
 	}
 
-	public static Font getMainFont() {
-		return MAIN_FONT;
+	@Override
+	public void setMainFontItalicBold(Font mainFontItalicBold) {
+		this.mainFontItalicBold = mainFontItalicBold;
 	}
 
-	public static Font getMainFontBold() {
-		return MAIN_FONT_BOLD;
+	@Override
+	public Color getDangerColor() {
+		return dangerColor;
 	}
 
-	public static Font getMainFontItalic() {
-		return MAIN_FONT_ITALIC;
+	@Override
+	public void setDangerColor(Color dangerColor) {
+		this.dangerColor = dangerColor;
 	}
 
-	public static Font getMainFontItalicBold() {
-		return MAIN_FONT_ITALIC_BOLD;
+	@Override
+	public Color getBorderColor() {
+		return borderColor;
 	}
 
-	public static void setMainColor(Color c){
-		MAIN_COLOR = c;
-	}
-	public static void setBorderColor(Color borderColor) {
-		BORDER_COLOR = borderColor;
+	@Override
+	public void setBorderColor(Color borderColor) {
+		this.borderColor = borderColor;
 	}
 
-	public static void setTextColor(Color textColor) {
-		TEXT_COLOR = textColor;
+	@Override
+	public Color getTextColor() {
+		return textColor;
 	}
 
-	public static void setMainFont(Font mainFont) {
-		MAIN_FONT = mainFont;
+	@Override
+	public void setTextColor(Color textColor) {
+		this.textColor = textColor;
 	}
 
-	public static void setMainFontBold(Font mainFontBold) {
-		MAIN_FONT_BOLD = mainFontBold;
+	@Override
+	public Font getMainFont() {
+		return mainFont;
 	}
 
-	public static void setMainFontItalic(Font mainFontItalic) {
-		MAIN_FONT_ITALIC = mainFontItalic;
+	@Override
+	public void setMainFont(Font mainFont) {
+		this.mainFont = mainFont;
 	}
 
-	public static void setMainFontItalicBold(Font mainFontItalicBold) {
-		MAIN_FONT_ITALIC_BOLD = mainFontItalicBold;
+	@Override
+	public Font getMainFontBold() {
+		return mainFontBold;
+	}
+
+	@Override
+	public void setMainFontBold(Font mainFontBold) {
+		this.mainFontBold = mainFontBold;
+	}
+
+	@Override
+	public Font getMainFontItalic() {
+		return mainFontItalic;
+	}
+
+	@Override
+	public void setMainFontItalic(Font mainFontItalic) {
+		this.mainFontItalic = mainFontItalic;
 	}
 }

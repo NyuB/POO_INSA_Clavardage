@@ -10,14 +10,16 @@ public class CLVFrame extends JFrame implements CLVView {
 	private CLVModel model;
 	private CLVMultiChatDisplay chatDisplay;
 	private CLVPanel contentPane;
-	public CLVFrame(CLVController controller, CLVModel model) {
+	private ComponentFactory componentFactory;
+	public CLVFrame(CLVController controller, CLVModel model,ComponentFactory componentFactory) {
 		super("CLV APP "+model.getMainUser().getIdentifier());
 		this.controller = controller;
 		this.model = model;
+		this.componentFactory = componentFactory;
 		this.controller.assignView(this);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setSize(1400,800);
-		this.contentPane = new CLVPanel(controller,this,model);
+		this.contentPane = new CLVPanel(controller,this,model,this.componentFactory);
 		this.chatDisplay = contentPane.getChatDisplay();
 		this.setContentPane(contentPane);
 	}
@@ -59,6 +61,6 @@ public class CLVFrame extends JFrame implements CLVView {
 
 	@Override
 	public ArrayList<String> popUserSelectionDialog() {
-		return CLVOptionPane.showUserSelectionDialog(this,this.model);
+		return CLVOptionPane.showUserSelectionDialog(this,this.model,this.componentFactory);
 	}
 }

@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class ChatPanel extends JPanel {
 	private ButtonsTopBar topBar;
-
+	private ComponentFactory componentFactory = DefaultComponentFactory.DEFAULT;
 	public JLabel getTitle() {
 		return title;
 	}
@@ -21,14 +21,14 @@ public class ChatPanel extends JPanel {
 	public ChatPanel(Chat chat) {
 		super(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		this.setBorder(BorderFactory.createLineBorder(CLVComponentFactory.getBorderColor()));
+		this.setBorder(BorderFactory.createLineBorder(this.componentFactory.getBorderColor()));
 		//Top bar
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.weightx = 1;
 		gbc.weighty = 0.05;
 		gbc.fill = GridBagConstraints.BOTH;
-		this.topBar = new ButtonsTopBar(4);
+		this.topBar = new ButtonsTopBar(4,this.componentFactory);
 		this.add(topBar,gbc);
 
 		//Title
@@ -39,13 +39,13 @@ public class ChatPanel extends JPanel {
 			sb.append(u.getPseudo());
 			sb.append(" | ");
 		}
-		this.title = CLVComponentFactory.createLabel(sb.toString());
+		this.title = this.componentFactory.createLabel(sb.toString());
 		this.add(this.title,gbc);
 
 		//TextArea
 		gbc.gridy = 2;
 		gbc.weighty = 0.8;
-		JTextArea textArea = CLVComponentFactory.createTextArea();
+		JTextArea textArea = this.componentFactory.createTextArea();
 		this.textArea = new ScrollComponent<>(textArea);
 		this.add(textArea,gbc);
 
@@ -53,9 +53,54 @@ public class ChatPanel extends JPanel {
 		//TypeField
 		gbc.gridy = 3;
 		gbc.weighty = 0.1;
-		this.typeField = CLVComponentFactory.createTextField();
+		this.typeField = new JTextField();
 		this.add(typeField,gbc);
 	}
+	public ChatPanel(Chat chat,ComponentFactory componentFactory) {
+		super(new GridBagLayout());
+		this.componentFactory = componentFactory;
+		GridBagConstraints gbc = new GridBagConstraints();
+		this.setBorder(BorderFactory.createLineBorder(this.componentFactory.getBorderColor()));
+		//Top bar
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1;
+		gbc.weighty = 0.05;
+		gbc.fill = GridBagConstraints.BOTH;
+		this.topBar = new ButtonsTopBar(4,componentFactory);
+		this.add(topBar,gbc);
+
+		//Title
+		gbc.gridy = 1;
+		gbc.weighty = 0.05;
+		StringBuilder sb = new StringBuilder();
+		for(User u:chat.getMembers()){
+			sb.append(u.getPseudo());
+			sb.append(" | ");
+		}
+		this.title = this.componentFactory.createLabel(sb.toString());
+		this.add(this.title,gbc);
+
+		//TextArea
+		gbc.gridy = 2;
+		gbc.weighty = 0.8;
+		JTextArea textArea = this.componentFactory.createTextArea();
+		this.textArea = new ScrollComponent<>(textArea);
+		this.add(textArea,gbc);
+
+
+		//TypeField
+		gbc.gridy = 3;
+		gbc.weighty = 0.1;
+		this.typeField = new JTextField();
+		this.add(typeField,gbc);
+	}
+	
+	
+	
+	
+	
+	
 	public JTextArea getTextArea() {
 		return textArea.getComponent();
 	}

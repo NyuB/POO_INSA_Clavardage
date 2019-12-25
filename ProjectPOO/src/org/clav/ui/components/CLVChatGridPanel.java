@@ -14,6 +14,7 @@ public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 	private CLVController controller;
 	private CLVModel model;
 	private HashMap<String, ChatPanel> activeChats;
+	private ComponentFactory componentFactory = DefaultComponentFactory.DEFAULT;
 	private int r;
 	private int c;
 
@@ -24,6 +25,10 @@ public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 		this.activeChats = new HashMap<>();
 		this.r = 0;
 		this.c = 0;
+	}
+	public CLVChatGridPanel(CLVController controller,CLVModel model,ComponentFactory componentFactory){
+		this(controller,model);
+		this.componentFactory = componentFactory;
 	}
 
 	private void checkDisplay() {
@@ -49,7 +54,7 @@ public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 					this.add(chatPanel);
 				}
 			}
-			ChatPanel chat = new ChatPanel(this.model.getChatFor(code));
+			ChatPanel chat = new ChatPanel(this.model.getChatFor(code),this.componentFactory);
 			chat.getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
 			chat.addTypeActionListener(l -> {
 				synchronized (chat) {

@@ -30,7 +30,7 @@ public class GUIManager {
 			e.printStackTrace();
 		}
 		this.controller = new DefaultCLVController(appHandler,model);
-		this.view = new CLVFrame(controller,model);
+		this.view = new CLVFrame(controller,model,CLVComponentFactory.DEFAULT_FACTORY);
 	}
 
 	public void start(){

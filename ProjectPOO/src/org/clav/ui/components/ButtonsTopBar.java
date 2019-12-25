@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class ButtonsTopBar extends JPanel {
-	public ButtonsTopBar(int nbButtons) {
+	public ButtonsTopBar(int nbButtons,ComponentFactory componentFactory) {
 		super(new GridLayout(1,nbButtons));
 		for(int i = 0;i<nbButtons;i++){
-			this.add(CLVComponentFactory.createButton("VOID"));
+			this.add(componentFactory.createButton("VOID"));
 		}
 	}
 	public void setUpButton(int index, String text,ActionListener l){

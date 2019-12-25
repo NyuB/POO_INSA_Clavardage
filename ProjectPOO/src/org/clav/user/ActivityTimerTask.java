@@ -3,7 +3,7 @@ package org.clav.user;
 import java.util.TimerTask;
 
 /**
- * Set up a counter on an user id, and notify the related UserManager by calling the removeUser methods when the counter reaches 0
+ * Set up a counter on an user id, and notify the related UserManager by calling the removeActiveUser methods when the counter reaches 0
  * The counter can be dynamically reset from outside the thread, without having to interrupt and restart it
  */
 public class ActivityTimerTask extends TimerTask {
@@ -25,7 +25,7 @@ public class ActivityTimerTask extends TimerTask {
 				//System.out.println("[TIM]Counting " + this.counter);
 			} else {
 				System.out.println("[TIM]Expiration user "+this.id);
-				this.userManager.removeUser(this.id);
+				this.userManager.removeActiveUser(this.id);
 				cancel();
 			}
 		}

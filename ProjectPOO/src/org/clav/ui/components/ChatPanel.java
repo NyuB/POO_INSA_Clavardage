@@ -9,58 +9,17 @@ import java.awt.event.ActionListener;
 
 public class ChatPanel extends JPanel {
 	private ButtonsTopBar topBar;
-	private ComponentFactory componentFactory = DefaultComponentFactory.DEFAULT;
-	public JLabel getTitle() {
-		return title;
-	}
-
 	private JLabel title;
 	private ScrollComponent<JTextArea> textArea;
 	private JTextField typeField;
 
-	public ChatPanel(Chat chat) {
-		super(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		this.setBorder(BorderFactory.createLineBorder(this.componentFactory.getBorderColor()));
-		//Top bar
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.weightx = 1;
-		gbc.weighty = 0.05;
-		gbc.fill = GridBagConstraints.BOTH;
-		this.topBar = new ButtonsTopBar(4,this.componentFactory);
-		this.add(topBar,gbc);
-
-		//Title
-		gbc.gridy = 1;
-		gbc.weighty = 0.05;
-		StringBuilder sb = new StringBuilder();
-		for(User u:chat.getMembers()){
-			sb.append(u.getPseudo());
-			sb.append(" | ");
-		}
-		this.title = this.componentFactory.createLabel(sb.toString());
-		this.add(this.title,gbc);
-
-		//TextArea
-		gbc.gridy = 2;
-		gbc.weighty = 0.8;
-		JTextArea textArea = this.componentFactory.createTextArea();
-		this.textArea = new ScrollComponent<>(textArea);
-		this.add(textArea,gbc);
-
-
-		//TypeField
-		gbc.gridy = 3;
-		gbc.weighty = 0.1;
-		this.typeField = new JTextField();
-		this.add(typeField,gbc);
+	public ChatPanel() {
+		this(DefaultComponentFactory.DEFAULT);
 	}
-	public ChatPanel(Chat chat,ComponentFactory componentFactory) {
+	public ChatPanel(ComponentFactory componentFactory) {
 		super(new GridBagLayout());
-		this.componentFactory = componentFactory;
 		GridBagConstraints gbc = new GridBagConstraints();
-		this.setBorder(BorderFactory.createLineBorder(this.componentFactory.getBorderColor()));
+		this.setBorder(BorderFactory.createLineBorder(componentFactory.getBorderColor()));
 		//Top bar
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -73,18 +32,13 @@ public class ChatPanel extends JPanel {
 		//Title
 		gbc.gridy = 1;
 		gbc.weighty = 0.05;
-		StringBuilder sb = new StringBuilder();
-		for(User u:chat.getMembers()){
-			sb.append(u.getPseudo());
-			sb.append(" | ");
-		}
-		this.title = this.componentFactory.createLabel(sb.toString());
+		this.title = componentFactory.createLabel(toString());
 		this.add(this.title,gbc);
 
 		//TextArea
 		gbc.gridy = 2;
 		gbc.weighty = 0.8;
-		JTextArea textArea = this.componentFactory.createTextArea();
+		JTextArea textArea = componentFactory.createTextArea();
 		this.textArea = new ScrollComponent<>(textArea);
 		this.add(textArea,gbc);
 
@@ -92,17 +46,8 @@ public class ChatPanel extends JPanel {
 		//TypeField
 		gbc.gridy = 3;
 		gbc.weighty = 0.1;
-		this.typeField = new JTextField();
+		this.typeField = componentFactory.createTextField();
 		this.add(typeField,gbc);
-	}
-	
-	
-	
-	
-	
-	
-	public JTextArea getTextArea() {
-		return textArea.getComponent();
 	}
 	public void addTypeActionListener(ActionListener l){
 		this.typeField.addActionListener(l);
@@ -112,4 +57,13 @@ public class ChatPanel extends JPanel {
 		this.typeField.setText("");
 		return res;
 	}
+	
+	public JTextArea getTextArea() {
+		return textArea.getComponent();
+	}
+	public JLabel getTitle() {
+		return title;
+	}
+
+
 }

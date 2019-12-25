@@ -8,10 +8,10 @@ public class CloseLabel extends JPanel{
 	private JLabel label;
 	private JButton closeButton;
 
-	public CloseLabel(JLabel label) {
+	public CloseLabel(JLabel label,JButton button) {
 		super(new GridBagLayout());
 		this.label = label;
-		this.closeButton = new JButton("X");
+		this.closeButton = button;
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		gbc.gridx = 0;

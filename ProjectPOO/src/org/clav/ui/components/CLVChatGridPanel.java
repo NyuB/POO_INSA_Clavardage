@@ -54,16 +54,21 @@ public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 					this.add(chatPanel);
 				}
 			}
-			ChatPanel chat = new ChatPanel(this.model.getChatFor(code),this.componentFactory);
-			chat.getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
-			chat.addTypeActionListener(l -> {
-				synchronized (chat) {
+			ChatPanel chatPanel = new ChatPanel(this.componentFactory);
+			StringBuilder sb = new StringBuilder();
+			for (User u : this.model.getChatFor(code).getMembers()) {
+				sb.append(this.model.getPseudoFor(u.getIdentifier()) + " | ");
+			}
+			chatPanel.getTitle().setText(sb.toString());
+			chatPanel.getTextArea().setText(History.historyRepr(this.model.getHistoryFor(code),this.model.getActiveUsers()));
+			chatPanel.addTypeActionListener(l -> {
+				synchronized (chatPanel) {
 					System.out.println("Sending message from typefield");
-					this.controller.notifyMessageSending(code, chat.consumeTypeField());
+					this.controller.notifyMessageSending(code, chatPanel.consumeTypeField());
 				}
 			});
-			this.activeChats.put(code, chat);
-			this.add(chat);
+			this.activeChats.put(code, chatPanel);
+			this.add(chatPanel);
 			this.revalidate();
 		}
 	}

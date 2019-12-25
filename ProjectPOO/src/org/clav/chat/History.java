@@ -43,7 +43,7 @@ public class History {
 		String textHist = "" ;
 		for(Message m : messageHistory) {
 			textHist += m.getUserID() + " " + m.getDate()+ "\n" ;
-			textHist += m.getText() + "\n" ;
+			textHist += "\t"+m.getText() + "\n" ;
 		}
 		return textHist;
 	}

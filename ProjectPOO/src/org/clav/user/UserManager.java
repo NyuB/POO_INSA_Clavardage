@@ -11,7 +11,6 @@ public class UserManager {
 
 	private AppHandler appHandler;
 	private final HashMap<String, User> activeUsers;
-	private final HashMap<String, User> inactiveUsers;
 	private final HashSet<String> pseudoSet;
 	private final HashMap<String, ActivityTimerTask> activityTasks;
 
@@ -28,7 +27,6 @@ public class UserManager {
 	public UserManager(User mainUser) {
 		this.mainUser = mainUser;
 		this.activeUsers = new HashMap<>();
-		this.inactiveUsers = new HashMap<>();
 		this.activeUsers.put(mainUser.getIdentifier(), mainUser);
 		this.activityTasks = new HashMap<>();
 		this.pseudoSet = new HashSet<>();
@@ -62,9 +60,10 @@ public class UserManager {
 	 *
 	 * @param id User identifier
 	 */
-	public synchronized void removeUser(String id) {
+	public synchronized void removeActiveUser(String id) {
 		if (this.isActiveUser(id)) {
-			this.pseudoSet.remove(this.getActiveUsers().get(id).getPseudo());
+			User u = this.activeUsers.get(id);
+			this.pseudoSet.remove(u.getPseudo());
 			this.activeUsers.remove(id);
 			this.appHandler.processUserInaction(id);
 		}
@@ -104,7 +103,7 @@ public class UserManager {
 					if (conflicting == this.getMainUser()) {
 						this.appHandler.processPseudoRejection(new PseudoRejection(pseudo, activeUser.getPseudoDate()));
 					} else {
-						this.removeUser(conflicting.getIdentifier());
+						this.removeActiveUser(conflicting.getIdentifier());
 					}
 				} else {
 					valid = false;
@@ -123,7 +122,7 @@ public class UserManager {
 
 			} else if (!identifier.equals(this.mainUser.getIdentifier())) {//If the user is already considered active, update pseudo if necessary and reset it's inactivity timer
 				User user = this.getActiveUsers().get(identifier);
-				if(!user.getPseudo().equals(pseudo)) {
+				if (!user.getPseudo().equals(pseudo)) {
 					this.pseudoSet.remove(user.getPseudo());
 					this.pseudoSet.add(pseudo);
 					user.syncPseudo(activeUser);

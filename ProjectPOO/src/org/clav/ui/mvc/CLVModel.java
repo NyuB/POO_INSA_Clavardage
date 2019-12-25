@@ -14,4 +14,8 @@ public interface CLVModel {
 	HashMap<String,User> getActiveUsers();
 	User getUserFor(String id);
 	User getMainUser();
+	boolean isActiveID(String id);
+	default String getPseudoFor(String id){
+		return (this.isActiveID(id))?this.getUserFor(id).getPseudo():id;
+	}
 }

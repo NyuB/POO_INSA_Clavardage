@@ -98,18 +98,21 @@ public class Agent implements AppHandler, CLVModel {
 		boolean selfTalk = true;
 		boolean success = false;
 		for (User u : this.getChatManager().getChat(message.getChatHashCode()).getMembers()) {
-			if(u.getIdentifier().equals(this.getMainUser().getIdentifier())){
+			if(u.getIdentifier().equals(this.getMainUser().getIdentifier())){//Don't talk to yourself
 				this.log("Skipping main user");
 			}
 			else {
-				success = success || this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
 				selfTalk = false;
+				if (this.isActiveID(u.getIdentifier())) {
+					success = success || this.getNetworkManager().TCP_IP_send(u.getIdentifier(), packet);
+				}
+
 			}
 		}
 		if(selfTalk){
 			success = this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(),packet);
 		}
-		if(success) {
+		if(success) {//If at least one user has received the message
 			this.getChatManager().processMessageEmission(message);
 			this.getGUIManager().getView().refreshChat(message.getChatHashCode());
 		}
@@ -155,7 +158,7 @@ public class Agent implements AppHandler, CLVModel {
 		this.getGUIManager().getController().notifyChatInitiationFromDistant(init.getChatHashCode());
 	}
 
-	//AppHandler
+	//AppHandler, CLVModel
 	@Override
 	public boolean isActiveID(String identifier) {
 		return this.getUserManager().isActiveUser(identifier);

@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class DefaultComponentFactory implements ComponentFactory {
-	private static Font defaultFont = new Font("Arial",Font.PLAIN,10);
+	private static Font defaultFont = new Font("Georgia",Font.PLAIN,15);
 	private DefaultComponentFactory(){
 
 	}
@@ -47,7 +47,7 @@ public class DefaultComponentFactory implements ComponentFactory {
 
 	@Override
 	public CloseLabel createTabCloseLabel(String title, ActionListener l) {
-		CloseLabel closeLabel = new CloseLabel(new JLabel(title));
+		CloseLabel closeLabel = new CloseLabel(new JLabel(title),createCloseButton());
 		closeLabel.addCloseAction(l);
 		return closeLabel;
 	}

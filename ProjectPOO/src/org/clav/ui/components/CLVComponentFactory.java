@@ -10,10 +10,10 @@ public class CLVComponentFactory implements ComponentFactory {
 	private static Color BORDER_COLOR = new Color(100,150,150);
 	private static Color TEXT_COLOR = new Color(145, 23, 255);
 
-	private static Font MAIN_FONT = new Font("Arial",Font.PLAIN,15);
-	private static Font MAIN_FONT_BOLD = new Font("Arial",Font.BOLD,15);
-	private static Font MAIN_FONT_ITALIC = new Font("Arial",Font.ITALIC,15);
-	private static Font MAIN_FONT_ITALIC_BOLD = new Font("Arial Bold",Font.ITALIC,15);
+	private static Font MAIN_FONT = new Font("Calibri",Font.PLAIN,15);
+	private static Font MAIN_FONT_BOLD = new Font("Calibri",Font.BOLD,15);
+	private static Font MAIN_FONT_ITALIC = new Font("Calibri",Font.ITALIC,15);
+	private static Font MAIN_FONT_ITALIC_BOLD = new Font("Calibri Bold",Font.ITALIC,15);
 
 	private Color mainColor;
 	private Color dangerColor;
@@ -24,7 +24,7 @@ public class CLVComponentFactory implements ComponentFactory {
 	private Font mainFontItalic;
 	private Font mainFontItalicBold;
 
-	private CLVComponentFactory(Color mainColor, Color dangerColor, Color borderColor, Color textColor, Font mainFont, Font mainFontBold, Font mainFontItalic, Font mainFontItalicBold) {
+	public CLVComponentFactory(Color mainColor, Color dangerColor, Color borderColor, Color textColor, Font mainFont, Font mainFontBold, Font mainFontItalic, Font mainFontItalicBold) {
 		this.mainColor = mainColor;
 		this.dangerColor = dangerColor;
 		this.borderColor = borderColor;
@@ -42,17 +42,18 @@ public class CLVComponentFactory implements ComponentFactory {
 	@Override
 	public JLabel createLabel(String title){
 		JLabel label = new JLabel(title,SwingConstants.CENTER);
-		label.setForeground(TEXT_COLOR);
-		label.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
-		label.setFont(MAIN_FONT_ITALIC);
+		label.setForeground(this.textColor);
+		label.setBackground(this.mainColor);
+		label.setBorder(BorderFactory.createLineBorder(this.borderColor));
+		label.setFont(this.mainFontItalic);
 		return label;
 	}
 
 	@Override
 	public JTextArea createTextArea(){
 		JTextArea textArea = new JTextArea();
-		textArea.setForeground(TEXT_COLOR);
-		textArea.setFont(MAIN_FONT_BOLD);
+		textArea.setForeground(this.textColor);
+		textArea.setFont(this.mainFontBold);
 		return textArea;
 	}
 
@@ -62,47 +63,45 @@ public class CLVComponentFactory implements ComponentFactory {
 		JTextField textField = new JTextField();
 		textField.setCaretColor(Color.BLUE);
 		textField.setFont(MAIN_FONT_ITALIC_BOLD);
-		textField.setForeground(TEXT_COLOR);
+		textField.setForeground(this.textColor);
 		return textField;
 	}
 
 	@Override
 	public  JCheckBox createCheckBox(){
 		JCheckBox checkBox = new JCheckBox();
-		checkBox.setForeground(MAIN_COLOR);
+		checkBox.setForeground(this.mainColor);
 		return checkBox;
 	}
 
 	@Override
 	public  JButton createButton(String title){
 		JButton button = new JButton(title);
-		button.setBackground(MAIN_COLOR);
-		button.setForeground(TEXT_COLOR);
-		button.setFont(MAIN_FONT_BOLD);
+		button.setBackground(this.mainColor);
+		button.setForeground(this.textColor);
+		button.setFont(this.mainFontBold);
 		return button;
 	}
 	@Override
 	public  JButton createCloseButton(){
 		JButton button = new JButton("X");
-		button.setBackground(DANGER_COLOR);
-		button.setForeground(TEXT_COLOR);
-		button.setFont(MAIN_FONT_BOLD);
+		button.setBackground(this.dangerColor);
+		button.setForeground(this.textColor);
+		button.setFont(this.mainFontBold);
 		return button;
 	}
 
 	@Override
 	public  LabeledTickBox createLabeledTickBox(JLabel label){
 		LabeledTickBox labeledTickBox = new LabeledTickBox(label);
-		labeledTickBox.getLabel().setBackground(MAIN_COLOR);
-		labeledTickBox.getLabel().setForeground(TEXT_COLOR);
-		labeledTickBox.getLabel().setFont(MAIN_FONT_BOLD);
+		labeledTickBox.getLabel().setBackground(this.mainColor);
+		labeledTickBox.getLabel().setForeground(this.textColor);
+		labeledTickBox.getLabel().setFont(this.mainFontBold);
 		return labeledTickBox;
 	}
 	@Override
 	public  CloseLabel createTabCloseLabel(String title, ActionListener l){
-		CloseLabel closeLabel = new CloseLabel(createLabel(title));
-		closeLabel.getCloseButton().setForeground(TEXT_COLOR);
-		closeLabel.getCloseButton().setBackground(DANGER_COLOR);
+		CloseLabel closeLabel = new CloseLabel(createLabel(title),createCloseButton());
 		closeLabel.addCloseAction(l);
 		return closeLabel;
 	}

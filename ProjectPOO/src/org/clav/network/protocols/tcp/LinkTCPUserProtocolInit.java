@@ -19,8 +19,8 @@ public class LinkTCPUserProtocolInit extends ProtocolInit {
 	/**
 	 * Constructor to initialize
 	 * @param networkManager  The related network manager executing the connection protocol
-	 * @param link The related network manager executing the connection protocol
-	 * @param mode Specify if the protocol is launched in connection(user initiating the connection) or or accept mode(user receiving connection request)
+	 * @param link The connection to set
+	 * @param mode Specify if the protocol is launched in connection(user initiating the connection) or accept mode(user receiving connection request)
 	 *             Should be Accept for this constructor
 	 */
 	public LinkTCPUserProtocolInit(NetworkManager networkManager, TCPUserLink link, Mode mode) {
@@ -31,8 +31,8 @@ public class LinkTCPUserProtocolInit extends ProtocolInit {
 
 	/**
 	 * @param networkManager The related network manager executing the connection protocol
-	 * @param link The related network manager executing the connection protocol
-	 * @param mode Specify if the protocol is launched in connection(user initiating the connection) or or accept mode(user receiving connection request)
+	 * @param link The connection to set
+	 * @param mode Specify if the protocol is launched in connection(user initiating the connection) or accept mode(user receiving connection request)
 	 *             Should be connect for this constructor
 	 * @param distantID Distant user identifier
 	 */

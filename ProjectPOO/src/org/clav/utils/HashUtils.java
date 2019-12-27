@@ -2,7 +2,6 @@ package org.clav.utils;
 
 import org.clav.chat.Message;
 import org.clav.user.User;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import java.util.Comparator;
  * Used to generate unique IDs from diverse structures
  * Hashing is computed via the SHA-256 algorithm, which offers a good non-collision assurance
  * Particularly useful to generate an id from a list of strings to identify a same chat across multiple agents
+ * @see MessageDigest
  */
 public final class HashUtils {
 	private static MessageDigest hashAlgorithm;

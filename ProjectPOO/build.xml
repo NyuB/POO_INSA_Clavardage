@@ -19,6 +19,10 @@
         <pathelement location="${build_dir}"/>
     </path>
 
+    <path id="source_path">
+        <pathelement location="${src_dir}"/>
+    </path>
+
     <path id="junit_classpath">
         <pathelement location="${lib_dir}/junit-4.12.jar"/>
         <pathelement location="${lib_dir}/hamcrest-core-1.3.jar"/>
@@ -104,7 +108,7 @@
             depends="executable_ProtoMonitor,executable_ProtoApp,executable_ProtoLocal"
     />
 
-    <target name="distribution" depends="unit,executable_proto">
+    <target name="distribution" depends="unit,doc,executable_proto">
         <delete dir="${windist_dir}"/>
         <delete dir="${lindist_dir}"/>
         <copy file="${exe_dir}/ProtoApp.jar" tofile="${windist_dir}/ProtoApp.jar"/>
@@ -112,6 +116,10 @@
         <echo file="${windist_dir}/launcher.bat" message="java -jar ${dist_jar}"/>
         <echo file="${lindist_dir}/launcher.sh" message="#!/usr/bin/env bash${line.separator}"/>
         <echo file="${lindist_dir}/launcher.sh" message="java -jar ${dist_jar}" append="true"/>
+    </target>
+
+    <target name="doc" depends="compile">
+        <javadoc sourcepathref="source_path" destdir="${doc_dir}"/>
     </target>
 
     <target name="git_clean">

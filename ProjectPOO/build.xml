@@ -7,8 +7,11 @@
     <property name="exe_dir" value="exe"/>
     <property name="lib_dir" value="lib"/>
     <property name="dist_dir" value="distribution"/>
+    <property name="doc_dir" value="doc"/>
     <property name="windist_dir" value="${dist_dir}/win"/>
     <property name="lindist_dir" value="${dist_dir}/lin"/>
+
+    <property name="dist_jar" value="ProtoApp.jar"/>
 
     <property name="exe_proto" value="Proto"/>
 
@@ -23,6 +26,9 @@
 
     <target name="clean">
         <delete dir="${build_dir}"/>
+        <delete dir="${dist_dir}"/>
+        <delete dir="${doc_dir}"/>
+        <delete dir="${exe_dir}"/>
     </target>
 
     <target name="compile" depends="clean">
@@ -103,8 +109,9 @@
         <delete dir="${lindist_dir}"/>
         <copy file="${exe_dir}/ProtoApp.jar" tofile="${windist_dir}/ProtoApp.jar"/>
         <copy file="${exe_dir}/ProtoApp.jar" tofile="${lindist_dir}/ProtoApp.jar"/>
-        <copy file="${dist_dir}/launcher.bat" tofile="${windist_dir}/launcher.bat"/>
-        <copy file="${dist_dir}/launcher.sh" tofile="${lindist_dir}/launcher.sh"/>
+        <echo file="${windist_dir}/launcher.bat" message="java -jar ${dist_jar}"/>
+        <echo file="${lindist_dir}/launcher.sh" message="#!/usr/bin/env bash${line.separator}"/>
+        <echo file="${lindist_dir}/launcher.sh" message="java -jar ${dist_jar}" append="true"/>
     </target>
 
     <target name="git_clean">

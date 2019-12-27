@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class History {
-	
+
 	private ArrayList<Message> messageHistory;
-	
-	public History() { 
-		this.messageHistory = new ArrayList<>() ;
+
+	public History() {
+		this.messageHistory = new ArrayList<>();
 	}
 
-	public static String historyRepr(History history,HashMap<String, User> activeMap){
+	public static String historyRepr(History history, HashMap<String, User> activeMap) {
 		StringBuilder sb = new StringBuilder();
 		synchronized (history) {
 			for (Message m : history.getMessageHistory()) {
@@ -23,15 +23,15 @@ public class History {
 			return sb.toString();
 		}
 	}
-	
-	public synchronized void insertMessage(Message message){
-		int n = 0 ;
+
+	public synchronized void insertMessage(Message message) {
+		int n = 0;
 		for (Message m : messageHistory) {
 			if (message.getDate().after(m.getDate())) {
-				n++ ;
+				n++;
 			}
 		}
-		this.messageHistory.add(n, message) ;
+		this.messageHistory.add(n, message);
 	}
 
 	@Override
@@ -40,10 +40,10 @@ public class History {
 	}
 
 	public synchronized String printHistory() {
-		String textHist = "" ;
-		for(Message m : messageHistory) {
-			textHist += m.getUserID() + " " + m.getDate()+ "\n" ;
-			textHist += "\t"+m.getText() + "\n" ;
+		String textHist = "";
+		for (Message m : messageHistory) {
+			textHist += m.getUserID() + " " + m.getDate() + "\n";
+			textHist += "\t" + m.getText() + "\n";
 		}
 		return textHist;
 	}

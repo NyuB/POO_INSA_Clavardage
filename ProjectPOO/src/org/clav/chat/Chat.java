@@ -4,6 +4,7 @@ import org.clav.user.User;
 import org.clav.utils.HashUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Chat {
 
@@ -11,10 +12,10 @@ public class Chat {
 	private ArrayList<String> members;
 	private String chatHashCode;
 	private History history;
-	public Chat(ArrayList<String> members) {
-		this.members = members;
+	public Chat(Collection<String> members) {
+		this.members = new ArrayList<>(members);
 		this.history = new History();
-		this.chatHashCode = HashUtils.hashStringList(members);
+		this.chatHashCode = HashUtils.hashStringList(this.members);
 	}
 	public void insertMessage(Message message) {
 		history.insertMessage(message) ;

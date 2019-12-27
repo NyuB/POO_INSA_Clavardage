@@ -34,8 +34,7 @@ public final class HashUtils {
 		for (String s : copy) {
 			sb.append(s);
 		}
-		byte[] hash = new byte[0];
-		hash = hashAlgorithm.digest(sb.toString().getBytes());
+		byte[] hash = hashAlgorithm.digest(sb.toString().getBytes());
 		return new String(hash, 0, hash.length);
 	}
 

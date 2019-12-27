@@ -14,6 +14,8 @@ public interface CLVController {
 	void notifyChatInitiationFromDistant(String code);
 	void notifyChatClosedByUser(String code);
 
+	void notifyChatStorage(String code);
+
 	void notifyNewActiveUser(User user);
 	void notifyInactiveUser(String id);
 

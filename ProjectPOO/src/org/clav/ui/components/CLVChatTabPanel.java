@@ -48,9 +48,10 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 			for (int i = 0; i < this.getTabCount(); i++) {
 				if (this.getComponentAt(i) == chatPanel) {
 					((CloseLabel) this.getTabComponentAt(i)).getLabel().setText(sb.toString());
+					break;
 				}
-			}
 
+			}
 			this.revalidate();
 		} else {
 			ChatPanel chatPanel = new ChatPanel(this.componentFactory);
@@ -65,6 +66,9 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 					System.out.println("Sending message from typefield");
 					this.controller.notifyMessageSending(code, chatPanel.consumeTypeField());
 				}
+			});
+			chatPanel.setupButton(0,"STORE",e->{
+				this.controller.notifyChatStorage(code);
 			});
 			this.activeChats.put(code, chatPanel);
 			this.add(chatPanel.getTitle().getText(), chatPanel);

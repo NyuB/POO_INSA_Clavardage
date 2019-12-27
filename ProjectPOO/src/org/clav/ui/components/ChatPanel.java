@@ -64,6 +64,9 @@ public class ChatPanel extends JPanel {
 	public JLabel getTitle() {
 		return title;
 	}
+	public void setupButton(int buttonIndex,String title,ActionListener l){
+		this.topBar.setUpButton(buttonIndex,title,l);
+	}
 
 
 }

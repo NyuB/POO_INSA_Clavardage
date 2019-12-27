@@ -79,4 +79,6 @@ public interface AppHandler {
 	 */
 	User getUserFor(String identifier);
 
+	void storeChat(String code);
+
 }

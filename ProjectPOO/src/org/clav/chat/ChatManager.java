@@ -3,6 +3,7 @@ package org.clav.chat;
 import org.clav.AppHandler;
 import org.clav.database.ChatStorage;
 import org.clav.database.EmptyChatStorage;
+import org.clav.database.TxtChatStorage;
 import org.clav.user.User;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class ChatManager {
 	public ChatManager() {
 		this.chats = new HashMap<>();
 		this.storage = new EmptyChatStorage();
-		this.load();
+		//this.storage = new TxtChatStorage("dataproxy.txt");
 	}
 
 	public void setStorage(ChatStorage storage) {
@@ -86,7 +87,7 @@ public class ChatManager {
 		if (this.containsChat(message.getChatHashCode())) {
 			Chat relatedChat = this.chats.get(message.getChatHashCode());
 			relatedChat.receiveMessage(message);
-			this.log("Updating chat with new message");
+			this.log("Updating chat with received message");
 		} else {
 			this.log("Unknown chat hashcode");
 		}
@@ -96,7 +97,7 @@ public class ChatManager {
 		if (this.containsChat(message.getChatHashCode())) {
 			Chat relatedChat = this.chats.get(message.getChatHashCode());
 			relatedChat.emitMessage(message);
-			this.log("Updaing chat with emmetted message");
+			this.log("Updating chat with emmetted message");
 		} else {
 			this.log("Unknown chat hashcode");
 		}

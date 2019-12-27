@@ -66,6 +66,12 @@ public class DefaultCLVController implements CLVController {
 	}
 
 	@Override
+	public void notifyChatStorage(String code) {
+		this.appHandler.storeChat(code);
+
+	}
+
+	@Override
 	public void notifyNewActiveUser(User user) {
 		this.view.refreshUsers();
 

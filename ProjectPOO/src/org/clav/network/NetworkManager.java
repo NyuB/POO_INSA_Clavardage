@@ -13,6 +13,7 @@ import org.clav.network.protocols.udp.UDPListenerProtocol;
 import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import static org.clav.utils.constants.NetworkConstants.*;
@@ -35,6 +36,7 @@ public class NetworkManager implements Pluggable {
 	private DatagramSocket receiveSocketUDP;
 
 	private final HashMap<String, InetAddress> addrMap;
+	private final HashSet<InetAddress> externAddr;//TODO Handle extern users
 	private final HashMap<String, TCPUserLink> tcpConnections;
 
 	private final ExecutorService protocolService;
@@ -80,6 +82,7 @@ public class NetworkManager implements Pluggable {
 		this.UDP_DISTANT_DEBUG_PORT = udpPortDistant;
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
+		this.externAddr = new HashSet<>();
 		this.tcpConnections = new HashMap<>();
 		try {
 			this.receiveSocketUDP = new DatagramSocket(udpPortLocal);
@@ -101,6 +104,7 @@ public class NetworkManager implements Pluggable {
 		this.networkAddress = networkAddress;
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
+		this.externAddr = new HashSet<>();
 		this.tcpConnections = new HashMap<>();
 		try {
 			this.receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE_PORT);

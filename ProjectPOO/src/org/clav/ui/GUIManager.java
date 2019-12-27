@@ -36,10 +36,7 @@ public class GUIManager {
 	public void start(){
 
 		this.view.turnOn();
-		//Notify the view of each initial chat
-		for(Chat chat:this.getModel().getActiveChats().values()){
-			this.view.refreshChat(chat.getChatHashCode());
-		}
+		this.view.refreshAll();
 	}
 
 	public CLVModel getModel() {

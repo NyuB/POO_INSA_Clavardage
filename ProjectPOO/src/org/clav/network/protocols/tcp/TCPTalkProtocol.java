@@ -1,6 +1,7 @@
 package org.clav.network.protocols.tcp;
 
 import org.clav.chat.ChatInit;
+import org.clav.chat.ChatUnknown;
 import org.clav.chat.Message;
 import org.clav.network.CLVPacket;
 import org.clav.network.Protocol;
@@ -40,6 +41,8 @@ public class TCPTalkProtocol extends Protocol {
 				return this.process_MSG(packet);
 			case CHI:
 				return this.process_CHI(packet);
+			case UNK:
+				return this.process_UNK(packet);
 			case ERR:
 				return this.process_ERR(packet);
 			default:
@@ -71,6 +74,12 @@ public class TCPTalkProtocol extends Protocol {
 		return true;
 	}
 
+	protected boolean process_UNK(CLVPacket packet){
+		ChatUnknown chatUnknown = (ChatUnknown)packet.data;
+		this.getRelatedNetworkManager().getAppHandler().processChatUnknownRequest(chatUnknown);
+		return true;
+	}
+
 	protected boolean process_ERR(CLVPacket packet) {
 		return false;
 	}
@@ -78,31 +87,10 @@ public class TCPTalkProtocol extends Protocol {
 	@Override
 	public void run() {
 		this.getRelatedNetworkManager().log("[TCP]Starting tcp talk.Waiting tcp message from " + this.getProtocolInit().getLink().getRelatedUserID());
-
 		CLVPacket packet;
 		boolean open = true;
 		while (open && (packet = this.getProtocolInit().getLink().read())!=null) {
 			open = this.processPacket(packet);
-			/*
-			switch (packet.header) {
-				case END:
-					open = false;
-					break;
-				case ERR:
-					open = false;
-					break;
-				case STR:
-					this.getRelatedNetworkManager().getDebug().receiveChatMessageFrom(this.getDistantID(), (String) packet.data);
-					break;
-				case MSG:
-					this.getRelatedNetworkManager().getAppHandler().processMessage((Message) packet.data);
-					break;
-				case CHI:
-					this.getRelatedNetworkManager().getAppHandler().processChatInitiation((ChatInit) packet.data);
-					break;
-				default:
-					break;
-			}*/
 		}
 		this.getRelatedNetworkManager().closeConnectionTCP(this.getProtocolInit().getLink().getRelatedUserID());
 

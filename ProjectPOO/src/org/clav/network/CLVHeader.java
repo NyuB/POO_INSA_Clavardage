@@ -7,6 +7,7 @@ public enum CLVHeader {
 	END,//Applicative and network
 	MSG,//Applicative, chat message
 	CHI,//Applicative, chat initiation
+	UNK,//Applicative, unknown chatcode notification
 	REJ,//Applicative, pseudo rejected
 	REQ,//Applicative, chat update request
 	ERR;

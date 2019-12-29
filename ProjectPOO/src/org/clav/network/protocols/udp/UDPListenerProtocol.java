@@ -41,21 +41,24 @@ public class UDPListenerProtocol extends Protocol {
 						PseudoRejection rejection = new PseudoRejection(user.getPseudo(), getRelatedNetworkManager().getAppHandler().getMainUser().getPseudoDate());
 						CLVPacket rejectionPacket = CLVPacketFactory.gen_REJ(rejection);
 						getRelatedNetworkManager().UDP_Send(Serializer.toBytes(rejectionPacket), packetUDP.getAddress());
-					}
-					String[] ids = new String[]{user.getIdentifier(), user.getPseudo()};
-					boolean toRepr = !getRelatedNetworkManager().getAppHandler().isActiveID(ids[0]);//DEBUG PURPOSE
-					getRelatedNetworkManager().addAddrFor(ids[0], packetUDP.getAddress());
-					getRelatedNetworkManager().getAppHandler().processNewUser(user);
-					if (toRepr) {
-						this.log("[UDP-USER]Updating new user : " + ids[0] + " " + ids[1]);
-						getRelatedNetworkManager().getDebug().detectNewUser(ids[0]);
-						getRelatedNetworkManager().getDebug().displayUsers(getRelatedNetworkManager().getAppHandler().getActivesID());
+					} else {
+						String[] ids = new String[]{user.getIdentifier(), user.getPseudo()};
+						boolean toRepr = !getRelatedNetworkManager().getAppHandler().isActiveID(ids[0]);//DEBUG PURPOSE
+						getRelatedNetworkManager().addAddrFor(ids[0], packetUDP.getAddress());
+						getRelatedNetworkManager().getAppHandler().processNewUser(user);
+						if (toRepr) {
+							this.log("[UDP-USER]Updating new user : " + ids[0] + " " + ids[1]);
+							getRelatedNetworkManager().getDebug().detectNewUser(ids[0]);
+							getRelatedNetworkManager().getDebug().displayUsers(getRelatedNetworkManager().getAppHandler().getActivesID());
+						}
 					}
 
 				} else if (packet.header == REJ) {
 					PseudoRejection rejection = (PseudoRejection) packet.data;
 					getRelatedNetworkManager().getAppHandler().processPseudoRejection(rejection);
 
+				} else {
+					log("[UDP]Receiving unknown packet");
 				}
 				Thread.sleep(0);//Allows interruption
 

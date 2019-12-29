@@ -105,7 +105,7 @@ public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 			this.activeChats.get(code).getTitle().setText(sb.toString());
 			this.revalidate();
 
-		} else {
+		} else  if(this.model.containsChat(code)) {
 			this.createChat(code);
 		}
 	}

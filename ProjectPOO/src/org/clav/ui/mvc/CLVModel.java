@@ -11,6 +11,9 @@ public interface CLVModel {
 	HashMap<String,Chat> getActiveChats();
 	History getHistoryFor(String code);
 	Chat getChatFor(String code);
+	default boolean containsChat(String code){
+		return this.getChatFor(code)!=null;
+	}
 	HashMap<String,User> getActiveUsers();
 	User getUserFor(String id);
 	User getMainUser();

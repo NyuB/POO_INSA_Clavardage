@@ -147,8 +147,13 @@ public class Agent implements AppHandler, CLVModel {
 	//AppHandler
 	@Override
 	public void processMessage(Message message) {
-		this.getChatManager().processMessageReception(message);
-		this.getGUIManager().getController().notifyMessageReception(message);
+		if(this.chatManager.containsChat(message.getChatHashCode())) {
+			this.getChatManager().processMessageReception(message);
+			this.getGUIManager().getController().notifyMessageReception(message);
+		}
+		else{
+			this.networkManager.TCP_IP_send(message.getUserID(),CLVPacketFactory.gen_UNK(this.getMainUser().getIdentifier(),message.getChatHashCode()));
+		}
 	}
 
 	//AppHandler
@@ -156,6 +161,11 @@ public class Agent implements AppHandler, CLVModel {
 	public void processChatInitiation(ChatInit init) {
 		this.getChatManager().createIfNew(init);
 		this.getGUIManager().getController().notifyChatInitiationFromDistant(init.getChatHashCode());
+	}
+
+	@Override
+	public void processChatUnknownRequest(ChatUnknown chatUnknown) {
+		this.networkManager.TCP_IP_send(chatUnknown.getId(),CLVPacketFactory.gen_CHI(this.getChatFor(chatUnknown.getChatHashcode()).genChatInit()));
 	}
 
 	//AppHandler, CLVModel
@@ -174,9 +184,13 @@ public class Agent implements AppHandler, CLVModel {
 	//AppHandler
 	@Override
 	public void processNewUser(User user) {
-		this.getUserManager().processActive(user);
-		if (this.getGUIManager() != null) this.GUIManager.getController().notifyNewActiveUser(user);
-
+		if (!user.getPseudo().equals(this.getMainUser().getPseudo())) {
+			this.getUserManager().processActive(user);
+			if (this.getGUIManager() != null) this.GUIManager.getController().notifyNewActiveUser(user);
+		} else {
+			//TODO Currently handled at network level, move it here?
+			assert false;
+		}
 	}
 
 	//AppHandler

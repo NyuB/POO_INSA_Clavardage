@@ -1,6 +1,7 @@
 package org.clav;
 
 import org.clav.chat.ChatInit;
+import org.clav.chat.ChatUnknown;
 import org.clav.chat.Message;
 import org.clav.user.PseudoRejection;
 import org.clav.user.User;
@@ -38,6 +39,12 @@ public interface AppHandler {
 	 * @param init Chat initiation request from a distant user
 	 */
 	void processChatInitiation(ChatInit init);
+
+	/**
+	 * Handle a notification from an user receiving a message for an unknown chat
+	 * @param chatUnknown information about concerned userand chat
+	 */
+	void processChatUnknownRequest(ChatUnknown chatUnknown);
 
 	void processChatClosedByUser(String code);
 

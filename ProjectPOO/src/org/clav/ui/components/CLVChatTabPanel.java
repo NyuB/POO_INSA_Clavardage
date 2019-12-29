@@ -53,7 +53,7 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 
 			}
 			this.revalidate();
-		} else {
+		} else if(this.model.containsChat(code)) {
 			ChatPanel chatPanel = new ChatPanel(this.componentFactory);
 			StringBuilder sb = new StringBuilder();
 			for (String id : this.model.getChatFor(code).getMembers()) {

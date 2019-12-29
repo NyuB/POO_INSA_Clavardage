@@ -45,7 +45,7 @@ public class ChatManager {
 		return this.chats.get(chatHashCode);
 	}
 
-	private boolean containsChat(String chatHashCode) {
+	public boolean containsChat(String chatHashCode) {
 		return this.chats.containsKey(chatHashCode);
 	}
 

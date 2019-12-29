@@ -37,7 +37,8 @@ public class UDPListenerProtocol extends Protocol {
 				if (packet.header == SIG) {
 					User user = (User) (packet.data);
 					//TODO test rejection protocol, move to applicative level?
-					if (user.getPseudo().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getPseudo())) {
+					boolean reject = !user.getIdentifier().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getIdentifier()) && user.getPseudo().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getPseudo());
+					if (reject) {
 						PseudoRejection rejection = new PseudoRejection(user.getPseudo(), getRelatedNetworkManager().getAppHandler().getMainUser().getPseudoDate());
 						CLVPacket rejectionPacket = CLVPacketFactory.gen_REJ(rejection);
 						getRelatedNetworkManager().UDP_Send(Serializer.toBytes(rejectionPacket), packetUDP.getAddress());

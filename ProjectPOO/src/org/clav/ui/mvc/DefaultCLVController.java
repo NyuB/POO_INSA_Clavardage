@@ -12,7 +12,6 @@ public class DefaultCLVController implements CLVController {
 	private CLVView view;
 
 
-
 	private void log(String txt) {
 		System.out.println("[CTRL]" + txt);
 	}
@@ -29,7 +28,7 @@ public class DefaultCLVController implements CLVController {
 
 	@Override
 	public void notifyMessageSending(String code, String txt) {
-		this.appHandler.sendMessage(new Message(null,code,txt));
+		this.appHandler.sendMessage(new Message(null, code, txt));
 	}
 
 	@Override
@@ -41,12 +40,8 @@ public class DefaultCLVController implements CLVController {
 	@Override
 	public void notifyChatInitiationFromUser(ArrayList<String> distantIdentifiers) {
 		this.log("Receiving chat initiation command. Distant user list : ");
-		try {
-			this.appHandler.initiateChat(distantIdentifiers);
-		}
-		catch (NullPointerException e){
-			this.log("Invalid identifiers in chat initiation request");
-		}
+		this.appHandler.initiateChat(distantIdentifiers);
+
 
 	}
 
@@ -79,7 +74,7 @@ public class DefaultCLVController implements CLVController {
 
 	@Override
 	public void notifyInactiveUser(String id) {
-		this.log("User " + id + " | "  + " is now inactive");
+		this.log("User " + id + " | " + " is now inactive");
 		this.view.refreshUsers();
 
 	}
@@ -88,7 +83,7 @@ public class DefaultCLVController implements CLVController {
 	public void notifyInvalidPseudo() {
 		this.log("Starting invalid pseudo correction procedure");
 		String newPseudo = this.view.popInvalidPseudoDialog();
-		while(!this.appHandler.processMainUserPseudoChange(newPseudo)){
+		while (!this.appHandler.processMainUserPseudoChange(newPseudo)) {
 			newPseudo = this.view.popInvalidPseudoDialog();
 		}
 		this.view.refreshUsers();
@@ -97,7 +92,7 @@ public class DefaultCLVController implements CLVController {
 	@Override
 	public void notifyMainUserPseudoChange(String pseudo) {
 		this.log("Main user trying to change his pseudo to " + pseudo);
-		if(this.appHandler.processMainUserPseudoChange(pseudo)){
+		if (this.appHandler.processMainUserPseudoChange(pseudo)) {
 			this.log("Pseudo change success");
 			this.view.refreshUsers();
 		}

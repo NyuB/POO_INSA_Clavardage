@@ -22,15 +22,13 @@ public class HashUnitTest {
 
 				ArrayList<ArrayList> shuffle = Permutations.shuffle(arrayList);
 				String code = HashUtils.hashStringList(shuffle.get(0));
-				Assert.assertFalse("No collision for different ids",codes.contains(code));
+				Assert.assertFalse("[Permutation K="+k+"#"+index+"]No collision for different ids",codes.contains(code));
 				codes.add(code);
-				//System.out.println("Permutation K = "+k+" #"+index+" "+code);
 				index++;
 				int sindex = 1;
 				for(ArrayList s : shuffle){
-					//System.out.println("Rotation #"+sindex);
 					sindex++;
-					Assert.assertEquals("Code of permutations should be equals",code,HashUtils.hashStringList(s));
+					Assert.assertEquals("[Rotation#"+sindex+"]Code of permutations should be equals",code,HashUtils.hashStringList(s));
 				}
 			}
 		}

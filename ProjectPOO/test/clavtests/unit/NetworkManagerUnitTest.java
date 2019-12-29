@@ -25,7 +25,6 @@ public class NetworkManagerUnitTest {
 
 	@Test
 	public void aloneStartAndStopSignal() throws InterruptedException, UnknownHostException {
-		int initialCount = Thread.activeCount();
 		NetworkManager networkManager;
 		InetAddress localhost = InetAddress.getByName("localhost");
 		networkManager = new NetworkManager(localhost, localhost);

@@ -165,7 +165,13 @@ public class Agent implements AppHandler, CLVModel {
 
 	@Override
 	public void processChatUnknownRequest(ChatUnknown chatUnknown) {
+		//Informs distant agent of chat creation information
 		this.networkManager.TCP_IP_send(chatUnknown.getId(),CLVPacketFactory.gen_CHI(this.getChatFor(chatUnknown.getChatHashcode()).genChatInit()));
+		//Send each message of the chat to the distant user
+		ArrayList<Message> snapshot = new ArrayList<>(this.getHistoryFor(chatUnknown.getChatHashcode()).getMessageHistory());//copy of current history to free it(getMessageHistory is a synchronized method)
+		for(Message message : snapshot){
+			this.networkManager.TCP_IP_send(chatUnknown.getId(),CLVPacketFactory.gen_MSG(message));
+		}
 	}
 
 	//AppHandler, CLVModel

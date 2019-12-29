@@ -12,29 +12,35 @@ public class Chat {
 	private ArrayList<String> members;
 	private String chatHashCode;
 	private History history;
+
 	public Chat(Collection<String> members) {
 		this.members = new ArrayList<>(members);
 		this.history = new History();
 		this.chatHashCode = HashUtils.hashStringList(this.members);
 	}
+
 	public void insertMessage(Message message) {
-		history.insertMessage(message) ;
+		history.insertMessage(message);
+
 	}
-	public void receiveMessage(Message message){
-		this.insertMessage(message,false);
-	}
-	public void emitMessage(Message message){
-		this.insertMessage(message,true);
-	}
-	public void insertMessage(Message message,boolean emetted)
-	{
+
+	public void insertMessage(Message message, boolean emetted) {
 		history.insertMessage(message);
 	}
+
+	public void receiveMessage(Message message) {
+		this.insertMessage(message, false);
+	}
+
+	public void emitMessage(Message message) {
+		this.insertMessage(message, true);
+	}
+
 	public ArrayList<String> getMembers() {
 		return members;
 	}
 
-	public ChatInit genChatInit(){
+	public ChatInit genChatInit() {
 		return new ChatInit(this);
 	}
 
@@ -44,6 +50,7 @@ public class Chat {
 
 	public History getHistory() {
 		return history;
+
 	}
 
 	public void setHistory(History history) {

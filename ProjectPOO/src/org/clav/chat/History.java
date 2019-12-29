@@ -15,13 +15,12 @@ public class History {
 
 	public static String historyRepr(History history, HashMap<String, User> activeMap) {
 		StringBuilder sb = new StringBuilder();
-		synchronized (history) {
-			for (Message m : history.getMessageHistory()) {
-				sb.append(((activeMap.containsKey(m.getUserID())) ? activeMap.get(m.getUserID()).getPseudo() : m.getUserID()) + " " + m.getDate() + "\n");
-				sb.append(m.getText() + "\n");
-			}
-			return sb.toString();
+		for (Message m : history.getMessageHistory()) {
+			sb.append(((activeMap.containsKey(m.getUserID())) ? activeMap.get(m.getUserID()).getPseudo() : m.getUserID()) + " " + m.getDate() + "\n");
+			sb.append("\t"+m.getText() + "\n");
 		}
+		return sb.toString();
+
 	}
 
 	public synchronized void insertMessage(Message message) {
@@ -48,7 +47,7 @@ public class History {
 		return textHist;
 	}
 
-	public ArrayList<Message> getMessageHistory() {
+	public synchronized ArrayList<Message> getMessageHistory() {
 		return messageHistory;
 	}
 }

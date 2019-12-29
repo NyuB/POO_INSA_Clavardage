@@ -2,6 +2,7 @@ package clavtests.unit;
 
 import org.clav.AppHandler;
 import org.clav.chat.ChatInit;
+import org.clav.chat.ChatUnknown;
 import org.clav.chat.Message;
 import org.clav.user.PseudoRejection;
 import org.clav.user.User;
@@ -16,75 +17,84 @@ public class UserManagerUnitTest {
 	private static AppHandler emptyAppHandler = new AppHandler() {
 		@Override
 		public User getMainUser() {
-			//TODO
 			return null;
 		}
 
 		@Override
 		public void sendMessage(Message message) {
-			//TODO
+
 
 		}
 
 		@Override
-		public void initiateChat(ArrayList<User> distantMembers) {
-			//TODO
+		public void initiateChat(ArrayList<String> distantMembers) {
+
 
 		}
 
 		@Override
 		public void processMessage(Message message) {
-			//TODO
+
 
 		}
 
 		@Override
 		public void processChatInitiation(ChatInit init) {
-			//TODO
+
+
+		}
+
+		@Override
+		public void processChatUnknownRequest(ChatUnknown chatUnknown) {
+
+
+		}
+
+		@Override
+		public void processChatClosedByUser(String code) {
+
 
 		}
 
 		@Override
 		public void processNewUser(User user) {
-			//TODO
 
 		}
 
 		@Override
 		public void processUserInaction(String id) {
-			//TODO
+
 
 		}
 
 		@Override
 		public void processPseudoRejection(PseudoRejection rejection) {
-			//TODO
+
 
 		}
 
 		@Override
 		public boolean processMainUserPseudoChange(String newPseudo) {
-			//TODO
 			return false;
 		}
 
 		@Override
 		public boolean isActiveID(String identifier) {
-			//TODO
 			return false;
 		}
 
 		@Override
 		public Iterable<String> getActivesID() {
-			//TODO
 			return null;
 		}
 
 		@Override
 		public User getUserFor(String identifier) {
-			//TODO
 			return null;
 		}
+
+		@Override
+		public void storeChat(String code) {}
 	};
 	@Test
 	public void constructorTest(){
@@ -120,7 +130,7 @@ public class UserManagerUnitTest {
 		Assert.assertTrue(userManager.isActiveUser(mainUser.getIdentifier()));
 		Assert.assertTrue(userManager.getPseudoSet().contains(mainUser.getPseudo()));
 		Assert.assertTrue(userManager.getPseudoSet().contains(otherUser.getPseudo()));
-		Thread.sleep(DelayConstants.INACTIVE_DELAY_SEC*2000);
+		Thread.sleep(DelayConstants.INACTIVE_DELAY_SEC*1500);
 		Assert.assertEquals(1,userManager.getActiveUsers().size());
 		Assert.assertTrue(userManager.isActiveUser(mainUser.getIdentifier()));
 		Assert.assertFalse(userManager.isActiveUser(otherUser.getIdentifier()));

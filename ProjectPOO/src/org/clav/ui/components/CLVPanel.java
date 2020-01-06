@@ -29,6 +29,10 @@ public class CLVPanel extends JPanel {
 			System.out.println("CHI Request from UI");
 			clvController.notifyChatInitiationFromUser(view.popUserSelectionDialog());
 		});
+		this.topBar.setUpButton(2,"STORE",l->{
+			System.out.println("STORE Request from panel");
+			clvController.notifyChatStorage();
+		});
 		this.add(topBar,gbc);
 
 		gbc.gridwidth = 1;

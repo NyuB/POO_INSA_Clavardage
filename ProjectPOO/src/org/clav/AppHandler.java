@@ -88,4 +88,5 @@ public interface AppHandler {
 
 	void storeChat(String code);
 
+	void storeChats();
 }

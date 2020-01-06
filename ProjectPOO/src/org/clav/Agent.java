@@ -232,6 +232,11 @@ public class Agent implements AppHandler, CLVModel {
 
 	}
 
+	@Override
+	public void storeChats(){
+		this.chatManager.save();
+	}
+
 	//CLVModel
 	@Override
 	public History getHistoryFor(String code) {

@@ -7,10 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.sql.Date;
 
-
+import org.clav.Agent;
 import org.clav.chat.Chat;
+import org.clav.chat.History;
 import org.clav.chat.Message;
 
 import java.sql.*;
@@ -49,6 +52,15 @@ public class LocalStorage implements ChatStorage {
 		}
 	}
 	
+	public void close() {
+		try {
+			con.close() ;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public ResultSet request(String sqlquerry) {
 		rs = null ;
 		
@@ -65,23 +77,38 @@ public class LocalStorage implements ChatStorage {
 
 	@Override
 	public void storeChat(Chat chat) {
-		// TODO Auto-generated method stub
 		try {
 			stm = con.createStatement() ;
-			//String query = "Create Table Chats " + "(codeChat VARCHAR(256) ,userid VARCHAR(), date Date, text Text, Primary Key (codeChat, date) ) "  ;
+			ArrayList<Message> messages = chat.getHistory().getMessageHistory() ;
+			for (Message m : messages) {
+				storeMessage(m) ;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		//String[] query = new String[3] ;
-		//String query = "Create Table Chat (ChatId VARCHAR[255], MessageId INT AUTO_INCREMENT, Primary Key(ChatId,MessageId))" ;
-		
+		}	
 	}
 
 	@Override
 	public Chat getChatByHashCode(String code) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = this.request("select CodeChat, userid from Chats Where CodeChat='" + code + "'" ) ;
+		ArrayList<String> members = new ArrayList<String>() ;
+		History hist = new History() ;
+		try {
+			while(rs.next()) {
+				members.add(rs.getString(2)) ;
+			}
+			rs = this.request("select CodeChat,userid , Date, Text from Chats Where CodeChat='" + code + "'" ) ;
+			while(rs.next()) {
+				hist.insertMessage(new Message(rs.getString(2), rs.getString(1), rs.getString(4), new Date(rs.getTimestamp(3).getTime()) )) ;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Chat chat = new Chat(members) ;
+		chat.setHistory(hist) ;
+		return chat ;
 	}
 
 	@Override
@@ -93,13 +120,14 @@ public class LocalStorage implements ChatStorage {
 	@Override
 	public void storeAll(Iterable<Chat> chats) {
 		// TODO Auto-generated method stub
-		
+		for (Chat c : chats) {
+			storeChat(c) ;
+		}
 	}
 
 	@Override
 	public void storeMessage(Message message) {
-		// TODO Auto-generated method stub
-		Date date = new Date(message.getDate().getTime()) ;
+		Timestamp date = new Timestamp(message.getDate().getTime()) ;
 		String chat = message.getChatHashCode() ;
 		String userID = message.getUserID() ;
 		String text = message.getText() ;
@@ -109,7 +137,7 @@ public class LocalStorage implements ChatStorage {
 			PreparedStatement pstm = con.prepareStatement(querry) ;
 			pstm.setString(1,chat) ;
 			pstm.setString(2,userID) ;
-			pstm.setDate(3,date) ;
+			pstm.setTimestamp(3,date) ;
 			pstm.setString(4,text) ;
 			pstm.executeUpdate() ;
 			

@@ -23,7 +23,7 @@ public class Installer {
 			Class.forName("org.hsqldb.jdbc.JDBCDriver");
 			Connection con = DriverManager.getConnection("jdbc:hsqldb:file:db/mydb", "SA", "") ;
 			Statement stm = con.createStatement() ;
-			String query = "Create Table Chats(codeChat VARCHAR(32) ,userid VARCHAR(25), date Date, text VARCHAR(1024), Primary Key (codeChat, date) ) "  ;
+			String query = "Create Table Chats(codeChat VARCHAR(32) ,userid VARCHAR(25),date TIMESTAMP, text VARCHAR(1024), Primary Key (codeChat, date) ) "  ;
 			stm.executeUpdate(query) ;
 			con.close() ;
 		} 

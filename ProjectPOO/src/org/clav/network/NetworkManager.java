@@ -10,6 +10,8 @@ import org.clav.network.protocols.tcp.TCPListenerProtocol;
 import org.clav.network.protocols.udp.ActivitySignalProtocol;
 import org.clav.network.protocols.udp.ActivitySignalProtocolInit;
 import org.clav.network.protocols.udp.UDPListenerProtocol;
+import org.clav.network.server.PresenceServer;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
@@ -37,6 +39,7 @@ public class NetworkManager implements Pluggable {
 
 	private final HashMap<String, InetAddress> addrMap;
 	private final HashMap<String, TCPUserLink> tcpConnections;
+	private final HashSet<PresenceServer> presenceServers;
 
 	private final ExecutorService protocolService;
 
@@ -82,6 +85,7 @@ public class NetworkManager implements Pluggable {
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
 		this.tcpConnections = new HashMap<>();
+		this.presenceServers = new HashSet<>();
 		try {
 			this.receiveSocketUDP = new DatagramSocket(udpPortLocal);
 			this.sendSocketUDP = new DatagramSocket();
@@ -103,6 +107,7 @@ public class NetworkManager implements Pluggable {
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
 		this.tcpConnections = new HashMap<>();
+		this.presenceServers = new HashSet<>();
 		try {
 			this.receiveSocketUDP = new DatagramSocket(UDPSOCKET_RECEIVE_PORT);
 			this.sendSocketUDP = new DatagramSocket();
@@ -278,6 +283,19 @@ public class NetworkManager implements Pluggable {
 	public DatagramSocket getReceiveSocketUDP() {
 		return receiveSocketUDP;
 	}
+
+	public void linkPresenceServer(PresenceServer server){
+		if(!this.presenceServers.contains(server)) {
+			server.publish(this.getAppHandler().getMainUser());
+			this.presenceServers.add(server);
+		}
+	}
+
+	public HashSet<PresenceServer> getPresenceServers() {
+		return presenceServers;
+	}
+
+
 
 
 }

@@ -3,11 +3,13 @@ package org.clav.network;
 import org.clav.chat.ChatInit;
 import org.clav.chat.ChatUnknown;
 import org.clav.chat.Message;
+import org.clav.network.server.ServerNotification;
+import org.clav.network.server.ServerPublication;
+import org.clav.network.server.ServerSubcription;
 import org.clav.user.PseudoRejection;
 import org.clav.user.User;
 
 import java.net.InetAddress;
-import java.util.Date;
 
 import static org.clav.network.CLVHeader.*;
 
@@ -37,8 +39,14 @@ public class CLVPacketFactory {
 	public static CLVPacket gen_REJ(PseudoRejection rejection){
 		return new CLVPacket(REJ,rejection);
 	}
-	public static CLVPacket gen_ROU(CLVPacket packet, InetAddress address){
-		return new CLVPacket(ROU,new RoutedPacket(packet,address));
+	public static CLVPacket gen_PUB(User user){
+		return new CLVPacket(PUB,new ServerPublication(user));
+	}
+	public static CLVPacket gen_SUB(String id){
+		return new CLVPacket(SUB, new ServerSubcription(id));
+	}
+	public static CLVPacket gen_NOT(User user, InetAddress address){
+		return new CLVPacket(NOT,new ServerNotification(user,address));
 	}
 
 }

@@ -12,4 +12,5 @@ public class CLVPacket implements Serializable {
 		this.header = header;
 		this.data = data;
 	}
+
 }

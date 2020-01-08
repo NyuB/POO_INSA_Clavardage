@@ -1,4 +1,4 @@
-package org.clav.network;
+package org.clav.network.server;
 import org.clav.user.User;
 
 public abstract class PresenceServer {
@@ -7,6 +7,10 @@ public abstract class PresenceServer {
 
 	public abstract void publish(User activeUser);
 
-	protected abstract void notify(User activeUser, String id);
+	public PresenceServer(String url){
+
+	}
+
+
 
 }

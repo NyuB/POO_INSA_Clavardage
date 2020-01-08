@@ -10,6 +10,10 @@ public enum CLVHeader {
 	UNK,//Applicative, unknown chatcode notification
 	REJ,//Applicative, pseudo rejected
 	REQ,//Applicative, chat update request
-	ROU,//Rerouting service
+
+	NOT,//Server rerouting service
+	SUB,//Server subscription service
+	PUB,//Server activity signal service
+
 	ERR;
 }

@@ -29,42 +29,49 @@ public class UDPListenerProtocol extends Protocol {
 	@Override
 	public void run() {
 		try {
-			byte[] buffer = new byte[500];
-			DatagramPacket packetUDP = new DatagramPacket(buffer, 500);
+			byte[] buffer = new byte[1000];
+			DatagramPacket packetUDP = new DatagramPacket(buffer, buffer.length);
 			this.log("[UDP]Waiting UDP Packet on port " + getRelatedNetworkManager().getReceiveSocketUDP().getLocalPort());
 			while (true) {
-				getRelatedNetworkManager().getReceiveSocketUDP().receive(packetUDP);
-				CLVPacket packet = (CLVPacket) fromBytes(packetUDP.getData());
-				if (packet.header == SIG || packet.header == NOT) {
-					User user = (packet.header==SIG)?(User)(packet.data):((ServerNotification)(packet.data)).getUser();
-					InetAddress distAddr = (packet.header == SIG)?packetUDP.getAddress():((ServerNotification)(packet.data)).getAddress();
+				try {
+					getRelatedNetworkManager().getReceiveSocketUDP().receive(packetUDP);
+					CLVPacket packet = (CLVPacket) fromBytes(packetUDP.getData());
+					if (packet.header == SIG || packet.header == NOT) {
+						User user = (packet.header == SIG) ? (User) (packet.data) : ((ServerNotification) (packet.data)).getUser();
+						InetAddress distAddr = (packet.header == SIG) ? packetUDP.getAddress() : ((ServerNotification) (packet.data)).getAddress();
 
-					//TODO test rejection protocol, move to applicative level?
-					boolean reject = !user.getIdentifier().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getIdentifier()) && user.getPseudo().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getPseudo());
-					if (reject) {
-						PseudoRejection rejection = new PseudoRejection(user.getPseudo(), getRelatedNetworkManager().getAppHandler().getMainUser().getPseudoDate());
-						CLVPacket rejectionPacket = CLVPacketFactory.gen_REJ(rejection);
-						getRelatedNetworkManager().UDP_Send(Serializer.toBytes(rejectionPacket), packetUDP.getAddress());
-					} else {
-						String[] ids = new String[]{user.getIdentifier(), user.getPseudo()};
-						boolean toRepr = !getRelatedNetworkManager().getAppHandler().isActiveID(ids[0]);//DEBUG PURPOSE
-						getRelatedNetworkManager().addAddrFor(ids[0], distAddr);
-						getRelatedNetworkManager().getAppHandler().processNewUser(user);
-						if (toRepr) {
-							this.log("[UDP-USER]Updating new user : " + ids[0] + " " + ids[1]);
-							getRelatedNetworkManager().getDebug().detectNewUser(ids[0]);
-							getRelatedNetworkManager().getDebug().displayUsers(getRelatedNetworkManager().getAppHandler().getActivesID());
+						//TODO test rejection protocol, move to applicative level?
+						boolean reject = !user.getIdentifier().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getIdentifier()) && user.getPseudo().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getPseudo());
+						if (reject) {
+							PseudoRejection rejection = new PseudoRejection(user.getPseudo(), getRelatedNetworkManager().getAppHandler().getMainUser().getPseudoDate());
+							CLVPacket rejectionPacket = CLVPacketFactory.gen_REJ(rejection);
+							getRelatedNetworkManager().UDP_Send(Serializer.toBytes(rejectionPacket), packetUDP.getAddress());
+						} else {
+							String[] ids = new String[]{user.getIdentifier(), user.getPseudo()};
+							boolean toRepr = !getRelatedNetworkManager().getAppHandler().isActiveID(ids[0]);//DEBUG PURPOSE
+							getRelatedNetworkManager().addAddrFor(ids[0], distAddr);
+							getRelatedNetworkManager().getAppHandler().processNewUser(user);
+							if (toRepr) {
+								this.log("[UDP-USER]Updating new user : " + ids[0] + " " + ids[1]);
+								getRelatedNetworkManager().getDebug().detectNewUser(ids[0]);
+								getRelatedNetworkManager().getDebug().displayUsers(getRelatedNetworkManager().getAppHandler().getActivesID());
+							}
 						}
+
+					} else if (packet.header == REJ) {
+						PseudoRejection rejection = (PseudoRejection) packet.data;
+						getRelatedNetworkManager().getAppHandler().processPseudoRejection(rejection);
+
+					} else {
+						log("[UDP]Receiving unknown packet");
 					}
 
-				} else if (packet.header == REJ) {
-					PseudoRejection rejection = (PseudoRejection) packet.data;
-					getRelatedNetworkManager().getAppHandler().processPseudoRejection(rejection);
-
-				} else {
-					log("[UDP]Receiving unknown packet");
+				} catch (ClassCastException e) {
+					e.printStackTrace();
+				} finally {
+					Thread.sleep(0);//Allows interruption
 				}
-				Thread.sleep(0);//Allows interruption
+
 
 			}
 

@@ -1,5 +1,8 @@
 package org.clav.network.server;
 
+import org.clav.network.CLVHeader;
+import org.clav.network.CLVPacket;
+import org.clav.network.CLVPacketFactory;
 import org.clav.user.User;
 
 import java.io.IOException;
@@ -22,26 +25,35 @@ public class HttpPresenceServer extends PresenceServer {
 		}
 	}
 	private void objSend(Object o){
-		HttpURLConnection connection;
+		HttpURLConnection connection = null;
 		try {
 			connection = (HttpURLConnection) (this.url.openConnection());
 			connection.setRequestMethod("POST");
-			this.objIn = new ObjectInputStream(connection.getInputStream());
+			connection.setUseCaches(false);
+			connection.setDoOutput(true);
 			this.objOut = new ObjectOutputStream(connection.getOutputStream());
 			objOut.writeObject(o);
 			objOut.flush();
 			objOut.close();
-		} catch (IOException e) {
+			this.objIn = new ObjectInputStream(connection.getInputStream());
+			CLVPacket ack = (CLVPacket)objIn.readObject();
+			if(ack.header!= CLVHeader.ACK)System.out.println("Invalid ack message from server");
+			objIn.close();
+			System.out.println("Http obj sent");
+		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
+		}
+		finally {
+			if(connection!=null) connection.disconnect();
 		}
 	}
 	@Override
 	public void subscribe(String id) {
-		this.objSend(new ServerSubcription(id));
+		this.objSend(CLVPacketFactory.gen_SUB(id));
 	}
 
 	@Override
 	public void publish(User activeUser) {
-		this.objSend(new ServerPublication(activeUser));
+		this.objSend(CLVPacketFactory.gen_PUB(activeUser));
 	}
 }

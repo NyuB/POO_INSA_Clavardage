@@ -286,7 +286,8 @@ public class NetworkManager implements Pluggable {
 
 	public void linkPresenceServer(PresenceServer server){
 		if(!this.presenceServers.contains(server)) {
-			server.publish(this.getAppHandler().getMainUser());
+			this.log("Subscribing to presence server");
+			server.subscribe(this.getAppHandler().getMainUser().getIdentifier());
 			this.presenceServers.add(server);
 		}
 	}

@@ -6,6 +6,7 @@ import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
 import org.clav.network.NetworkManager;
+import org.clav.network.server.HttpPresenceServer;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.constants.FormatConstant;
@@ -51,6 +52,7 @@ public class ProtoApp {
 		chatManager.setAppHandler(agent);
 		userManager.setAppHandler(agent);
 		agent.start();
+		networkManager.linkPresenceServer(new HttpPresenceServer("http://localhost:8080/presence/testserv"));
 		networkManager.startUDPListening();
 		networkManager.startUDPSignal();
 		networkManager.startTCPListening();

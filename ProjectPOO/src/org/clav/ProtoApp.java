@@ -2,6 +2,7 @@ package org.clav;
 
 import org.clav.chat.Chat;
 import org.clav.chat.ChatManager;
+import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
 import org.clav.network.NetworkManager;
@@ -37,6 +38,8 @@ public class ProtoApp {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		Installer installer = new Installer();
+		installer.install();
 
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);

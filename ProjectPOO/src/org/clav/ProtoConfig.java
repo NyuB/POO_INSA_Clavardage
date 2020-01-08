@@ -2,6 +2,8 @@ package org.clav;
 
 import org.clav.chat.Chat;
 import org.clav.chat.ChatManager;
+import org.clav.config.Config;
+import org.clav.config.ConfigManager;
 import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
@@ -9,13 +11,10 @@ import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.constants.FormatConstant;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ProtoApp {
+public class ProtoConfig {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter user name");
@@ -30,16 +29,13 @@ public class ProtoApp {
 		
 		ChatManager chatManager = new ChatManager();
 		NetworkManager networkManager = null;
-		String line;
+		agent.setConfigManager(new ConfigManager()) ;
+		ConfigManager configmanager = agent.getConfigManager()  ;
 		try {
-			InetAddress localAddr = InetAddress.getByName("0.0.0.0");
-			System.out.println("Enter broadcast address");
-			line = in.nextLine();
-			//line = "localhost";
-			InetAddress broadcastAddr = InetAddress.getByName(line);
-			networkManager = new NetworkManager(localAddr, broadcastAddr);
+			Config config = configmanager.getConfig() ;
+			networkManager = new NetworkManager(config.getLocalAddr(), config.getBroadcastAddr());
 			networkManager.setAppHandler(agent);
-		} catch (UnknownHostException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -55,6 +51,7 @@ public class ProtoApp {
 		networkManager.startUDPSignal();
 		networkManager.startTCPListening();
 		boolean over = false;
+		String line ;
 		while (!over && (line = in.nextLine()) != null) {
 			String[] cmd = line.split(FormatConstant.spaceRegex);
 			if (cmd.length > 0) {

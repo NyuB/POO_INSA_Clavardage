@@ -25,6 +25,13 @@ public class LocalStorage implements ChatStorage {
 		stm = null ;
 		rs = null ;
 		connect() ;
+		Runtime.getRuntime().addShutdownHook(new Thread() 
+	    { 
+	      public void run() 
+	      { 
+	    	  close() ;
+	      }
+	    });
 	}
 	
 	private void connect() {
@@ -130,13 +137,15 @@ public class LocalStorage implements ChatStorage {
 		for (Chat c : chats) {
 			storeChat(c) ;
 		}
+		/*
 		try {
-			this.con.close() ;
-			this.connect() ;
+			//this.con.close() ;
+			//this.connect() ;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	@Override

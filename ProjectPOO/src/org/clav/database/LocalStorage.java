@@ -114,12 +114,21 @@ public class LocalStorage implements ChatStorage {
 	@Override
 	public Iterable<Chat> readAllChats() {
 		// TODO Auto-generated method stub
+		ResultSet rs = this.request("select distinct CodeChat from Chats " ) ;
+		ArrayList<Chat> chats = new ArrayList<Chat>() ;
+		try {
+			while(rs.next()) {
+				chats.add(getChatByHashCode(rs.getString(1))) ;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public void storeAll(Iterable<Chat> chats) {
-		// TODO Auto-generated method stub
 		for (Chat c : chats) {
 			storeChat(c) ;
 		}

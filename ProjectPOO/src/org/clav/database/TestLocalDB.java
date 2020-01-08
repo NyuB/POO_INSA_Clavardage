@@ -13,10 +13,11 @@ import org.clav.user.User;
 public class TestLocalDB {
 	
 	public static void main(String[] args) {
-		/*
+		
 		Installer installer = new Installer() ;
-		installer.createDB() ;
-		*/
+		installer.install() ;
+		//installer.createDB() ;
+		
 		LocalStorage db = new LocalStorage() ;
 		Chat chat = db.getChatByHashCode("test") ;
 		chat.getHistory().printHistory() ;

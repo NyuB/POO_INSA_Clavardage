@@ -1,5 +1,6 @@
 package org.clav.config;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -15,7 +16,22 @@ import java.util.List;
 public class Installer {
 	
 	public void install(){
-
+		File config = new File("./Objconfig.ser") ;
+		File db = new File("./db/mydb.script") ;
+		if (config.exists()) {
+			System.out.println("Config OK") ;
+		}
+		else {
+			System.out.println("Config Not OK") ;
+			createDefaultConfig((short) 16) ;
+		}
+		if (db.exists()) {
+			System.out.println("DB OK") ;
+		}
+		else {
+			System.out.println("DB Not OK") ;
+			createDB() ;
+		}
 	}
 	
 	public void createDB() {
@@ -35,9 +51,7 @@ public class Installer {
 	}
 	
 	public void createDefaultConfig(short mask) {
-		//File config = new File(path+"/test_config.txt") ;
 		try {
-			//PrintWriter out = new PrintWriter(new FileWriter(config)) ;
 			//get interface 
 			Enumeration<NetworkInterface> enumNet = NetworkInterface.getNetworkInterfaces() ; 
 			boolean find = false ;
@@ -63,15 +77,6 @@ public class Installer {
 			if(address!=null) {
 				Config config = new Config( address , inter.getBroadcast() , address.getHostName(), true, true, true ) ;
 				config.save() ;
-				/*
-				 out.println("ID " + System.getProperty("user.home")) ;
-				//out.println("ID " + address.getHostName()) ;
-				out.println("LOCAL " + address.getHostAddress()) ;
-				out.println("BROAD " + inter.getBroadcast()) ;
-				out.println("UDP LISTEN SIGNAL") ;
-				out.println("TCP LISTEN") ;
-				out.close() ;
-				*/
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

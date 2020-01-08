@@ -3,6 +3,7 @@ package org.clav.chat;
 import org.clav.AppHandler;
 import org.clav.database.ChatStorage;
 import org.clav.database.EmptyChatStorage;
+import org.clav.database.LocalStorage;
 import org.clav.database.TxtChatStorage;
 import org.clav.user.User;
 
@@ -17,7 +18,8 @@ public class ChatManager {
 	public ChatManager() {
 		this.chats = new HashMap<>();
 		try {
-			this.storage = new TxtChatStorage("dataproxy.txt");
+			this.storage = new LocalStorage() ;
+			//this.storage = new TxtChatStorage("dataproxy.txt");
 			this.load();
 		} catch (Exception e) {
 			this.storage = new EmptyChatStorage();

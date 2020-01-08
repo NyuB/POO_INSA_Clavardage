@@ -8,10 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.sql.Date;
-
-import org.clav.Agent;
 import org.clav.chat.Chat;
 import org.clav.chat.History;
 import org.clav.chat.Message;
@@ -118,19 +115,27 @@ public class LocalStorage implements ChatStorage {
 		ArrayList<Chat> chats = new ArrayList<Chat>() ;
 		try {
 			while(rs.next()) {
+				System.out.println(rs.getString(1)) ;
 				chats.add(getChatByHashCode(rs.getString(1))) ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return chats;
 	}
 
 	@Override
 	public void storeAll(Iterable<Chat> chats) {
 		for (Chat c : chats) {
 			storeChat(c) ;
+		}
+		try {
+			this.con.close() ;
+			this.connect() ;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

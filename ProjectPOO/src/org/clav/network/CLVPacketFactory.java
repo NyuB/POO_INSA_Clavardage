@@ -6,6 +6,7 @@ import org.clav.chat.Message;
 import org.clav.user.PseudoRejection;
 import org.clav.user.User;
 
+import java.net.InetAddress;
 import java.util.Date;
 
 import static org.clav.network.CLVHeader.*;
@@ -35,6 +36,9 @@ public class CLVPacketFactory {
 	}
 	public static CLVPacket gen_REJ(PseudoRejection rejection){
 		return new CLVPacket(REJ,rejection);
+	}
+	public static CLVPacket gen_ROU(CLVPacket packet, InetAddress address){
+		return new CLVPacket(ROU,new RoutedPacket(packet,address));
 	}
 
 }

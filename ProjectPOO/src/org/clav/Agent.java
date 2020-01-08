@@ -68,7 +68,6 @@ public class Agent implements AppHandler, CLVModel {
 
 	public void start() throws NullPointerException {
 		if(this.networkManager!=null && this.chatManager!=null && this.userManager!=null) {
-			this.chatManager.load();
 			this.GUIManager = new GUIManager(this, this);
 			this.GUIManager.start();
 		}

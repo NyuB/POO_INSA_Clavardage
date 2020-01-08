@@ -23,6 +23,10 @@
         <pathelement location="${src_dir}"/>
     </path>
 
+    <path id="hsqldb_classpath">
+        <pathelement location="${lib_dir}/hsqldb.jar"/>
+    </path>
+
     <path id="junit_classpath">
         <pathelement location="${lib_dir}/junit-4.12.jar"/>
         <pathelement location="${lib_dir}/hamcrest-core-1.3.jar"/>
@@ -40,6 +44,7 @@
         <javac srcdir="${src_dir}" destdir="${build_dir}">
             <classpath>
                 <path refid="project_classpath"/>
+                <path refid="hsqldb_classpath"/>
             </classpath>
         </javac>
     </target>
@@ -49,6 +54,7 @@
             <classpath>
                 <path refid="project_classpath"/>
                 <path refid="junit_classpath"/>
+                <path refid="hsqldb_classpath"/>
             </classpath>
         </javac>
     </target>
@@ -87,6 +93,7 @@
     <target name="executable_ProtoApp" depends="compile">
         <delete file="${exe_dir}/${exe_proto}App.jar"/>
         <jar destfile="${exe_dir}/${exe_proto}App.jar" basedir="${build_dir}">
+            <zipgroupfileset dir="${lib_dir}" includes="hsqldb.jar" />
             <manifest>
                 <attribute name="Main-Class" value="org.clav.ProtoApp"/>
             </manifest>

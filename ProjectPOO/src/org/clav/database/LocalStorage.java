@@ -46,7 +46,6 @@ public class LocalStorage implements ChatStorage {
 	         }
 			else{
 	            System.out.println("Problem with creating connection");
-	            
 	         }
 			
 		} 

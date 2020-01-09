@@ -5,7 +5,11 @@ import org.clav.chat.Message;
 
 import java.util.ArrayList;
 
-//Empty shell to proxy a database
+
+/**
+ * Empty shell to proxy a database when a real one is not available
+ * Does nothing
+ */
 public class EmptyChatStorage implements ChatStorage {
 	private void log(String log){
 		System.out.println("[DATA]"+log);

@@ -12,11 +12,21 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class HttpPresenceServer extends PresenceServer {
+/**
+ * Represents a connection with an HTTP presence server
+ * Each request follows the same pattern :
+ * 1)Send a CLVPacket via a Http POST request to the distant server
+ * 2)Wait a CLV Ack packet from the distant server
+ * To be able to interact with this class, a servlet must at least implement a doPost method which reads an object fromp the request first, then sends an object in response
+ * @see HttpPresenceServlet
+ */
+public class HttpPresenceClient extends PresenceClient {
+
 	private URL url;
 	private ObjectInputStream objIn;
 	private ObjectOutputStream objOut;
-	public HttpPresenceServer(String url) {
+
+	public HttpPresenceClient(String url) {
 		super(url);
 		try {
 			this.url = new URL(url);
@@ -24,6 +34,7 @@ public class HttpPresenceServer extends PresenceServer {
 			e.printStackTrace();
 		}
 	}
+
 	private void objSend(Object o){
 		HttpURLConnection connection = null;
 		try {

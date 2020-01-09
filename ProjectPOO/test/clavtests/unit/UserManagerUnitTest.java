@@ -27,6 +27,12 @@ public class UserManagerUnitTest {
 		}
 
 		@Override
+		public void storeChats() {
+			//TODO
+
+		}
+
+		@Override
 		public void initiateChat(ArrayList<String> distantMembers) {
 
 
@@ -120,20 +126,49 @@ public class UserManagerUnitTest {
 
 	@Test
 	public void userInactivityTest() throws InterruptedException{
+		int initialThreadCount = Thread.activeCount();
 		User mainUser = new User("Main","Main");
 		User otherUser = new User("Other","Other");
 		UserManager userManager = new UserManager(mainUser);
+		Assert.assertEquals("User manager should have created a thread to track user activity",initialThreadCount+1,Thread.activeCount());
 		userManager.setAppHandler(emptyAppHandler);
+
 		userManager.processActive(otherUser);
 		Assert.assertEquals("User manager should contains two users",2,userManager.getActiveUsers().size());
 		Assert.assertTrue(userManager.isActiveUser(otherUser.getIdentifier()));
 		Assert.assertTrue(userManager.isActiveUser(mainUser.getIdentifier()));
+
 		Assert.assertTrue(userManager.getPseudoSet().contains(mainUser.getPseudo()));
 		Assert.assertTrue(userManager.getPseudoSet().contains(otherUser.getPseudo()));
 		Thread.sleep(DelayConstants.INACTIVE_DELAY_SEC*1500);
 		Assert.assertEquals(1,userManager.getActiveUsers().size());
 		Assert.assertTrue(userManager.isActiveUser(mainUser.getIdentifier()));
 		Assert.assertFalse(userManager.isActiveUser(otherUser.getIdentifier()));
+	}
+
+	@Test
+	public void userActivityTimersTest() throws InterruptedException {
+		int initialThreadCount = Thread.activeCount();
+		User mainUser = new User("Main","Main");
+		ArrayList<User> userList = new ArrayList<>();
+		int nbUsers=  4;
+		for(int i = 0;i<nbUsers;i++){
+			String pseudo = "Proxy_"+i;
+			userList.add(new User(pseudo,pseudo));
+		}
+		UserManager userManager = new UserManager(mainUser);
+		Assert.assertEquals("User manager should have created a thread to track user activity",initialThreadCount+1,Thread.activeCount());
+		userManager.setAppHandler(emptyAppHandler);
+
+		for(User u : userList){
+			userManager.processActive(u);
+		}
+		Assert.assertEquals("User manager should contains "+nbUsers+1+" users",nbUsers+1,userManager.getActiveUsers().size());
+
+		Thread.sleep(DelayConstants.INACTIVE_DELAY_SEC*1500);
+		Assert.assertEquals(1,userManager.getActiveUsers().size());
+		Assert.assertTrue(userManager.isActiveUser(mainUser.getIdentifier()));
+
 	}
 
 	@Test

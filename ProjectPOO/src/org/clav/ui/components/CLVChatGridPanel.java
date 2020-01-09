@@ -9,6 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
+/**
+ * Display chats on a dynamically sized grid
+ * Handles linking its chat panels components to the clv application, by adding action listeners to their internal components
+ */
 public class CLVChatGridPanel extends JPanel implements CLVMultiChatDisplay {
 
 	private CLVController controller;

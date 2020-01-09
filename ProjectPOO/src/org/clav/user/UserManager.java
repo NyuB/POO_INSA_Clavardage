@@ -13,6 +13,7 @@ public class UserManager implements ActivityHandler {
 	private final HashMap<String, User> activeUsers;
 	private final HashSet<String> pseudoSet;
 	private final HashMap<String, ActivityTimerTask> activityTasks;
+	private final Timer activityTimer = new Timer();
 
 	public HashSet<String> getPseudoSet() {
 		return pseudoSet;
@@ -116,10 +117,9 @@ public class UserManager implements ActivityHandler {
 			if (!this.activeUsers.containsKey(identifier)) {//If the signaling user isn't already known by the agent introduce it and set up an inactivity timer
 				this.activeUsers.put(identifier, activeUser);
 				this.pseudoSet.add(pseudo);
-				Timer timer = new Timer();
 				ActivityTimerTask task = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC, identifier, this);
 				this.activityTasks.put(identifier, task);
-				timer.schedule(task, 0, 1000);
+				activityTimer.schedule(task, 0, 1000);
 
 			} else if (!identifier.equals(this.mainUser.getIdentifier())) {//If the user is already considered active, update pseudo if necessary and reset it's inactivity timer
 				User user = this.getActiveUsers().get(identifier);

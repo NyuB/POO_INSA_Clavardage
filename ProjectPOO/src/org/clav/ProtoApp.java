@@ -6,7 +6,7 @@ import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
 import org.clav.network.NetworkManager;
-import org.clav.network.server.HttpPresenceServer;
+import org.clav.network.server.HttpPresenceClient;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.constants.FormatConstant;
@@ -132,10 +132,10 @@ public class ProtoApp {
 						if (cmd.length > 1) {
 							switch (cmd[1]) {
 								case "on":
-									networkManager.linkPresenceServer(new HttpPresenceServer("http://localhost:8080/presence/"));
+									networkManager.linkPresenceServer(new HttpPresenceClient(cmd[2]));
 									break;
 								case "off":
-									networkManager.getPresenceServers().clear();
+									networkManager.getPresenceClients().clear();
 									break;
 								default:
 									break;

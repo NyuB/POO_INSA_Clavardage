@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Write and reads chats in a txt file following a custom beacon format
+ * Unable to read or store a specific chat, has to read and rewrite everything
+ */
 public class TxtChatStorage implements ChatStorage {
 	private String filePath;
 

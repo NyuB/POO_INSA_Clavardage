@@ -7,7 +7,6 @@ import org.clav.user.ActivityTimerTask;
 import org.clav.utils.Serializer;
 import org.clav.utils.constants.DelayConstants;
 import org.clav.utils.constants.NetworkConstants;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +22,8 @@ import java.util.Timer;
 
 public class HttpPresenceServlet extends HttpServlet implements ActivityHandler {
 	private final HashMap<String, InetAddress> registered = new HashMap<>();
-	private final HashMap<String, ActivityTimerTask> timers = new HashMap<>();
+	private final HashMap<String, ActivityTimerTask> activityTasks = new HashMap<>();
+	private final Timer taskTimer = new Timer();
 	private int nbPost = 0;
 	private int errors = 0;
 	private String lastMsg = "";
@@ -34,8 +34,8 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 		synchronized (this.registered) {
 			this.registered.remove(id);
 		}
-		synchronized (this.timers) {
-			this.timers.remove(id);
+		synchronized (this.activityTasks) {
+			this.activityTasks.remove(id);
 		}
 	}
 
@@ -60,17 +60,17 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 			PrintWriter out = res.getWriter();
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Test Servlet</title>");
+			out.println("<title>Presence Servlet Decaestecker|Gouvine</title>");
 			out.println("</head>");
 			out.println("<body>");
-			StringBuilder sb = new StringBuilder("<h3>Active users</h3><ul>");
+			StringBuilder sb = new StringBuilder("<h2>Active Users</h2><table><tr><th>Id</th><th>Ip Address</th></tr>");
 			for (String key : this.registered.keySet()) {
-				sb.append("<li>" + key + " : " + this.registered.get(key).toString() + "</li>");
+				sb.append("<tr><td>" + key +"</td><td>" + this.registered.get(key).toString()+"</td></tr>");
 			}
-			sb.append("</ul>");
+			sb.append("</table>");
 			out.println("<h2>Presence Server Gouvine-Birrer | Decaestecker</h2>");
-			out.println("<p>Stats : <br/>Number of GET request : " + nbGet + "<br/>Number of POST Request : " + nbPost + "<br/>Number of errors : " + errors + "<br/>Last error message : " + lastMsg + "</p>");
-			out.println("<p>" + sb.toString() + "</p>");
+			out.println("<p>Stats : <br/>Number of GET request : " + nbGet + "<br/>Number of POST Request : " + nbPost + "<br/>Number of errors : " + errors + "<br/>Last error message : " + lastMsg +"<br/>Active threads : "+Thread.activeCount()+ "</p>");
+			out.println(sb.toString());
 			out.println("</body>");
 			out.println("</html>");
 		} catch (IOException e) {
@@ -88,7 +88,7 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 			switch (packet.header) {
 				case PUB:
 					ServerPublication pub = (ServerPublication) packet.data;
-					this.timers.get(pub.getUser().getIdentifier()).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
+					this.activityTasks.get(pub.getUser().getIdentifier()).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
 					CLVPacket routed = CLVPacketFactory.gen_NOT(pub.getUser(), InetAddress.getByName(req.getRemoteAddr()));
 					for (String id : this.registered.keySet()) {
 						if (true || !id.equals(pub.getUser().getIdentifier())) {//TODO Stop sending to yourself for production
@@ -100,9 +100,8 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 					ServerSubcription sub = (ServerSubcription) packet.data;
 					this.registered.put(sub.getId(), InetAddress.getByName(req.getRemoteAddr()));
 					ActivityTimerTask activityTimerTask = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC, sub.getId(), this);
-					this.timers.put(sub.getId(),activityTimerTask);
-					Timer timer = new Timer();
-					timer.schedule(activityTimerTask,0,1000);
+					this.activityTasks.put(sub.getId(),activityTimerTask);
+					taskTimer.schedule(activityTimerTask,0,1000);
 					break;
 				default:
 					break;
@@ -118,4 +117,5 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 		}
 
 	}
+
 }

@@ -9,6 +9,10 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+/**
+ * Displays chats on a multi tabs environment
+ * Handles linking its chat panels components to the clv application, by adding action listeners to their internal components
+ */
 public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay {
 	private CLVController controller;
 	private CLVModel model;

@@ -45,6 +45,7 @@
         <delete dir="${dist_dir}"/>
         <delete dir="${doc_dir}"/>
         <delete dir="${exe_dir}"/>
+        <delete file="${servlet_file}"/>
     </target>
 
     <target name="compile" depends="clean">

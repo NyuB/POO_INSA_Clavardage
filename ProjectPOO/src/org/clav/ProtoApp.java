@@ -25,10 +25,10 @@ public class ProtoApp {
 		Agent agent = new Agent();
 		User mainUser = new User(name[0], (name.length > 1) ? name[1] : name[0]);
 		UserManager userManager = new UserManager(mainUser);
-		
+
 		Installer installer = new Installer();
 		installer.install();
-		
+
 		ChatManager chatManager = new ChatManager();
 		NetworkManager networkManager = null;
 		String line;
@@ -43,7 +43,6 @@ public class ProtoApp {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		
 
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);
@@ -51,11 +50,14 @@ public class ProtoApp {
 
 		chatManager.setAppHandler(agent);
 		userManager.setAppHandler(agent);
+
 		agent.start();
-		networkManager.linkPresenceServer(new HttpPresenceServer("http://localhost:8080/presence/testserv"));
+
+
 		networkManager.startUDPListening();
 		networkManager.startUDPSignal();
 		networkManager.startTCPListening();
+
 		boolean over = false;
 		while (!over && (line = in.nextLine()) != null) {
 			String[] cmd = line.split(FormatConstant.spaceRegex);
@@ -126,6 +128,20 @@ public class ProtoApp {
 									break;
 							}
 						}
+					case "PRES":
+						if (cmd.length > 1) {
+							switch (cmd[1]) {
+								case "on":
+									networkManager.linkPresenceServer(new HttpPresenceServer("http://localhost:8080/presence/"));
+									break;
+								case "off":
+									networkManager.getPresenceServers().clear();
+									break;
+								default:
+									break;
+							}
+						}
+
 
 					default:
 						break;

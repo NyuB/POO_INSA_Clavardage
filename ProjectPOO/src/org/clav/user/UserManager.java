@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Timer;
 
-public class UserManager {
+public class UserManager implements ActivityHandler {
 
 	private AppHandler appHandler;
 	private final HashMap<String, User> activeUsers;
@@ -60,6 +60,7 @@ public class UserManager {
 	 *
 	 * @param id User identifier
 	 */
+	@Override
 	public synchronized void removeActiveUser(String id) {
 		if (this.isActiveUser(id)) {
 			User u = this.activeUsers.get(id);

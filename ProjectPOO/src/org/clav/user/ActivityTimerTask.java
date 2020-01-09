@@ -9,12 +9,12 @@ import java.util.TimerTask;
 public class ActivityTimerTask extends TimerTask {
 	private Integer counter;
 	private String id;
-	private UserManager userManager;
+	private ActivityHandler activityHandler;
 
-	public ActivityTimerTask(int counter,String id, UserManager userManager) {
+	public ActivityTimerTask(int counter,String id, ActivityHandler activityHandler) {
 		this.counter = counter;
 		this.id = id;
-		this.userManager = userManager;
+		this.activityHandler = activityHandler;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class ActivityTimerTask extends TimerTask {
 				//System.out.println("[TIM]Counting " + this.counter);
 			} else {
 				System.out.println("[TIM]Expiration user "+this.id);
-				this.userManager.removeActiveUser(this.id);
+				this.activityHandler.removeActiveUser(this.id);
 				cancel();
 			}
 		}

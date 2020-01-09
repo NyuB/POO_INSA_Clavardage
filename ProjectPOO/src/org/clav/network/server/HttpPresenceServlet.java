@@ -2,14 +2,15 @@ package org.clav.network.server;
 
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
+import org.clav.user.ActivityHandler;
+import org.clav.user.ActivityTimerTask;
 import org.clav.utils.Serializer;
+import org.clav.utils.constants.DelayConstants;
 import org.clav.utils.constants.NetworkConstants;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,15 +18,26 @@ import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.util.HashMap;
+import java.util.Timer;
 
-public class HttpPresenceServlet extends HttpServlet {
-	private HashMap<String, InetAddress> registered = new HashMap<>();
+public class HttpPresenceServlet extends HttpServlet implements ActivityHandler {
+	private final HashMap<String, InetAddress> registered = new HashMap<>();
+	private final HashMap<String, ActivityTimerTask> timers = new HashMap<>();
 	private int nbPost = 0;
 	private int errors = 0;
 	private String lastMsg = "";
 	int nbGet = 0;
+
+	@Override
+	public void removeActiveUser(String id) {
+		synchronized (this.registered) {
+			this.registered.remove(id);
+		}
+		synchronized (this.timers) {
+			this.timers.remove(id);
+		}
+	}
 
 	private void UDPSend(CLVPacket packet, InetAddress address) {
 		try {
@@ -45,19 +57,20 @@ public class HttpPresenceServlet extends HttpServlet {
 		res.setContentType("text/html");
 		nbGet++;
 		try {
-			String saddr = req.getRemoteAddr();
-			InetAddress distAddr = InetAddress.getByName(saddr);
 			PrintWriter out = res.getWriter();
 			out.println("<html>");
 			out.println("<head>");
 			out.println("<title>Test Servlet</title>");
 			out.println("</head>");
 			out.println("<body>");
-			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder("<h3>Active users</h3><ul>");
 			for (String key : this.registered.keySet()) {
-				sb.append(key + " " + this.registered.get(key).toString() + " ");
+				sb.append("<li>" + key + " : " + this.registered.get(key).toString() + "</li>");
 			}
-			out.println("<h1>" + "NBREQ : " + nbGet + " " + nbPost + " NBERRORS : " + errors + " REGISTERED : " + sb.toString() +" "+ lastMsg+"</h1>");
+			sb.append("</ul>");
+			out.println("<h2>Presence Server Gouvine-Birrer | Decaestecker</h2>");
+			out.println("<p>Stats : <br/>Number of GET request : " + nbGet + "<br/>Number of POST Request : " + nbPost + "<br/>Number of errors : " + errors + "<br/>Last error message : " + lastMsg + "</p>");
+			out.println("<p>" + sb.toString() + "</p>");
 			out.println("</body>");
 			out.println("</html>");
 		} catch (IOException e) {
@@ -75,6 +88,7 @@ public class HttpPresenceServlet extends HttpServlet {
 			switch (packet.header) {
 				case PUB:
 					ServerPublication pub = (ServerPublication) packet.data;
+					this.timers.get(pub.getUser().getIdentifier()).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
 					CLVPacket routed = CLVPacketFactory.gen_NOT(pub.getUser(), InetAddress.getByName(req.getRemoteAddr()));
 					for (String id : this.registered.keySet()) {
 						if (true || !id.equals(pub.getUser().getIdentifier())) {//TODO Stop sending to yourself for production
@@ -85,6 +99,10 @@ public class HttpPresenceServlet extends HttpServlet {
 				case SUB:
 					ServerSubcription sub = (ServerSubcription) packet.data;
 					this.registered.put(sub.getId(), InetAddress.getByName(req.getRemoteAddr()));
+					ActivityTimerTask activityTimerTask = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC, sub.getId(), this);
+					this.timers.put(sub.getId(),activityTimerTask);
+					Timer timer = new Timer();
+					timer.schedule(activityTimerTask,0,1000);
 					break;
 				default:
 					break;
@@ -96,7 +114,7 @@ public class HttpPresenceServlet extends HttpServlet {
 		} catch (Exception e) {
 			errors++;
 			e.printStackTrace();
-			lastMsg=e.toString();
+			lastMsg = e.toString();
 		}
 
 	}

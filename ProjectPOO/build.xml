@@ -7,11 +7,13 @@
     <property name="exe_dir" value="exe"/>
     <property name="lib_dir" value="lib"/>
     <property name="dist_dir" value="distribution"/>
+    <property name="web_dir" value="web"/>
     <property name="doc_dir" value="doc"/>
     <property name="windist_dir" value="${dist_dir}/win"/>
     <property name="lindist_dir" value="${dist_dir}/lin"/>
-    <property name="servlet_name" value="presence"/>
+    <property name="servlet_name" value="gouvine_decaestecker"/>
     <property name="servlet_class" value="org.clav.network.server.HttpPresenceServlet"/>
+    <property name="servlet_file" value="${web_dir}/${servlet_name}.war"/>
 
     <property name="dist_jar" value="ProtoApp.jar"/>
 
@@ -126,15 +128,13 @@
 
 
     <target name="war" depends="executable_proto">
-        <delete file="${servlet_name}.war"/>
-        <war destfile="${servlet_name}.war" webxml="web.xml">
+        <delete file="${servlet_file}"/>
+        <war destfile="${servlet_file}" webxml="web/web.xml">
             <classes dir="${build_dir}"/>
         </war>
     </target>
 
     <target name="distribution" depends="unit,doc,executable_proto,war">
-        <delete dir="${windist_dir}"/>
-        <delete dir="${lindist_dir}"/>
         <copy file="${exe_dir}/ProtoApp.jar" tofile="${windist_dir}/ProtoApp.jar"/>
         <copy file="${exe_dir}/ProtoApp.jar" tofile="${lindist_dir}/ProtoApp.jar"/>
         <echo file="${windist_dir}/launcher.bat" message="java -jar ${dist_jar}"/>

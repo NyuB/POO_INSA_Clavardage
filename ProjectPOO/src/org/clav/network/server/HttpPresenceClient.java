@@ -46,11 +46,17 @@ public class HttpPresenceClient extends PresenceClient {
 			objOut.writeObject(o);
 			objOut.flush();
 			objOut.close();
+			System.out.println("[HTTP]Obj sent");
 			this.objIn = new ObjectInputStream(connection.getInputStream());
 			CLVPacket ack = (CLVPacket)objIn.readObject();
-			if(ack.header!= CLVHeader.ACK)System.out.println("Invalid ack message from server");
+
+			if (ack.header!=CLVHeader.ACK) {
+				System.out.println("[HTTP]Invalid ack message from server");
+			} else {
+				System.out.println("[HTTP]Receiving ack message from server");
+			}
 			objIn.close();
-			System.out.println("Http obj sent");
+
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

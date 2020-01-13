@@ -20,7 +20,7 @@ public class ProtoInstaller {
 		//config.save() ;
 		Agent agent = new Agent() ;
 		ConfigManager manager = new ConfigManager() ;
-		manager.configNetworkManager(agent) ;
+		manager.configAgent(agent) ;
 		//System.out.println(agent.getNetworkManager()) ;
 		
 		System.out.println(manager.getConfig()) ;

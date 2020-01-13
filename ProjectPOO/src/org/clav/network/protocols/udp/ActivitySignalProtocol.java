@@ -22,6 +22,7 @@ public class ActivitySignalProtocol extends Protocol {
 	@Override
 	public void run() {
 		try {
+			System.out.println("[UDP]Starting activity signal");
 			while (true) {
 				CLVPacket packet = CLVPacketFactory.gen_SIG(getRelatedNetworkManager().getAppHandler().getMainUser());
 				byte[] buf = Serializer.toBytes(packet);

@@ -15,9 +15,11 @@ public class History {
 
 	public static String historyRepr(History history, HashMap<String, User> activeMap) {
 		StringBuilder sb = new StringBuilder();
-		for (Message m : history.getMessageHistory()) {
-			sb.append(((activeMap.containsKey(m.getUserID())) ? activeMap.get(m.getUserID()).getPseudo() : m.getUserID()) + " " + m.getDate() + "\n");
-			sb.append("\t"+m.getText() + "\n");
+		synchronized (history) {
+			for (Message m : history.getMessageHistory()) {
+				sb.append(((activeMap.containsKey(m.getUserID())) ? activeMap.get(m.getUserID()).getPseudo() : m.getUserID()) + " " + m.getDate() + "\n");
+				sb.append("\t" + m.getText() + "\n");
+			}
 		}
 		return sb.toString();
 

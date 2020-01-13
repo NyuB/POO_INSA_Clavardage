@@ -47,12 +47,10 @@ public class ProtoApp {
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);
 		agent.setChatManager(chatManager);
-
 		chatManager.setAppHandler(agent);
 		userManager.setAppHandler(agent);
 
 		agent.start();
-
 
 		networkManager.startUDPListening();
 		networkManager.startUDPSignal();

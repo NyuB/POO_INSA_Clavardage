@@ -121,7 +121,7 @@ public class NetworkManager implements Pluggable {
 	}
 
 	private void initiateConnectionTCP(String user, boolean parallel) {
-		if (!this.tcpConnections.containsKey(user)) {
+		if (!this.tcpConnections.containsKey(user) && this.addrMap.containsKey(user)) {
 			try {
 				this.log("[TCP]Initiating tcp connection");
 				Socket distant = new Socket(this.addrMap.get(user), this.TCP_DISTANT_DEBUG_PORT);

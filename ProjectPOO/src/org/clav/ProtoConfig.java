@@ -8,48 +8,31 @@ import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
 import org.clav.network.NetworkManager;
+import org.clav.network.server.HttpPresenceClient;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.constants.FormatConstant;
+import org.clav.utils.constants.NetworkConstants;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ProtoConfig {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		System.out.println("Enter user name");
-		String[] name = in.nextLine().split(FormatConstant.spaceRegex);
-		//String [] name = {"A"};
-		Agent agent = new Agent();
-		User mainUser = new User(name[0], (name.length > 1) ? name[1] : name[0]);
-		UserManager userManager = new UserManager(mainUser);
-		
-		Installer installer = new Installer();
-		installer.install();
-		
-		ChatManager chatManager = new ChatManager();
-		NetworkManager networkManager = null;
-		agent.setConfigManager(new ConfigManager()) ;
-		ConfigManager configmanager = agent.getConfigManager()  ;
 		try {
-			Config config = configmanager.getConfig() ;
-			networkManager = new NetworkManager(config.getLocalAddr(), config.getBroadcastAddr());
-			networkManager.setAppHandler(agent);
-		} catch (Exception e) {
+			Config config = new Config(InetAddress.getByName("localhost"),InetAddress.getByName("localhost"),"Brice",true,true,true);
+			config.save();
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		
-
-		agent.setNetworkManager(networkManager);
-		agent.setUserManager(userManager);
-		agent.setChatManager(chatManager);
-
-		chatManager.setAppHandler(agent);
-		userManager.setAppHandler(agent);
-		agent.start();
-		networkManager.startUDPListening();
-		networkManager.startUDPSignal();
-		networkManager.startTCPListening();
+		Agent agent = Agent.constructAgent();
+		ChatManager chatManager = agent.getChatManager();
+		NetworkManager networkManager = agent.getNetworkManager();
+		UserManager userManager = agent.getUserManager();
+		agent.getConfigManager().launchAgent(agent);
 		boolean over = false;
 		String line ;
 		while (!over && (line = in.nextLine()) != null) {
@@ -121,6 +104,20 @@ public class ProtoConfig {
 									break;
 							}
 						}
+					case "PRES":
+						if (cmd.length > 1) {
+							switch (cmd[1]) {
+								case "on":
+									networkManager.linkPresenceServer(new HttpPresenceClient(cmd[2]));
+									break;
+								case "off":
+									networkManager.getPresenceClients().clear();
+									break;
+								default:
+									break;
+							}
+						}
+
 
 					default:
 						break;

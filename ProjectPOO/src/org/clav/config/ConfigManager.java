@@ -1,7 +1,10 @@
 package org.clav.config;
 
 import org.clav.Agent;
+import org.clav.chat.ChatManager;
 import org.clav.network.NetworkManager;
+import org.clav.ui.GUIManager;
+import org.clav.user.User;
 import org.clav.user.UserManager;
 
 import java.io.FileInputStream;
@@ -10,8 +13,6 @@ import java.io.ObjectInputStream;
 
 public class ConfigManager {
 	private Config config ;
-
-
 	public ConfigManager() {
 		FileInputStream file;
 		try {
@@ -74,15 +75,26 @@ public class ConfigManager {
 		return this.config ;
 	}
 
-	public void configNetworkManager(Agent agent) {
+	public void configAgent(Agent agent) {
 		NetworkManager networkManager = new NetworkManager(this.config.getLocalAddr(), this.config.getBroadcastAddr());
 		networkManager.setAppHandler(agent);
 		agent.setNetworkManager(networkManager);
-		if(this.config.isAutoSignalUDP())networkManager.startUDPSignal();
-		if(this.config.isAutoListenUDP())networkManager.startUDPListening();
-		if(this.config.isAutoListenTCP())networkManager.startTCPListening();
+		UserManager userManager = new UserManager(new User(this.config.getUserID(),this.config.getUserID()));
+		userManager.setAppHandler(agent);
+		agent.setUserManager(userManager);
+		ChatManager chatManager = new ChatManager();
+		agent.setChatManager(chatManager);
+		chatManager.setAppHandler(agent);
+		GUIManager guiManager = new GUIManager(agent,agent);
+		agent.setGUIManager(guiManager);
+	}
 
-
+	public void launchAgent(Agent agent){
+		agent.getGUIManager().start();
+		if(this.config.isAutoSignalUDP())agent.getNetworkManager().startUDPSignal();
+		if(this.config.isAutoListenUDP())agent.getNetworkManager().startUDPListening();
+		if(this.config.isAutoListenTCP())agent.getNetworkManager().startTCPListening();
+		agent.start();
 	}
 
 	public UserManager configUserManager(Agent agent) {

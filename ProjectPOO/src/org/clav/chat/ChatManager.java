@@ -22,6 +22,7 @@ public class ChatManager {
 			//this.storage = new TxtChatStorage("dataproxy.txt");
 			this.load();
 		} catch (Exception e) {
+			this.log("Unable to apply specified storage, defaulting to empty storage");
 			this.storage = new EmptyChatStorage();
 		}
 	}

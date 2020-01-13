@@ -34,7 +34,6 @@ public class GUIManager {
 	}
 
 	public void start(){
-
 		this.view.turnOn();
 		this.view.refreshAll();
 	}

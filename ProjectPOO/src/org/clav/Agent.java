@@ -26,6 +26,18 @@ public class Agent implements AppHandler, CLVModel {
 	private ConfigManager configManager;
 	private GUIManager GUIManager;
 
+
+	public static Agent constructAgent(){
+		Agent agent = new Agent();
+		agent.setConfigManager(new ConfigManager());
+		agent.configManager.configAgent(agent);
+		return agent;
+	}
+
+	public Agent(){
+
+	}
+
 	public ChatManager getChatManager() {
 		return chatManager;
 	}
@@ -68,13 +80,18 @@ public class Agent implements AppHandler, CLVModel {
 
 	public void start() throws NullPointerException {
 		if(this.networkManager!=null && this.chatManager!=null && this.userManager!=null) {
-			this.GUIManager = new GUIManager(this, this);
+			if(this.getGUIManager()==null)this.GUIManager = new GUIManager(this, this);
 			this.GUIManager.start();
 		}
 		else{
 			throw new NullPointerException();
 		}
 	}
+
+	public void applyConfig(){
+
+	}
+
 	public void stop(){
 		this.GUIManager.getView().turnOff();
 	}

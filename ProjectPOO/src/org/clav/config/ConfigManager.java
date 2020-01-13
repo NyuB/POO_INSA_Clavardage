@@ -94,7 +94,6 @@ public class ConfigManager {
 		if(this.config.isAutoSignalUDP())agent.getNetworkManager().startUDPSignal();
 		if(this.config.isAutoListenUDP())agent.getNetworkManager().startUDPListening();
 		if(this.config.isAutoListenTCP())agent.getNetworkManager().startTCPListening();
-		agent.start();
 	}
 
 	public UserManager configUserManager(Agent agent) {

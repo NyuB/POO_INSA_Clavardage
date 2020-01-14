@@ -94,20 +94,25 @@ public class LocalStorage implements ChatStorage {
 
 	@Override
 	public Chat getChatByHashCode(String code) {
-		ResultSet rs = this.request("select CodeChat, userid from Chats Where CodeChat='" + code + "'" ) ;
+		PreparedStatement pstm;
 		ArrayList<String> members = new ArrayList<String>() ;
 		History hist = new History() ;
 		try {
-			while(rs.next()) {
-				members.add(rs.getString(2)) ;
-			}
-			rs = this.request("select CodeChat,userid , Date, Text from Chats Where CodeChat='" + code + "'" ) ;
-			while(rs.next()) {
-				hist.insertMessage(new Message(rs.getString(2), rs.getString(1), rs.getString(4), new Date(rs.getTimestamp(3).getTime()) )) ;
-			}
-		} catch (SQLException e) {
+			pstm = con.prepareStatement("select CodeChat, userid from Chats Where CodeChat=?");
+			pstm.setString(1,code) ;
+			ResultSet rs = pstm.executeQuery() ; 
+				while(rs.next()) {
+					members.add(rs.getString(2)) ;
+				}	
+				pstm = con.prepareStatement("select CodeChat,userid , Date, Text from Chats Where CodeChat=?") ;
+				pstm.setString(1, code) ;
+				rs = pstm.executeQuery() ;
+				while(rs.next()) {
+					hist.insertMessage(new Message(rs.getString(2), rs.getString(1), rs.getString(4), new Date(rs.getTimestamp(3).getTime()) )) ;
+				}
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 		Chat chat = new Chat(members) ;
 		chat.setHistory(hist) ;

@@ -1,5 +1,4 @@
 package org.clav.network.server;
-
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
 import org.clav.user.ActivityHandler;
@@ -47,7 +46,7 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 		} catch (Exception e) {
 			errors++;
 			e.printStackTrace();
-			lastMsg = e.toString();
+			lastMsg = "UDP ERROR " + e.toString();
 
 		}
 	}
@@ -90,6 +89,9 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 					ServerPublication pub = (ServerPublication) packet.data;
 					this.activityTasks.get(pub.getUser().getIdentifier()).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
 					CLVPacket routed = CLVPacketFactory.gen_NOT(pub.getUser(), InetAddress.getByName(req.getRemoteAddr()));
+					if(!this.registered.containsKey(pub.getUser().getIdentifier())){
+						this.registered.put(pub.getUser().getIdentifier(),InetAddress.getByName(req.getRemoteAddr()));
+					}
 					for (String id : this.registered.keySet()) {
 						if (true || !id.equals(pub.getUser().getIdentifier())) {//TODO Stop sending to yourself for production
 							this.UDPSend(routed, this.registered.get(id));
@@ -98,18 +100,22 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 					break;
 				case SUB:
 					ServerSubcription sub = (ServerSubcription) packet.data;
-					this.registered.put(sub.getId(), InetAddress.getByName(req.getRemoteAddr()));
-					ActivityTimerTask activityTimerTask = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC, sub.getId(), this);
-					this.activityTasks.put(sub.getId(),activityTimerTask);
-					taskTimer.schedule(activityTimerTask,0,1000);
+					if (!this.registered.containsKey(sub.getId())) {
+						this.registered.put(sub.getId(), InetAddress.getByName(req.getRemoteAddr()));
+						ActivityTimerTask activityTimerTask = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC, sub.getId(), this);
+						this.activityTasks.put(sub.getId(),activityTimerTask);
+						taskTimer.schedule(activityTimerTask,0,1000);
+					}
 					break;
 				default:
 					break;
 			}
+
+			objectInputStream.close();
 			objectOutputStream.writeObject(CLVPacketFactory.gen_ACK());
 			objectOutputStream.flush();
 			objectOutputStream.close();
-			objectInputStream.close();
+
 		} catch (Exception e) {
 			errors++;
 			e.printStackTrace();

@@ -33,6 +33,10 @@ public class CLVPanel extends JPanel {
 			System.out.println("STORE Request from panel");
 			clvController.notifyChatStorage();
 		});
+		this.topBar.setUpButton(3,"Settings",l->{
+			System.out.println("SETTINGs Request from panel");
+			view.popSettingDialog();
+		});
 		this.add(topBar,gbc);
 
 		gbc.gridwidth = 1;

@@ -29,4 +29,14 @@ public final class CLVOptionPane {
 		dialog.setVisible(true);
 		return selectionPanel.getSelected();
 	}
+	
+	public static void showSettingDialog(JFrame frame) {
+		SettingPanel settingPanel = new SettingPanel() ;
+		JDialog dialog = new JDialog(frame,"Select Settings",true);
+		dialog.setSize(500,500);
+		dialog.setContentPane(new ScrollComponent<SettingPanel>(settingPanel));
+		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+		dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+	}
 }

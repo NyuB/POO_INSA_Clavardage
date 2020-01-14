@@ -9,5 +9,6 @@ public interface CLVView {
 	void refreshAll();
 	ArrayList<String> popUserSelectionDialog();
 	String popInvalidPseudoDialog();
+	void popSettingDialog() ;
 
 }

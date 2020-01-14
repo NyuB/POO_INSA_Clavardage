@@ -52,7 +52,6 @@
         <mkdir dir="${build_dir}"/>
         <javac srcdir="${src_dir}" destdir="${build_dir}">
             <classpath>
-                <path refid="project_classpath"/>
                 <path refid="hsqldb_classpath"/>
                 <path refid="servlet_classpath"/>
             </classpath>
@@ -62,7 +61,6 @@
     <target name="compile_test" depends="compile">
         <javac srcdir="test" destdir="${build_dir}">
             <classpath>
-                <path refid="project_classpath"/>
                 <path refid="junit_classpath"/>
                 <path refid="hsqldb_classpath"/>
                 <path refid="servlet_classpath"/>
@@ -92,14 +90,6 @@
             </manifest>
         </jar>
     </target>
-    <target name="executable_ProtoMonitor" depends="compile">
-        <delete file="${exe_dir}/${exe_proto}Monitor.jar"/>
-        <jar destfile="${exe_dir}/${exe_proto}Monitor.jar" basedir="${build_dir}">
-            <manifest>
-                <attribute name="Main-Class" value="org.clav.ProtoMonitor"/>
-            </manifest>
-        </jar>
-    </target>
 
     <target name="executable_ProtoApp" depends="compile">
         <delete file="${exe_dir}/${exe_proto}App.jar"/>
@@ -123,13 +113,12 @@
 
     <target
             name="executable_proto"
-            depends="executable_ProtoMonitor,executable_ProtoApp,executable_ProtoLocal"
+            depends="executable_ProtoApp,executable_ProtoLocal"
     />
 
 
 
     <target name="war" depends="executable_proto">
-        <delete file="${servlet_file}"/>
         <war destfile="${servlet_file}" webxml="web/web.xml">
             <classes dir="${build_dir}"/>
         </war>
@@ -144,7 +133,7 @@
     </target>
 
     <target name="doc" depends="compile">
-        <javadoc sourcepathref="source_path" destdir="${doc_dir}"/>
+        <javadoc sourcepath="${src_dir}" destdir="${doc_dir}"/>
     </target>
 
     <target name="git_clean">

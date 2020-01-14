@@ -126,7 +126,7 @@ public class LocalStorage implements ChatStorage {
 		ArrayList<Chat> chats = new ArrayList<Chat>() ;
 		try {
 			while(rs.next()) {
-				System.out.println(rs.getString(1)) ;
+				//System.out.println(rs.getString(1)) ;
 				chats.add(getChatByHashCode(rs.getString(1))) ;
 			}
 		} catch (SQLException e) {

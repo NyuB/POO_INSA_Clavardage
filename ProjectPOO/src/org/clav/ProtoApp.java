@@ -55,7 +55,7 @@ public class ProtoApp {
 		networkManager.startUDPListening();
 		networkManager.startUDPSignal();
 		networkManager.startTCPListening();
-
+		networkManager.linkPresenceServer(new HttpPresenceClient("https://srv-gei-tomcat.insa-toulouse.fr/gouvine_decaestecker/presence"));
 		boolean over = false;
 		while (!over && (line = in.nextLine()) != null) {
 			String[] cmd = line.split(FormatConstant.spaceRegex);

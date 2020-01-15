@@ -6,6 +6,7 @@
     <property name="data_dir" value="data"/>
     <property name="exe_dir" value="exe"/>
     <property name="lib_dir" value="lib"/>
+    <property name="db_dir" value="db"/>
     <property name="dist_dir" value="distribution"/>
     <property name="web_dir" value="web"/>
     <property name="doc_dir" value="doc"/>
@@ -41,10 +42,12 @@
     </path>
 
     <target name="clean">
+        <echo message="ANT_HOME value : ${ant.home}"/>
         <delete dir="${build_dir}"/>
-        <delete dir="${dist_dir}"/>
-        <delete dir="${doc_dir}"/>
         <delete dir="${exe_dir}"/>
+        <delete dir="${doc_dir}"/>
+        <delete dir="${dist_dir}"/>
+        <delete dir="${db_dir}"/>
         <delete file="${servlet_file}"/>
     </target>
 
@@ -69,6 +72,9 @@
     </target>
 
     <target name="unit" depends="compile_test">
+        <mkdir dir="tmp"/>
+        <copy file="Objconfig.ser" tofile="tmp/Objconfig.ser"/>
+        <delete file="Objconfig.ser"/>
         <junit printsummary="on" haltonfailure="on">
             <classpath>
                 <path refid="junit_classpath"/>
@@ -80,6 +86,8 @@
                 </fileset>
             </batchtest>
         </junit>
+        <copy file="tmp/Objconfig.ser" tofile="Objconfig.ser" overwrite="true"/>
+        <delete dir="tmp"/>
     </target>
 
     <target name="executable_TestChat" depends="compile">
@@ -104,8 +112,18 @@
     <target name="executable_ProtoLocal" depends="compile">
         <delete file="${exe_dir}/${exe_proto}Local.jar"/>
         <jar destfile="${exe_dir}/${exe_proto}Local.jar" basedir="${build_dir}">
+            <zipgroupfileset dir="${lib_dir}" includes="hsqldb.jar" />
             <manifest>
                 <attribute name="Main-Class" value="org.clav.ProtoLocal"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="executable_ProtoConfig" depends="compile">
+        <delete file="${exe_dir}/${exe_proto}Config.jar"/>
+        <jar destfile="${exe_dir}/${exe_proto}Config.jar" basedir="${build_dir}">
+            <zipgroupfileset dir="${lib_dir}" includes="hsqldb.jar" />
+            <manifest>
+                <attribute name="Main-Class" value="org.clav.ProtoConfig"/>
             </manifest>
         </jar>
     </target>
@@ -113,7 +131,7 @@
 
     <target
             name="executable_proto"
-            depends="executable_ProtoApp,executable_ProtoLocal"
+            depends="executable_ProtoApp,executable_ProtoLocal,executable_ProtoConfig"
     />
 
 

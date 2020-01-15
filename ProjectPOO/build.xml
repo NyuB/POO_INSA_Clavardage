@@ -12,6 +12,7 @@
     <property name="doc_dir" value="doc"/>
     <property name="windist_dir" value="${dist_dir}/win"/>
     <property name="lindist_dir" value="${dist_dir}/lin"/>
+    <property name="tmp_dir" value="tmp"/>
     <property name="servlet_name" value="gouvine_decaestecker"/>
     <property name="servlet_class" value="org.clav.network.server.HttpPresenceServlet"/>
     <property name="servlet_file" value="${web_dir}/${servlet_name}.war"/>
@@ -46,8 +47,8 @@
         <delete dir="${build_dir}"/>
         <delete dir="${exe_dir}"/>
         <delete dir="${doc_dir}"/>
-        <delete dir="${dist_dir}"/>
         <delete dir="${db_dir}"/>
+        <delete dir="${tmp_dir}"/>
         <delete file="${servlet_file}"/>
         <delete file="Objconfig.ser"/>
     </target>
@@ -138,7 +139,8 @@
         </war>
     </target>
 
-    <target name="distribution" depends="unit,doc,executable_proto,war">
+    <target name="distribution" depends="doc,executable_proto,war">
+        <delete dir="${dist_dir}"/>
         <copy file="${exe_dir}/${dist_jar}" tofile="${windist_dir}/${dist_jar}"/>
         <copy file="${exe_dir}/${dist_jar}" tofile="${lindist_dir}/${dist_jar}"/>
         <echo file="${windist_dir}/launcher.bat" message="java -jar ${dist_jar}"/>

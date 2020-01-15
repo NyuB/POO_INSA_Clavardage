@@ -24,6 +24,7 @@ public class Installer {
 		else {
 			System.out.println("Config Not OK") ;
 			createDefaultConfig((short) 16) ;
+			System.out.println("Config created");
 		}
 		if (db.exists()) {
 			System.out.println("DB OK") ;
@@ -31,6 +32,7 @@ public class Installer {
 		else {
 			System.out.println("DB Not OK") ;
 			createDB() ;
+			System.out.println("DB created");
 		}
 	}
 	

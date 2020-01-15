@@ -3,8 +3,6 @@ package org.clav;
 import org.clav.chat.Chat;
 import org.clav.chat.ChatManager;
 import org.clav.config.Config;
-import org.clav.config.ConfigManager;
-import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
 import org.clav.network.NetworkManager;
@@ -12,7 +10,6 @@ import org.clav.network.server.HttpPresenceClient;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.constants.FormatConstant;
-import org.clav.utils.constants.NetworkConstants;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -59,7 +56,7 @@ public class ProtoConfig {
 						break;
 					case "HIS":
 						for (Chat chat : chatManager.getChats().values()) {
-							System.out.println(chat.getHistory().printHistory());
+							System.out.println(chat.getHistory().toString());
 						}
 						break;
 					case "SIG":

@@ -85,7 +85,7 @@ public class ProtoApp {
 						break;
 					case "HIS":
 						for (Chat chat : chatManager.getChats().values()) {
-							System.out.println(chat.getHistory().printHistory());
+							System.out.println(chat.getHistory().toString());
 						}
 						break;
 					case "SIG":

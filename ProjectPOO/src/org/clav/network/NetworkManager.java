@@ -285,10 +285,12 @@ public class NetworkManager implements Pluggable {
 	}
 
 	public void linkPresenceServer(PresenceClient client){
-		if(!this.presenceClients.contains(client)) {
-			this.log("Subscribing to presence server");
-			client.subscribe(this.getAppHandler().getMainUser().getIdentifier());
-			this.presenceClients.add(client);
+		synchronized (this.presenceClients) {
+			if(!this.presenceClients.contains(client)) {
+				this.log("Subscribing to presence server");
+				client.subscribe(this.getAppHandler().getMainUser().getIdentifier());
+				this.presenceClients.add(client);
+			}
 		}
 	}
 

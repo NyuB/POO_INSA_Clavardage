@@ -51,6 +51,21 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 		}
 	}
 
+	private void registerUser(String id,InetAddress address){
+		synchronized (this.registered){
+			if(!this.registered.containsKey(id)){
+				this.registered.put(id,address);
+				synchronized (this.activityTasks) {
+					ActivityTimerTask activityTimerTask = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC, id, this);
+					this.activityTasks.put(id,activityTimerTask);
+					taskTimer.schedule(activityTimerTask,0,1000);
+				}
+
+			}
+
+		}
+	}
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) {
 		res.setContentType("text/html");
@@ -84,13 +99,14 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 			ObjectInputStream objectInputStream = new ObjectInputStream(req.getInputStream());
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(resp.getOutputStream());
 			CLVPacket packet = (CLVPacket) objectInputStream.readObject();
+			InetAddress remoteAddr = InetAddress.getByName(req.getRemoteAddr());
 			switch (packet.header) {
 				case PUB:
 					ServerPublication pub = (ServerPublication) packet.data;
 					this.activityTasks.get(pub.getUser().getIdentifier()).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
-					CLVPacket routed = CLVPacketFactory.gen_NOT(pub.getUser(), InetAddress.getByName(req.getRemoteAddr()));
+					CLVPacket routed = CLVPacketFactory.gen_NOT(pub.getUser(), remoteAddr);
 					if(!this.registered.containsKey(pub.getUser().getIdentifier())){
-						this.registered.put(pub.getUser().getIdentifier(),InetAddress.getByName(req.getRemoteAddr()));
+						this.registerUser(pub.getUser().getIdentifier(),remoteAddr);
 					}
 					for (String id : this.registered.keySet()) {
 						if (true || !id.equals(pub.getUser().getIdentifier())) {//TODO Stop sending to yourself for production
@@ -100,17 +116,12 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 					break;
 				case SUB:
 					ServerSubcription sub = (ServerSubcription) packet.data;
-					if (!this.registered.containsKey(sub.getId())) {
-						this.registered.put(sub.getId(), InetAddress.getByName(req.getRemoteAddr()));
-						ActivityTimerTask activityTimerTask = new ActivityTimerTask(DelayConstants.INACTIVE_DELAY_SEC, sub.getId(), this);
-						this.activityTasks.put(sub.getId(),activityTimerTask);
-						taskTimer.schedule(activityTimerTask,0,1000);
-					}
+					this.registerUser(sub.getId(),InetAddress.getByName(req.getRemoteAddr()));
+
 					break;
 				default:
 					break;
 			}
-
 			objectInputStream.close();
 			objectOutputStream.writeObject(CLVPacketFactory.gen_ACK());
 			objectOutputStream.flush();

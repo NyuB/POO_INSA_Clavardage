@@ -35,12 +35,9 @@ public class History {
 		this.messageHistory.add(n, message);
 	}
 
-	@Override
-	public String toString() {
-		return this.printHistory();
-	}
 
-	public synchronized String printHistory() {
+	@Override
+	public synchronized String toString() {
 		String textHist = "";
 		for (Message m : messageHistory) {
 			textHist += m.getUserID() + " " + m.getDate() + "\n";

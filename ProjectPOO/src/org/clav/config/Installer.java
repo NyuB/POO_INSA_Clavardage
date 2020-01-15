@@ -28,6 +28,7 @@ public class Installer {
 			System.out.println("Enter mask of the address");
 			short mask = Short.valueOf(in.nextLine());
 			createDefaultConfig(mask) ;
+			System.out.println("Config created");
 		}
 		if (db.exists()) {
 			System.out.println("DB OK") ;
@@ -35,6 +36,7 @@ public class Installer {
 		else {
 			System.out.println("DB Not OK") ;
 			createDB() ;
+			System.out.println("DB created");
 		}
 	}
 	

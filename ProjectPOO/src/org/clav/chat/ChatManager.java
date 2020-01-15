@@ -19,7 +19,6 @@ public class ChatManager {
 		this.chats = new HashMap<>();
 		try {
 			this.storage = new LocalStorage() ;
-			//this.storage = new TxtChatStorage("dataproxy.txt");
 			this.load();
 		} catch (Exception e) {
 			this.log("Unable to apply specified storage, defaulting to empty storage");
@@ -40,12 +39,16 @@ public class ChatManager {
 		for (Chat chat : this.storage.readAllChats()) {
 			this.chats.put(chat.getChatHashCode(), chat);
 			this.log("Reading chat from storage");
-			this.log("\n" + chat.getHistory().printHistory());
 		}
 	}
 
 	public void save() {
 		this.storage.storeAll(this.chats.values());
+	}
+	public void save(String chatHashCode){
+		if (this.containsChat(chatHashCode)) {
+			this.storage.storeChat(this.chats.get(chatHashCode));
+		}
 	}
 
 	private void log(String log) {
@@ -61,6 +64,11 @@ public class ChatManager {
 		return this.chats.containsKey(chatHashCode);
 	}
 
+	/**
+	 * Create a new chat with the given members
+	 * WARNING : Will erase a previous chat with the same members, never call without checking
+	 * @param members List of members identifiers
+	 */
 	public void createChat(ArrayList<String> members) {
 		this.log("Creating chat");
 		Chat chat = new Chat(members);

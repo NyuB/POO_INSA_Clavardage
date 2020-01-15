@@ -16,7 +16,7 @@
     <property name="servlet_class" value="org.clav.network.server.HttpPresenceServlet"/>
     <property name="servlet_file" value="${web_dir}/${servlet_name}.war"/>
 
-    <property name="dist_jar" value="ProtoApp.jar"/>
+    <property name="dist_jar" value="ProtoConfig.jar"/>
 
     <property name="exe_proto" value="Proto"/>
 
@@ -49,6 +49,7 @@
         <delete dir="${dist_dir}"/>
         <delete dir="${db_dir}"/>
         <delete file="${servlet_file}"/>
+        <delete file="Objconfig.ser"/>
     </target>
 
     <target name="compile" depends="clean">
@@ -72,9 +73,6 @@
     </target>
 
     <target name="unit" depends="compile_test">
-        <mkdir dir="tmp"/>
-        <copy file="Objconfig.ser" tofile="tmp/Objconfig.ser"/>
-        <delete file="Objconfig.ser"/>
         <junit printsummary="on" haltonfailure="on">
             <classpath>
                 <path refid="junit_classpath"/>
@@ -86,8 +84,6 @@
                 </fileset>
             </batchtest>
         </junit>
-        <copy file="tmp/Objconfig.ser" tofile="Objconfig.ser" overwrite="true"/>
-        <delete dir="tmp"/>
     </target>
 
     <target name="executable_TestChat" depends="compile">
@@ -143,8 +139,8 @@
     </target>
 
     <target name="distribution" depends="unit,doc,executable_proto,war">
-        <copy file="${exe_dir}/ProtoApp.jar" tofile="${windist_dir}/ProtoApp.jar"/>
-        <copy file="${exe_dir}/ProtoApp.jar" tofile="${lindist_dir}/ProtoApp.jar"/>
+        <copy file="${exe_dir}/${dist_jar}" tofile="${windist_dir}/${dist_jar}"/>
+        <copy file="${exe_dir}/${dist_jar}" tofile="${lindist_dir}/${dist_jar}"/>
         <echo file="${windist_dir}/launcher.bat" message="java -jar ${dist_jar}"/>
         <echo file="${lindist_dir}/launcher.sh" message="#!/usr/bin/env bash${line.separator}"/>
         <echo file="${lindist_dir}/launcher.sh" message="java -jar ${dist_jar}" append="true"/>

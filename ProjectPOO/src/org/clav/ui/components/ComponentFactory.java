@@ -53,5 +53,5 @@ public interface ComponentFactory {
 
 	void setMainFontItalic(Font mainFontItalic);
 
-	Component createTextField(String string);
+	JTextField createTextField(String string);
 }

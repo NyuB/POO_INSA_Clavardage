@@ -26,7 +26,7 @@ public class DefaultComponentFactory implements ComponentFactory {
 	}
 
 	@Override
-	public Component createTextField(String string) {
+	public JTextField createTextField(String string) {
 		JTextField jtext = new JTextField();
 		jtext.setText("");
 		return jtext ;

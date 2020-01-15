@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 public class Installer {
 	
@@ -23,7 +24,10 @@ public class Installer {
 		}
 		else {
 			System.out.println("Config Not OK") ;
-			createDefaultConfig((short) 16) ;
+			Scanner in = new Scanner(System.in);
+			System.out.println("Enter mask of the address");
+			short mask = Short.valueOf(in.nextLine());
+			createDefaultConfig(mask) ;
 		}
 		if (db.exists()) {
 			System.out.println("DB OK") ;

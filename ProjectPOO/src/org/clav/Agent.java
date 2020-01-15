@@ -12,6 +12,16 @@ import org.clav.user.PseudoRejection;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.HashUtils;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,14 +38,18 @@ public class Agent implements AppHandler, CLVModel {
 	private GUIManager GUIManager;
 
 
-	public static Agent constructAgent(){
+	public static Agent constructAgent() {
 		Agent agent = new Agent();
 		agent.setConfigManager(new ConfigManager());
 		agent.configManager.configAgent(agent);
 		return agent;
 	}
 
-	public Agent(){
+	public static void launchAgent(Agent agent) {
+		agent.configManager.launchAgent(agent);
+	}
+
+	public Agent() {
 
 	}
 
@@ -80,24 +94,24 @@ public class Agent implements AppHandler, CLVModel {
 	}
 
 	public void start() throws NullPointerException {
-		if(this.networkManager!=null && this.chatManager!=null && this.userManager!=null) {
-			if(this.getGUIManager()==null)this.GUIManager = new GUIManager(this, this);
+		if (this.networkManager != null && this.chatManager != null && this.userManager != null) {
+			if (this.getGUIManager() == null) this.GUIManager = new GUIManager(this, this);
 			this.GUIManager.start();
-		}
-		else{
+		} else {
 			throw new NullPointerException();
 		}
 	}
 
-	public void applyConfig(){
+	public void applyConfig() {
 
 	}
 
-	public void stop(){
+	public void stop() {
 		this.GUIManager.getView().turnOff();
 	}
-	private void log(String txt){
-		System.out.println("[APPH]"+txt);
+
+	private void log(String txt) {
+		System.out.println("[APPH]" + txt);
 	}
 
 
@@ -115,10 +129,9 @@ public class Agent implements AppHandler, CLVModel {
 		boolean selfTalk = true;
 		boolean success = false;
 		for (String id : this.getChatManager().getChat(message.getChatHashCode()).getMembers()) {
-			if(id.equals(this.getMainUser().getIdentifier())){//Don't talk to yourself
+			if (id.equals(this.getMainUser().getIdentifier())) {//Don't talk to yourself
 				this.log("Skipping main user");
-			}
-			else {
+			} else {
 				selfTalk = false;
 				if (this.isActiveID(id)) {
 					success = success || this.getNetworkManager().TCP_IP_send(id, packet);
@@ -126,12 +139,56 @@ public class Agent implements AppHandler, CLVModel {
 
 			}
 		}
-		if(selfTalk){
-			success = this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(),packet);
+		if (selfTalk) {
+			success = this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(), packet);
 		}
-		if(success) {//If at least one user has received the message
+		if (success) {//If at least one user has received the message
 			this.getChatManager().processMessageEmission(message);
 			this.getGUIManager().getView().refreshChat(message.getChatHashCode());
+		}
+	}
+
+	@Override
+	public void processImage(BufferedImage image) {
+		log("Processing image");
+		if (!Files.isDirectory(Paths.get("img"))) {
+			try {
+				Files.createDirectories(Paths.get("img"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			int i = 0;
+			File file = new File("img/tmp.jpg");
+			while (file.exists()) {
+				i++;
+				file = new File("img/tmp_" + i + ".jpg");
+			}
+			ImageIO.write(image, "jpg", file);
+			JOptionPane.showMessageDialog(null,"You received an image, it has been stored in img/tmp" + i + ".jpg");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@Override
+	public void sendImage(String code, BufferedImage image) {
+		CLVPacket packet = CLVPacketFactory.gen_IMG(image);
+		boolean selfTalk = true;
+		for (String id : this.getChatManager().getChat(code).getMembers()) {
+			if (id.equals(this.getMainUser().getIdentifier())) {//Don't talk to yourself
+				this.log("Skipping main user");
+			} else {
+				selfTalk = false;
+				if (this.isActiveID(id)) {
+					this.getNetworkManager().TCP_IP_send(id, packet);
+				}
+			}
+		}
+		if (selfTalk) {
+			this.getNetworkManager().TCP_IP_send(this.getMainUser().getIdentifier(), packet);
 		}
 	}
 
@@ -153,9 +210,9 @@ public class Agent implements AppHandler, CLVModel {
 	}
 
 	@Override
-	public void processChatClosedByUser(String code){
-		for(String id : chatManager.getChat(code).getMembers()){
-			if( this.getUserManager().isActiveUser(id)){
+	public void processChatClosedByUser(String code) {
+		for (String id : chatManager.getChat(code).getMembers()) {
+			if (this.getUserManager().isActiveUser(id)) {
 				this.getNetworkManager().closeConnectionTCP(id);
 			}
 		}
@@ -164,12 +221,11 @@ public class Agent implements AppHandler, CLVModel {
 	//AppHandler
 	@Override
 	public void processMessage(Message message) {
-		if(this.chatManager.containsChat(message.getChatHashCode())) {
+		if (this.chatManager.containsChat(message.getChatHashCode())) {
 			this.getChatManager().processMessageReception(message);
 			this.getGUIManager().getController().notifyMessageReception(message);
-		}
-		else{
-			this.networkManager.TCP_IP_send(message.getUserID(),CLVPacketFactory.gen_UNK(this.getMainUser().getIdentifier(),message.getChatHashCode()));
+		} else {
+			this.networkManager.TCP_IP_send(message.getUserID(), CLVPacketFactory.gen_UNK(this.getMainUser().getIdentifier(), message.getChatHashCode()));
 		}
 	}
 
@@ -183,11 +239,11 @@ public class Agent implements AppHandler, CLVModel {
 	@Override
 	public void processChatUnknownRequest(ChatUnknown chatUnknown) {
 		//Informs distant agent of chat creation information
-		this.networkManager.TCP_IP_send(chatUnknown.getId(),CLVPacketFactory.gen_CHI(this.getChatFor(chatUnknown.getChatHashcode()).genChatInit()));
+		this.networkManager.TCP_IP_send(chatUnknown.getId(), CLVPacketFactory.gen_CHI(this.getChatFor(chatUnknown.getChatHashcode()).genChatInit()));
 		//Send each message of the chat to the distant user
 		ArrayList<Message> snapshot = new ArrayList<>(this.getHistoryFor(chatUnknown.getChatHashcode()).getMessageHistory());//copy of current history to free it(getMessageHistory is a synchronized method)
-		for(Message message : snapshot){
-			this.networkManager.TCP_IP_send(chatUnknown.getId(),CLVPacketFactory.gen_MSG(message));
+		for (Message message : snapshot) {
+			this.networkManager.TCP_IP_send(chatUnknown.getId(), CLVPacketFactory.gen_MSG(message));
 		}
 	}
 
@@ -249,7 +305,7 @@ public class Agent implements AppHandler, CLVModel {
 	}
 
 	@Override
-	public void storeChats(){
+	public void storeChats() {
 		this.chatManager.save();
 	}
 

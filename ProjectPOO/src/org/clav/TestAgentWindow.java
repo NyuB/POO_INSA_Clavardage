@@ -1,17 +1,24 @@
 package org.clav;
 
-import org.clav.ui.AgentWindow;
-import org.clav.ui.IdenticationPanel;
-
-import javax.swing.*;
-import java.awt.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class TestAgentWindow {
 	
 	public static void main(String[] args) {
-		JFrame myFrame = new AgentWindow() ;
-		myFrame.getContentPane().add(new IdenticationPanel(), BorderLayout.CENTER) ;
-		myFrame.setVisible(true) ;
+		try {
+			InetAddress addr = InetAddress.getByName("localhost");
+			System.out.println(addr.getHostAddress());
+			InetAddress broadcasr = InetAddress.getByName("10.191.255.255");
+			System.out.println(broadcasr.getHostAddress());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
-
 }

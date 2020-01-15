@@ -3,6 +3,7 @@ package org.clav;
 import org.clav.chat.Chat;
 import org.clav.chat.ChatManager;
 import org.clav.config.Config;
+import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
 import org.clav.network.NetworkManager;
@@ -19,17 +20,12 @@ import java.util.Scanner;
 public class ProtoConfig {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		try {
-			Config config = new Config(InetAddress.getByName("localhost"),InetAddress.getByName("localhost"),"Brice",true,true,true);
-			config.save();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
+		new Installer().install();
 		Agent agent = Agent.constructAgent();
 		ChatManager chatManager = agent.getChatManager();
 		NetworkManager networkManager = agent.getNetworkManager();
 		UserManager userManager = agent.getUserManager();
-		agent.getConfigManager().launchAgent(agent);
+		Agent.launchAgent(agent);
 		boolean over = false;
 		String line ;
 		while (!over && (line = in.nextLine()) != null) {

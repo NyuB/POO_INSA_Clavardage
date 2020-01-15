@@ -11,18 +11,20 @@ public class Config implements Serializable{
 
 	private InetAddress localAddr;
 	private InetAddress broadcastAddr;
-	private String userID;
 	private boolean autoSignalUDP;
 	private boolean autoListenUDP;
 	private boolean autoListenTCP;
+	private boolean autoConnectServlet;
+	private String serverUrl;
 	
-	public Config (InetAddress local, InetAddress broadcast, String user, boolean sig, boolean udp, boolean tcp) {
+	public Config (InetAddress local, InetAddress broadcast, String serverUrl, boolean sig, boolean udp, boolean tcp, boolean server ) {
 		this.localAddr = local ;
 		this.broadcastAddr = broadcast ;
-		this.userID = user ;
+		this.serverUrl = serverUrl;
 		this.autoSignalUDP = sig ;
 		this.autoListenUDP = udp ;
 		this.autoListenTCP = tcp ;
+		this.autoConnectServlet = server;
 	}
 	
 	public void save() {
@@ -41,7 +43,7 @@ public class Config implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Config [localAddr=" + localAddr.getHostAddress() + ", broadcastAddr=" + broadcastAddr + ", userID=" + userID
+		return "Config [localAddr=" + localAddr.getHostAddress() + ", broadcastAddr=" + broadcastAddr
 				+ ", autoSignalUDP=" + autoSignalUDP + ", autoListenUDP=" + autoListenUDP + ", autoListenTCP="
 				+ autoListenTCP + "]";
 	}
@@ -52,10 +54,6 @@ public class Config implements Serializable{
 
 	public InetAddress getBroadcastAddr() {
 		return broadcastAddr;
-	}
-
-	public String getUserID() {
-		return userID;
 	}
 
 	public boolean isAutoSignalUDP() {
@@ -70,16 +68,20 @@ public class Config implements Serializable{
 		return autoListenTCP;
 	}
 
+	public boolean isAutoConnectServlet() {
+		return autoConnectServlet;
+	}
+
+	public String getServerUrl() {
+		return serverUrl;
+	}
+
 	public void setLocalAddr(InetAddress localAddr) {
 		this.localAddr = localAddr;
 	}
 
 	public void setBroadcastAddr(InetAddress broadcastAddr) {
 		this.broadcastAddr = broadcastAddr;
-	}
-
-	public void setUserID(String userID) {
-		this.userID = userID;
 	}
 
 	public void setAutoSignalUDP(boolean autoSignalUDP) {
@@ -92,5 +94,13 @@ public class Config implements Serializable{
 
 	public void setAutoListenTCP(boolean autoListenTCP) {
 		this.autoListenTCP = autoListenTCP;
+	}
+
+	public void setAutoConnectServlet(boolean autoConnectServlet) {
+		this.autoConnectServlet = autoConnectServlet;
+	}
+
+	public void setServerUrl(String serverUrl) {
+		this.serverUrl = serverUrl;
 	}
 }

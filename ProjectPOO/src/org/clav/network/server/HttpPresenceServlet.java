@@ -102,12 +102,15 @@ public class HttpPresenceServlet extends HttpServlet implements ActivityHandler 
 			InetAddress remoteAddr = InetAddress.getByName(req.getRemoteAddr());
 			switch (packet.header) {
 				case PUB:
+
 					ServerPublication pub = (ServerPublication) packet.data;
 					this.activityTasks.get(pub.getUser().getIdentifier()).setCounter(DelayConstants.INACTIVE_DELAY_SEC);
 					CLVPacket routed = CLVPacketFactory.gen_NOT(pub.getUser(), remoteAddr);
+
 					if(!this.registered.containsKey(pub.getUser().getIdentifier())){
 						this.registerUser(pub.getUser().getIdentifier(),remoteAddr);
 					}
+
 					for (String id : this.registered.keySet()) {
 						if (true || !id.equals(pub.getUser().getIdentifier())) {//TODO Stop sending to yourself for production
 							this.UDPSend(routed, this.registered.get(id));

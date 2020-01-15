@@ -1,8 +1,5 @@
 package org.clav.ui.components;
 
-import org.clav.chat.Chat;
-import org.clav.user.User;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -12,6 +9,7 @@ public class ChatPanel extends JPanel {
 	private JLabel title;
 	private ScrollComponent<JTextArea> textArea;
 	private JTextField typeField;
+	private JButton fieldButton;
 
 	public ChatPanel() {
 		this(DefaultComponentFactory.DEFAULT);
@@ -20,11 +18,13 @@ public class ChatPanel extends JPanel {
 		super(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setBorder(BorderFactory.createLineBorder(componentFactory.getBorderColor()));
+
 		//Top bar
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.weightx = 1;
 		gbc.weighty = 0.05;
+		gbc.gridwidth = 2;
 		gbc.fill = GridBagConstraints.BOTH;
 		this.topBar = new ButtonsTopBar(4,componentFactory);
 		this.add(topBar,gbc);
@@ -46,8 +46,16 @@ public class ChatPanel extends JPanel {
 		//TypeField
 		gbc.gridy = 3;
 		gbc.weighty = 0.1;
+		gbc.gridwidth=1;
+		gbc.weightx=0.9;
 		this.typeField = componentFactory.createTextField();
 		this.add(typeField,gbc);
+
+		//Button
+		gbc.gridx = 1;
+		gbc.weightx = 0.1;
+		this.fieldButton = componentFactory.createButton("");
+		this.add(fieldButton,gbc);
 	}
 	public void addTypeActionListener(ActionListener l){
 		this.typeField.addActionListener(l);
@@ -61,11 +69,21 @@ public class ChatPanel extends JPanel {
 	public JTextArea getTextArea() {
 		return textArea.getComponent();
 	}
+
 	public JLabel getTitle() {
 		return title;
 	}
-	public void setupButton(int buttonIndex,String title,ActionListener l){
+
+	public JButton getFieldButton() {
+		return fieldButton;
+	}
+
+	public void setupButton(int buttonIndex, String title, ActionListener l){
 		this.topBar.setUpButton(buttonIndex,title,l);
+	}
+	public void setupFieldButton(String title,ActionListener l){
+		this.fieldButton.setText(title);
+		this.fieldButton.addActionListener(l);
 	}
 
 

@@ -1,6 +1,8 @@
 package org.clav.utils;
 
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 
@@ -35,6 +37,28 @@ public final class Serializer {
 			System.out.println("ERROR WRITING BYTES");
 			e.printStackTrace();
 			return new byte[0];
+		}
+	}
+
+	public static byte[] imageAsBytes(BufferedImage img){
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			ImageIO.write(img,"png",out);
+			return out.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new byte[0];
+		}
+
+	}
+
+	public static BufferedImage bytesAsImage(byte[] bytes){
+		ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+		try {
+			return ImageIO.read(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

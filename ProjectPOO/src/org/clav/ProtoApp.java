@@ -22,7 +22,6 @@ public class ProtoApp {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter user name");
 		String[] name = in.nextLine().split(FormatConstant.spaceRegex);
-		//String [] name = {"A"};
 		Agent agent = new Agent();
 		User mainUser = new User(name[0], (name.length > 1) ? name[1] : name[0]);
 		UserManager userManager = new UserManager(mainUser);

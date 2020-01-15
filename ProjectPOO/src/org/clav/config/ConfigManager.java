@@ -3,10 +3,12 @@ package org.clav.config;
 import org.clav.Agent;
 import org.clav.chat.ChatManager;
 import org.clav.network.NetworkManager;
+import org.clav.network.server.HttpPresenceClient;
 import org.clav.ui.GUIManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -79,7 +81,9 @@ public class ConfigManager {
 		NetworkManager networkManager = new NetworkManager(this.config.getLocalAddr(), this.config.getBroadcastAddr());
 		networkManager.setAppHandler(agent);
 		agent.setNetworkManager(networkManager);
-		UserManager userManager = new UserManager(new User(this.config.getUserID(),this.config.getUserID()));
+
+		String userId = JOptionPane.showInputDialog(null,"Enter your unique identifier. It should have been given to you by the compagny and it is not your pseudo, you will be able to choose it later");
+		UserManager userManager = new UserManager(new User(userId,userId));
 		userManager.setAppHandler(agent);
 		agent.setUserManager(userManager);
 		ChatManager chatManager = new ChatManager();
@@ -91,9 +95,11 @@ public class ConfigManager {
 
 	public void launchAgent(Agent agent){
 		agent.getGUIManager().start();
+		if(this.config.isAutoConnectServlet())agent.getNetworkManager().linkPresenceServer(new HttpPresenceClient(config.getServerUrl()));
 		if(this.config.isAutoSignalUDP())agent.getNetworkManager().startUDPSignal();
 		if(this.config.isAutoListenUDP())agent.getNetworkManager().startUDPListening();
 		if(this.config.isAutoListenTCP())agent.getNetworkManager().startTCPListening();
+
 	}
 
 	public UserManager configUserManager(Agent agent) {

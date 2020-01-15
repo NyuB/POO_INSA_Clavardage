@@ -8,7 +8,9 @@ import org.clav.network.server.ServerPublication;
 import org.clav.network.server.ServerSubcription;
 import org.clav.user.PseudoRejection;
 import org.clav.user.User;
+import org.clav.utils.Serializer;
 
+import java.awt.image.BufferedImage;
 import java.net.InetAddress;
 
 import static org.clav.network.CLVHeader.*;
@@ -26,6 +28,9 @@ public class CLVPacketFactory {
 	}
 	public static CLVPacket gen_CHI(ChatInit init){
 		return new CLVPacket(CHI,init);
+	}
+	public static CLVPacket gen_IMG(BufferedImage img){
+		return new CLVPacket(IMG, Serializer.imageAsBytes(img));
 	}
 	public static CLVPacket gen_UNK(String id,String chatHashCode){
 		return new CLVPacket(UNK, new ChatUnknown(id,chatHashCode));

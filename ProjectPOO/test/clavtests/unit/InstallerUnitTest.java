@@ -12,13 +12,4 @@ public class InstallerUnitTest {
 		Installer installer = new Installer();
 	}
 
-	@Test
-	public void initTest() {
-		Installer installer = new Installer();
-		installer.install();
-		File config = new File("./Objconfig.ser");
-		File db = new File("./db/mydb.script");
-		Assert.assertTrue(config.exists());
-		Assert.assertTrue(db.exists());
-	}
 }

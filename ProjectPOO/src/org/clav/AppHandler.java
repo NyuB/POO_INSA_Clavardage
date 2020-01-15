@@ -6,6 +6,8 @@ import org.clav.chat.Message;
 import org.clav.user.PseudoRejection;
 import org.clav.user.User;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +35,10 @@ public interface AppHandler {
 	 * @param message Received message
 	 */
 	void processMessage(Message message);
+
+	void processImage(BufferedImage image);
+
+	void sendImage(String code,BufferedImage image);
 
 	/**
 	 * Handle a chat request from a distant agent

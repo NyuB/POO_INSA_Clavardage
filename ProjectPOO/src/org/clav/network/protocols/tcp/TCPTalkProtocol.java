@@ -5,6 +5,9 @@ import org.clav.chat.ChatUnknown;
 import org.clav.chat.Message;
 import org.clav.network.CLVPacket;
 import org.clav.network.Protocol;
+import org.clav.utils.Serializer;
+
+import java.awt.image.BufferedImage;
 
 /**
  * Packet header which will be processed : STR,MSG,CHI (allow maintaining the connection) ERR,END (close the connection)
@@ -41,6 +44,8 @@ public class TCPTalkProtocol extends Protocol {
 				return this.process_MSG(packet);
 			case CHI:
 				return this.process_CHI(packet);
+			case IMG:
+				return this.process_IMG(packet);
 			case UNK:
 				return this.process_UNK(packet);
 			case ERR:
@@ -77,6 +82,11 @@ public class TCPTalkProtocol extends Protocol {
 	protected boolean process_UNK(CLVPacket packet){
 		ChatUnknown chatUnknown = (ChatUnknown)packet.data;
 		this.getRelatedNetworkManager().getAppHandler().processChatUnknownRequest(chatUnknown);
+		return true;
+	}
+	protected boolean process_IMG(CLVPacket packet){
+		byte[] bytes = (byte[])packet.data;
+		this.getRelatedNetworkManager().getAppHandler().processImage(Serializer.bytesAsImage(bytes));
 		return true;
 	}
 

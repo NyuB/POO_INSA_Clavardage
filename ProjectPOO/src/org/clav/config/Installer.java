@@ -1,5 +1,7 @@
 package org.clav.config;
 
+import org.clav.utils.constants.NetworkConstants;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -17,8 +19,8 @@ import java.util.Scanner;
 public class Installer {
 	
 	public void install(){
-		File config = new File("./Objconfig.ser") ;
-		File db = new File("./db/mydb.script") ;
+		File config = new File("./Objconfig.ser");
+		File db = new File("./db/mydb.script");
 		if (config.exists()) {
 			System.out.println("Config OK") ;
 		}
@@ -81,7 +83,7 @@ public class Installer {
 			}
 			
 			if(address!=null) {
-				Config config = new Config( address , inter.getBroadcast() , address.getHostName(), true, true, true ) ;
+				Config config = new Config( address , inter.getBroadcast(), NetworkConstants.GEI_SERVER_URL, true, true, true, true);
 				config.save() ;
 			}
 		} catch (IOException e) {

@@ -5,8 +5,11 @@ import org.clav.ui.mvc.CLVController;
 import org.clav.ui.mvc.CLVModel;
 import org.clav.user.User;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -73,6 +76,15 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 			});
 			chatPanel.setupButton(0,"STORE",e->{
 				this.controller.notifyChatStorage(code);
+			});
+			chatPanel.setupFieldButton("IMG",l->{
+				try {
+					JFileChooser fileChooser = new JFileChooser();
+					fileChooser.showOpenDialog(null);
+					controller.notifyImageSending(code,ImageIO.read(fileChooser.getSelectedFile()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			});
 			this.activeChats.put(code, chatPanel);
 			this.add(chatPanel.getTitle().getText(), chatPanel);

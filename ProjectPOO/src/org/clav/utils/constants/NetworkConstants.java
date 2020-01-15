@@ -9,4 +9,7 @@ public final class NetworkConstants {
 	public static int UDPSOCKET_SEND_PORT = 1034;
 	public static int UDPSOCKET_RECEIVE_PORT = 1035;
 	public static int TCP_SOCKET_SERVER_PORT = 1045;
+
+	//URL
+	public static String GEI_SERVER_URL = "https://srv-gei-tomcat.insa-toulouse.fr/gouvine_decaestecker/presence";
 }

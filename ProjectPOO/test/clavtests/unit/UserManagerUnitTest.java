@@ -11,10 +11,24 @@ import org.clav.utils.constants.DelayConstants;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class UserManagerUnitTest {
 	private static AppHandler emptyAppHandler = new AppHandler() {
+		@Override
+		public void processImage(BufferedImage image) {
+			//TODO
+
+		}
+
+		@Override
+		public void sendImage(String code,BufferedImage image) {
+			//TODO
+
+		}
+
 		@Override
 		public User getMainUser() {
 			return null;

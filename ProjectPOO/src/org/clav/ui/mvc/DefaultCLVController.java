@@ -4,6 +4,7 @@ import org.clav.AppHandler;
 import org.clav.chat.Message;
 import org.clav.user.User;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class DefaultCLVController implements CLVController {
@@ -35,6 +36,12 @@ public class DefaultCLVController implements CLVController {
 	public void notifyMessageReception(Message message) {
 		this.log("Message received");
 		this.view.refreshChat(message.getChatHashCode());
+	}
+
+	@Override
+	public void notifyImageSending(String code, BufferedImage img) {
+		this.appHandler.sendImage(code,img);
+
 	}
 
 	@Override

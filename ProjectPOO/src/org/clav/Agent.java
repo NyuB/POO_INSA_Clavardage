@@ -245,8 +245,7 @@ public class Agent implements AppHandler, CLVModel {
 
 	@Override
 	public void storeChat(String code) {
-		this.chatManager.save();//TODO store one chat instead of all
-
+		this.chatManager.save(code);
 	}
 
 	@Override

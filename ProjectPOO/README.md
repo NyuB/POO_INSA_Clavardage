@@ -17,7 +17,7 @@
 * Le serveur est accessible à l'adresse [racine du serveur]/gouvine_decaestecker/presence
 * La page web visualisée permet d'obtenir diverses informations sur le'état du serveur(utilisateurs connectés, dernière erreur...)
 
-## ecompiler les sources et générer la distribution
+## Recompiler les sources et générer la distribution
 * Nécessite Apache Ant : https://ant.apache.org/bindownload.cgi
 * Cloner le projet 
 * A la racine ProjectPOO, entrer la commande `ant distribution`

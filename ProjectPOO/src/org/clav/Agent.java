@@ -6,6 +6,7 @@ import org.clav.config.ConfigManager;
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
 import org.clav.network.NetworkManager;
+import org.clav.network.server.HttpPresenceClient;
 import org.clav.ui.GUIManager;
 import org.clav.ui.mvc.CLVModel;
 import org.clav.user.PseudoRejection;
@@ -100,10 +101,6 @@ public class Agent implements AppHandler, CLVModel {
 		} else {
 			throw new NullPointerException();
 		}
-	}
-
-	public void applyConfig() {
-
 	}
 
 	public void stop() {
@@ -297,6 +294,17 @@ public class Agent implements AppHandler, CLVModel {
 	@Override
 	public boolean processMainUserPseudoChange(String newPseudo) {
 		return this.getUserManager().changeMainUserPseudo(newPseudo);
+	}
+
+	//AppHandler
+	@Override
+	public void applyConfig() {
+		Config config = this.getConfigManager().getConfig();
+		this.getNetworkManager().setBroadcastAddress(config.getBroadcastAddr());
+		this.getNetworkManager().getPresenceClients().clear();
+		if(config.isAutoConnectServlet()){
+			this.getNetworkManager().linkPresenceServer(new HttpPresenceClient(config.getServerUrl()));
+		}
 	}
 
 	@Override

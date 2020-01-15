@@ -11,4 +11,5 @@ public interface CLVView {
 	String popInvalidPseudoDialog();
 	void popSettingDialog() ;
 
+
 }

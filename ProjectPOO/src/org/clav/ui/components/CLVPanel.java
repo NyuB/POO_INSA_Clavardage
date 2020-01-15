@@ -36,6 +36,7 @@ public class CLVPanel extends JPanel {
 		this.topBar.setUpButton(3,"SETTINGS",l->{
 			System.out.println("Settings Request from panel");
 			view.popSettingDialog();
+			clvController.notifySettingsChange();
 		});
 		this.add(topBar,gbc);
 

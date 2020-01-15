@@ -109,4 +109,9 @@ public class DefaultCLVController implements CLVController {
 		}
 
 	}
+
+	@Override
+	public void notifySettingsChange(){
+		this.appHandler.applyConfig();
+	}
 }

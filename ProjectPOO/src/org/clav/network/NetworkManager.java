@@ -298,7 +298,8 @@ public class NetworkManager implements Pluggable {
 		return presenceClients;
 	}
 
-
-
+	public void setBroadcastAddress(InetAddress broadcastAddress) {
+		this.broadcastAddress = broadcastAddress;
+	}
 
 }

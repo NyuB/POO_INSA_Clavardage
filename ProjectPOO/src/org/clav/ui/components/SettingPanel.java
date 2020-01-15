@@ -32,21 +32,21 @@ public class SettingPanel extends JPanel {
 		this.add(componentFactory.createLabel("Broadcast address")) ;
 		this.add(broadcastAddrField = componentFactory.createTextField(config.getBroadcastAddr().getHostAddress())) ;
 
-		this.add(componentFactory.createLabel("Remote server url"));
+		this.add(componentFactory.createLabel("Remote presence server url"));
 		this.add(serverUrlField = componentFactory.createTextField(config.getServerUrl()));
-		udpSignalBox = componentFactory.createLabeledTickBox(new JLabel("auto Signal UDP",SwingConstants.CENTER));
+		udpSignalBox = componentFactory.createLabeledTickBox(new JLabel("Signal presence to other users",SwingConstants.CENTER));
 		udpSignalBox.getCheckBox().setSelected(config.isAutoSignalUDP()) ;
 		this.add(udpSignalBox) ;
 		
-		udpListenBox = componentFactory.createLabeledTickBox(new JLabel("auto Listen UDP",SwingConstants.CENTER));
+		udpListenBox = componentFactory.createLabeledTickBox(new JLabel("Listen other users signals",SwingConstants.CENTER));
 		udpListenBox.getCheckBox().setSelected(config.isAutoListenUDP()) ;
 		this.add(udpListenBox) ;
 		
-		tcpListenBox = componentFactory.createLabeledTickBox(new JLabel("auto Listen TCP",SwingConstants.CENTER));
+		tcpListenBox = componentFactory.createLabeledTickBox(new JLabel("Enable new TCP connections",SwingConstants.CENTER));
 		tcpListenBox.getCheckBox().setSelected(config.isAutoListenTCP()) ;
 		this.add(tcpListenBox) ;
 
-		this.presenceServerBox = componentFactory.createLabeledTickBox(new JLabel("auto subscribe to Presence Server",SwingConstants.CENTER));
+		this.presenceServerBox = componentFactory.createLabeledTickBox(new JLabel("Use remote presence server",SwingConstants.CENTER));
 		presenceServerBox.getCheckBox().setSelected(config.isAutoConnectServlet());
 		this.add(presenceServerBox);
 

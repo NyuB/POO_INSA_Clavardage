@@ -27,5 +27,6 @@ public interface CLVController {
 	void notifyMainUserPseudoChange(String pseudo);
 
 	void assignView(CLVView view);
+	void notifySettingsChange();
 
 }

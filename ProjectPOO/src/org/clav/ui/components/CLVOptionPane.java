@@ -30,8 +30,8 @@ public final class CLVOptionPane {
 		return selectionPanel.getSelected();
 	}
 	
-	public static void showSettingDialog(JFrame frame) {
-		SettingPanel settingPanel = new SettingPanel() ;
+	public static void showSettingDialog(JFrame frame, CLVModel model,  ComponentFactory factory) {
+		SettingPanel settingPanel = new SettingPanel(model.getConfig(), factory) ;
 		JDialog dialog = new JDialog(frame,"Select Settings",true);
 		dialog.setSize(500,500);
 		dialog.setContentPane(new ScrollComponent<SettingPanel>(settingPanel));

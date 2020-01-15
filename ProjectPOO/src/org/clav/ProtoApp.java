@@ -2,6 +2,7 @@ package org.clav;
 
 import org.clav.chat.Chat;
 import org.clav.chat.ChatManager;
+import org.clav.config.ConfigManager;
 import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
@@ -25,10 +26,12 @@ public class ProtoApp {
 		Agent agent = new Agent();
 		User mainUser = new User(name[0], (name.length > 1) ? name[1] : name[0]);
 		UserManager userManager = new UserManager(mainUser);
+		
 
 		Installer installer = new Installer();
 		installer.install();
 
+		ConfigManager configManager = new ConfigManager() ;
 		ChatManager chatManager = new ChatManager();
 		NetworkManager networkManager = null;
 		String line;
@@ -47,6 +50,7 @@ public class ProtoApp {
 		agent.setNetworkManager(networkManager);
 		agent.setUserManager(userManager);
 		agent.setChatManager(chatManager);
+		agent.setConfigManager(configManager);
 		chatManager.setAppHandler(agent);
 		userManager.setAppHandler(agent);
 

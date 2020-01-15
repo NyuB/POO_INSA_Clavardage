@@ -1,6 +1,7 @@
 package org.clav;
 
 import org.clav.chat.*;
+import org.clav.config.Config;
 import org.clav.config.ConfigManager;
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
@@ -281,6 +282,12 @@ public class Agent implements AppHandler, CLVModel {
 	@Override
 	public User getUserFor(String identifier) {
 		return this.getUserManager().getActiveUsers().get(identifier);
+	}
+
+	//CLVModel
+	@Override
+	public Config getConfig() {
+		return this.getConfigManager().getConfig();
 	}
 
 

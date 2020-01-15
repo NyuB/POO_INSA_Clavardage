@@ -65,6 +65,6 @@ public class CLVFrame extends JFrame implements CLVView {
 	}
 	
 	public void popSettingDialog() {
-		CLVOptionPane.showSettingDialog(this);
+		CLVOptionPane.showSettingDialog(this,this.model, this.componentFactory);
 	}
 }

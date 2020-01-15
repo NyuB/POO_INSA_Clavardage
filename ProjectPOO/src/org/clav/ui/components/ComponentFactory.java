@@ -52,4 +52,6 @@ public interface ComponentFactory {
 	Font getMainFontItalic();
 
 	void setMainFontItalic(Font mainFontItalic);
+
+	Component createTextField(String string);
 }

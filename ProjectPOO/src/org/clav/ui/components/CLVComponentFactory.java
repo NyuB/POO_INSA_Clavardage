@@ -66,6 +66,15 @@ public class CLVComponentFactory implements ComponentFactory {
 		textField.setForeground(this.textColor);
 		return textField;
 	}
+	
+	public JTextField createTextField(String Text){
+		JTextField textField = new JTextField();
+		textField.setCaretColor(Color.BLUE);
+		textField.setFont(MAIN_FONT_ITALIC_BOLD);
+		textField.setForeground(this.textColor);
+		textField.setText(Text);
+		return textField;
+	}
 
 	@Override
 	public  JCheckBox createCheckBox(){

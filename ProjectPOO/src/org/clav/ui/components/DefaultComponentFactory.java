@@ -26,6 +26,12 @@ public class DefaultComponentFactory implements ComponentFactory {
 	}
 
 	@Override
+	public Component createTextField(String string) {
+		JTextField jtext = new JTextField();
+		jtext.setText("");
+		return jtext ;
+	}
+	@Override
 	public JCheckBox createCheckBox() {
 		return new JCheckBox();
 	}

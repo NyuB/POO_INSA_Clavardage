@@ -18,12 +18,12 @@
 * La page web visualisée permet d'obtenir diverses informations sur le'état du serveur(utilisateurs connectés, dernière erreur...)
 
 ##Recompiler les sources et générer la distribution
-* Nécessite Apache Ant : https://ant.apache.org/bindownload.cgi
+* Nécessite [Apache Ant](https://ant.apache.org/bindownload.cgi)
 * Cloner le projet 
-* A la racine ProjectPOO, entrer la commande `ant distribution`
+* A la racine de ProjectPOO, entrer la commande `ant distribution`
 * Le dossier `build` est généré, contenant les fichiers .class du projet
 * Le dossier `doc` est généré contenant la javadoc du projet
 * Le dossier `exe` est généré, contenant le jar exécutable
 * Le dossier `distribution` est généré, contenant deux dossiers `win` et `lin`. Chacun de ses dossiers contient le jar exécutable et un fichier launcher.
 * L'archive war `web\gouvine_decaestecker.war` est générée, correspondant au servlet déployable de notre serveur de présence
-* La commande ant clean permet de supprimmer tous ces dossiers et fichiers 
+* La commande `ant clean` permet de supprimer tous ces dossiers et fichiers 

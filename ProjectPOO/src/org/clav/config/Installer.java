@@ -47,8 +47,8 @@ public class Installer {
 			Class.forName("org.hsqldb.jdbc.JDBCDriver");
 			Connection con = DriverManager.getConnection("jdbc:hsqldb:file:db/mydb", "SA", "") ;
 			Statement stm = con.createStatement() ;
-			String query = "Create Table Chats(codeChat VARCHAR(32) ,userid VARCHAR(25),date TIMESTAMP, text VARCHAR(1024), Primary Key (codeChat, date) ) "  ;
-			String membersTable = "Create table Members(codeChat VARCHAR(32) ,userid VARCHAR(25) )";
+			String query = "CREATE TABLE Chats(codeChat VARCHAR(32) ,userid VARCHAR(25),date TIMESTAMP, text VARCHAR(1024), PRIMARY KEY (codeChat, date) ) "  ;
+			String membersTable = "CREATE TABLE Members(codeChat VARCHAR(32) ,userid VARCHAR(25) )";
 			stm.executeUpdate(query) ;
 			stm.executeUpdate(membersTable);
 			con.close() ;

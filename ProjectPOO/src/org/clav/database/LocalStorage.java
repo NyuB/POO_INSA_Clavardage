@@ -113,14 +113,14 @@ public class LocalStorage implements ChatStorage {
 		History hist = new History();
 		try {
 			//pstm = con.prepareStatement("select CodeChat, userid from Chats Where CodeChat=?");
-			pstm = con.prepareStatement("SELECT userid from Members where codeChat=?");
+			pstm = con.prepareStatement("SELECT userid FROM Members WHERE codeChat=?");
 			pstm.setString(1, code);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				//members.add(rs.getString(2));
 				members.add(rs.getString(1));
 			}
-			pstm = con.prepareStatement("select CodeChat,userid , Date, Text from Chats Where CodeChat=?");
+			pstm = con.prepareStatement("SELECT CodeChat,userid , Date, Text FROM Chats WHERE CodeChat=?");
 			pstm.setString(1, code);
 			rs = pstm.executeQuery();
 			while (rs.next()) {
@@ -138,11 +138,10 @@ public class LocalStorage implements ChatStorage {
 	@Override
 	public Iterable<Chat> readAllChats() {
 		// TODO Auto-generated method stub
-		ResultSet rs = this.request("select distinct CodeChat from Chats ");
+		ResultSet rs = this.request("SELECT DISTINCT CodeChat FROM Chats ");
 		ArrayList<Chat> chats = new ArrayList<Chat>();
 		try {
 			while (rs.next()) {
-				//System.out.println(rs.getString(1)) ;
 				chats.add(getChatByHashCode(rs.getString(1)));
 			}
 		} catch (SQLException e) {
@@ -157,15 +156,6 @@ public class LocalStorage implements ChatStorage {
 		for (Chat c : chats) {
 			storeChat(c);
 		}
-		/*
-		try {
-			//this.con.close() ;
-			//this.connect() ;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
 	}
 
 	@Override
@@ -174,8 +164,7 @@ public class LocalStorage implements ChatStorage {
 		String chat = message.getChatHashCode();
 		String userID = message.getUserID();
 		String text = message.getText();
-		String querry = "Insert Into Chats (codechat, userid, date, text) Values (?,?,?,?)";
-		//System.out.println(querry) ;
+		String querry = "INSERT INTO Chats (codechat, userid, date, text) VALUES (?,?,?,?)";
 		try {
 			PreparedStatement pstm = con.prepareStatement(querry);
 			pstm.setString(1, chat);

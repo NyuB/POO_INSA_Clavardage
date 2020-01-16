@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Scanner;
 
 public class ConfigManager {
 	private Config config ;
@@ -81,8 +82,10 @@ public class ConfigManager {
 		NetworkManager networkManager = new NetworkManager(this.config.getLocalAddr(), this.config.getBroadcastAddr());
 		networkManager.setAppHandler(agent);
 		agent.setNetworkManager(networkManager);
-
-		String userId = JOptionPane.showInputDialog(null,"Enter your unique identifier. It should have been given to you by the compagny and it is not your pseudo, you will be able to choose it later");
+		Scanner in = new Scanner(System.in);
+		//String userId = JOptionPane.showInputDialog(null,"Enter your unique identifier. It should have been given to you by the compagny and it is not your pseudo, you will be able to choose it later");
+		System.out.println("Enter id");
+		String userId = in.nextLine();
 		UserManager userManager = new UserManager(new User(userId,userId));
 		userManager.setAppHandler(agent);
 		agent.setUserManager(userManager);

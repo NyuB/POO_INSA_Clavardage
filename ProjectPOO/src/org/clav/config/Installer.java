@@ -48,7 +48,9 @@ public class Installer {
 			Connection con = DriverManager.getConnection("jdbc:hsqldb:file:db/mydb", "SA", "") ;
 			Statement stm = con.createStatement() ;
 			String query = "Create Table Chats(codeChat VARCHAR(32) ,userid VARCHAR(25),date TIMESTAMP, text VARCHAR(1024), Primary Key (codeChat, date) ) "  ;
+			String membersTable = "Create table Members(codeChat VARCHAR(32) ,userid VARCHAR(25) )";
 			stm.executeUpdate(query) ;
+			stm.executeUpdate(membersTable);
 			con.close() ;
 		} 
 		catch (ClassNotFoundException | SQLException e) {
@@ -83,7 +85,7 @@ public class Installer {
 			}
 			
 			if(address!=null) {
-				Config config = new Config( address , inter.getBroadcast(), NetworkConstants.GEI_SERVER_URL, true, true, true, true);
+				Config config = new Config( address , inter.getBroadcast(), NetworkConstants.GEI_SERVER_URL, true, true, true, false);
 				config.save() ;
 			}
 		} catch (IOException e) {

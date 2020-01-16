@@ -12,7 +12,7 @@
     <property name="doc_dir" value="doc"/>
     <property name="windist_dir" value="${dist_dir}/win"/>
     <property name="lindist_dir" value="${dist_dir}/lin"/>
-    <property name="tmp_dir" value="tmp"/>
+    <property name="img_dir" value="img"/>
     <property name="servlet_name" value="gouvine_decaestecker"/>
     <property name="servlet_class" value="org.clav.network.server.HttpPresenceServlet"/>
     <property name="servlet_file" value="${web_dir}/${servlet_name}.war"/>
@@ -48,7 +48,7 @@
         <delete dir="${exe_dir}"/>
         <delete dir="${doc_dir}"/>
         <delete dir="${db_dir}"/>
-        <delete dir="${tmp_dir}"/>
+        <delete dir="${img_dir}"/>
         <delete file="${servlet_file}"/>
         <delete file="Objconfig.ser"/>
     </target>

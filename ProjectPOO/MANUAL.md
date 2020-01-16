@@ -1,1 +1,0 @@
-[Image](capture/standard.PNG)

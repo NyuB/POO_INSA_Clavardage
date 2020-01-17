@@ -1,6 +1,6 @@
 # Application de clavardage
 ### Denis Gouvine-Birrer et Brice Decaestecker
-![Vitrine](capture/chatinit_res.PNG)
+![Vitrine](capture/chatinit_res.png)
 
 ## Structure du projet
 * `src` : fichiers sources .java

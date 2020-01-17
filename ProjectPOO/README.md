@@ -19,7 +19,7 @@
 * Le serveur est actuellement déployé à l'addresse https://srv-gei-tomcat.insa-toulouse.fr/gouvine_decaestecker/presence
 * La page web visualisée permet d'obtenir diverses informations sur l'état du serveur(utilisateurs connectés, dernière erreur...)
 
-##Recompiler les sources et générer la distribution
+## Recompiler les sources et générer la distribution
 * Nécessite [Apache Ant](https://ant.apache.org/bindownload.cgi)
 * Cloner le projet 
 * A la racine de ProjectPOO, entrer la commande `ant distribution`
@@ -30,10 +30,10 @@
 * L'archive war `web\gouvine_decaestecker.war` est générée, correspondant au servlet déployable de notre serveur de présence
 * La commande `ant clean` permet de supprimer tous ces dossiers et fichiers 
 
-##Utilisation de l'application
+## Utilisation de l'application
 
 Au lancement, une fenêtre s'ouvre pour saisir son identifiant
 ![id_prompt](capture/id_prompt.PNG)
 La fenêtre principale de l'application s'ouvre ensuite
-![atstart_legende](capture/atstart_legende.PNG)
+![atstart_legende](capture/atstart_legende.png)
 

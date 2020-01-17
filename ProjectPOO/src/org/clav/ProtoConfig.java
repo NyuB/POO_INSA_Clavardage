@@ -21,11 +21,12 @@ public class ProtoConfig {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		new Installer().install();
-		Agent agent = Agent.constructAgent();
+		Agent.launchAgent();
+		Agent agent = Agent.getInstance();
 		ChatManager chatManager = agent.getChatManager();
 		NetworkManager networkManager = agent.getNetworkManager();
 		UserManager userManager = agent.getUserManager();
-		Agent.launchAgent(agent);
+
 		boolean over = false;
 		String line ;
 		while (!over && (line = in.nextLine()) != null) {

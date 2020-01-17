@@ -38,16 +38,16 @@ public class Agent implements AppHandler, CLVModel {
 	private ConfigManager configManager;
 	private GUIManager GUIManager;
 
-
-	public static Agent constructAgent() {
-		Agent agent = new Agent();
-		agent.setConfigManager(new ConfigManager());
-		agent.configManager.configAgent(agent);
+	private static Agent agent = null;
+	public static Agent getInstance(){
+		if(agent == null){
+			agent = new Agent();
+			agent.configManager = new ConfigManager();
+		}
 		return agent;
 	}
-
-	public static void launchAgent(Agent agent) {
-		agent.configManager.launchAgent(agent);
+	public static void launchAgent() {
+		getInstance().configManager.launchAgent(getInstance());
 	}
 
 	public Agent() {

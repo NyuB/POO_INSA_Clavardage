@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,9 +28,7 @@ public class Installer {
 		else {
 			System.out.println("Config Not OK") ;
 			Scanner in = new Scanner(System.in);
-			System.out.println("Enter mask of the address");
-			short mask = Short.valueOf(in.nextLine());
-			createDefaultConfig(mask) ;
+			createDefaultConfig() ;
 			System.out.println("Config created");
 		}
 		if (db.exists()) {
@@ -60,7 +59,16 @@ public class Installer {
 		
 	}
 	
-	public void createDefaultConfig(short mask) {
+	public void createDefaultConfig() {
+		Config config;
+		try {
+			config = new Config( InetAddress.getLocalHost() ,InetAddress.getByName("255.255.255.255"), NetworkConstants.GEI_SERVER_URL, true, true, true, true);
+			config.save() ;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+
+		/*
 		try {
 			//get interface 
 			Enumeration<NetworkInterface> enumNet = NetworkInterface.getNetworkInterfaces() ; 
@@ -83,14 +91,15 @@ public class Installer {
 					}
 				}
 			}
-			
+
 			if(address!=null) {
-				Config config = new Config( address , inter.getBroadcast(), NetworkConstants.GEI_SERVER_URL, true, true, true, false);
-				config.save() ;
+				config = new Config( address ,inter.getBoradcast(), NetworkConstants.GEI_SERVER_URL, true, true, true, false);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
+
 	}
 }

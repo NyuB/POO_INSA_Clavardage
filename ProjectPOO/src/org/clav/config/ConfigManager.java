@@ -78,34 +78,40 @@ public class ConfigManager {
 		return this.config ;
 	}
 
-	public void configAgent(Agent agent) {
-		NetworkManager networkManager = new NetworkManager(this.config.getLocalAddr(), this.config.getBroadcastAddr());
-		networkManager.setAppHandler(agent);
-		agent.setNetworkManager(networkManager);
-		Scanner in = new Scanner(System.in);
-		//String userId = JOptionPane.showInputDialog(null,"Enter your unique identifier. It should have been given to you by the compagny and it is not your pseudo, you will be able to choose it later");
-		System.out.println("Enter id");
-		String userId = in.nextLine();
-		UserManager userManager = new UserManager(new User(userId,userId));
-		userManager.setAppHandler(agent);
-		agent.setUserManager(userManager);
-		ChatManager chatManager = new ChatManager();
-		agent.setChatManager(chatManager);
-		chatManager.setAppHandler(agent);
-		GUIManager guiManager = new GUIManager(agent,agent);
-		agent.setGUIManager(guiManager);
-	}
-
 	public void launchAgent(Agent agent){
-		agent.getGUIManager().start();
+		if (agent.getNetworkManager() == null) {
+			NetworkManager networkManager = new NetworkManager(this.config.getLocalAddr(), this.config.getBroadcastAddr());
+			networkManager.setAppHandler(agent);
+			agent.setNetworkManager(networkManager);
+		}
+
+
+
+		if (agent.getUserManager() == null) {
+			Scanner in = new Scanner(System.in);
+			System.out.println("Enter id");
+			String userId = in.nextLine();
+			//String userId = JOptionPane.showInputDialog(null,"Enter your unique identifier. It should have been given to you by the company and it is NOT your pseudo");
+			System.out.println("Enter pseudo");
+			String userPseudo = in.nextLine();
+			//String userPseudo = JOptionPane.showInputDialog(null,"Enter your pseudo. Other users will see you with under this pseudo. You will be able to modify it at any given time");
+			UserManager userManager = new UserManager(new User(userId,userPseudo));
+			userManager.setAppHandler(agent);
+			agent.setUserManager(userManager);
+		}
+		if (agent.getChatManager()==null) {
+			ChatManager chatManager = new ChatManager();
+			agent.setChatManager(chatManager);
+			chatManager.setAppHandler(agent);
+		}
+		if (agent.getGUIManager()==null) {
+			GUIManager guiManager = new GUIManager(agent,agent);
+			agent.setGUIManager(guiManager);
+			agent.getGUIManager().start();
+		}
 		if(this.config.isAutoConnectServlet())agent.getNetworkManager().linkPresenceServer(new HttpPresenceClient(config.getServerUrl()));
 		if(this.config.isAutoSignalUDP())agent.getNetworkManager().startUDPSignal();
 		if(this.config.isAutoListenUDP())agent.getNetworkManager().startUDPListening();
 		if(this.config.isAutoListenTCP())agent.getNetworkManager().startTCPListening();
-
-	}
-
-	public UserManager configUserManager(Agent agent) {
-		return new UserManager(null);//TODO
 	}
 }

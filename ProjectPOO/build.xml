@@ -141,6 +141,8 @@
 
     <target name="distribution" depends="doc,executable_proto,war">
         <delete dir="${dist_dir}"/>
+        <copy file="${exe_dir}/${dist_jar}" tofile="${dist_dir}/${dist_jar}"/>
+        <copy file="${servlet_file}" tofile="${dist_dir}/${servlet_name}.war"/>
         <copy file="${exe_dir}/${dist_jar}" tofile="${windist_dir}/${dist_jar}"/>
         <copy file="${exe_dir}/${dist_jar}" tofile="${lindist_dir}/${dist_jar}"/>
         <echo file="${windist_dir}/launcher.bat" message="java -jar ${dist_jar}"/>

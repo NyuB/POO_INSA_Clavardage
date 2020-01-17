@@ -54,10 +54,10 @@ public class NetworkManager implements Pluggable {
 	}
 
 	//TODO Remove on final version, useful to launch multiple sessions on localhost
-	public int TCP_LOCAL_DEBUG_PORT;
-	public int TCP_DISTANT_DEBUG_PORT;
-	public int UDP_LOCAL_DEBUG_PORT;
-	public int UDP_DISTANT_DEBUG_PORT;
+	public int tcpLocalPort;
+	public int tcpDistantPort;
+	public int udpLocalPort;
+	public int udpDistantPort;
 
 
 	@Override
@@ -78,10 +78,10 @@ public class NetworkManager implements Pluggable {
 	 * @param tcpPortDistant Port to sent tcp connection requests to
 	 */
 	public NetworkManager(InetAddress broadcastAddress,int udpPortLocal,int tcpPortLocal,int udpPortDistant,int tcpPortDistant){
-		this.TCP_LOCAL_DEBUG_PORT = tcpPortLocal;
-		this.UDP_LOCAL_DEBUG_PORT = udpPortLocal;
-		this.TCP_DISTANT_DEBUG_PORT = tcpPortDistant;
-		this.UDP_DISTANT_DEBUG_PORT = udpPortDistant;
+		this.tcpLocalPort = tcpPortLocal;
+		this.udpLocalPort = udpPortLocal;
+		this.tcpDistantPort = tcpPortDistant;
+		this.udpDistantPort = udpPortDistant;
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
 		this.tcpConnections = new HashMap<>();
@@ -99,10 +99,10 @@ public class NetworkManager implements Pluggable {
 	}
 
 	public NetworkManager(InetAddress networkAddress, InetAddress broadcastAddress) {
-		this.UDP_DISTANT_DEBUG_PORT = UDPSOCKET_RECEIVE_PORT;
-		this.UDP_LOCAL_DEBUG_PORT = UDPSOCKET_RECEIVE_PORT;
-		this.TCP_DISTANT_DEBUG_PORT = TCP_SOCKET_SERVER_PORT;
-		this.TCP_LOCAL_DEBUG_PORT = TCP_SOCKET_SERVER_PORT;
+		this.udpDistantPort = UDPSOCKET_RECEIVE_PORT;
+		this.udpLocalPort = UDPSOCKET_RECEIVE_PORT;
+		this.tcpDistantPort = TCP_SOCKET_SERVER_PORT;
+		this.tcpLocalPort = TCP_SOCKET_SERVER_PORT;
 		this.networkAddress = networkAddress;
 		this.broadcastAddress = broadcastAddress;
 		this.addrMap = new HashMap<>();
@@ -124,7 +124,7 @@ public class NetworkManager implements Pluggable {
 		if (!this.tcpConnections.containsKey(user) && this.addrMap.containsKey(user)) {
 			try {
 				this.log("[TCP]Initiating tcp connection");
-				Socket distant = new Socket(this.addrMap.get(user), this.TCP_DISTANT_DEBUG_PORT);
+				Socket distant = new Socket(this.addrMap.get(user), this.tcpDistantPort);
 				this.log("Socket created,link protocols started");
 				TCPUserLink link = new TCPUserLink(user, distant);
 				LinkTCPUserProtocolInit init = new LinkTCPUserProtocolInit(this, link, LinkTCPUserProtocolInit.Mode.CONNECT, user);
@@ -132,6 +132,9 @@ public class NetworkManager implements Pluggable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		else{
+			this.log("[TCP]Unknown identifier, unable to create connection");
 		}
 	}
 
@@ -178,7 +181,7 @@ public class NetworkManager implements Pluggable {
 	public void UDP_Send(byte[] bytes, InetAddress address) {
 		synchronized (this.sendSocketUDP) {
 			try {
-				DatagramPacket packetUDP = new DatagramPacket(bytes, bytes.length, address, this.UDP_DISTANT_DEBUG_PORT);
+				DatagramPacket packetUDP = new DatagramPacket(bytes, bytes.length, address, this.udpDistantPort);
 				this.sendSocketUDP.send(packetUDP);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -265,6 +268,11 @@ public class NetworkManager implements Pluggable {
 	public void addAddrFor(String identifier, InetAddress addr) {
 		synchronized (this.addrMap) {
 			this.addrMap.put(identifier, addr);
+		}
+	}
+	public void deleteAddrFor(String identifier){
+		synchronized (this.addrMap){
+			this.addrMap.remove(identifier);
 		}
 	}
 

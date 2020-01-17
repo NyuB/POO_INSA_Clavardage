@@ -41,11 +41,11 @@ public class UDPListenerProtocol extends Protocol {
 						InetAddress distAddr = (packet.header == SIG) ? packetUDP.getAddress() : ((ServerNotification) (packet.data)).getAddress();
 
 						//TODO test rejection protocol, move to applicative level?
-						boolean reject = !user.getIdentifier().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getIdentifier()) && user.getPseudo().equals(this.getRelatedNetworkManager().getAppHandler().getMainUser().getPseudo());
+						boolean reject = getRelatedNetworkManager().getAppHandler().checkRejection(user);
 						if (reject) {
 							PseudoRejection rejection = new PseudoRejection(user.getPseudo(), getRelatedNetworkManager().getAppHandler().getMainUser().getPseudoDate());
 							CLVPacket rejectionPacket = CLVPacketFactory.gen_REJ(rejection);
-							getRelatedNetworkManager().UDP_Send(Serializer.toBytes(rejectionPacket), packetUDP.getAddress());
+							getRelatedNetworkManager().UDP_Send(Serializer.toBytes(rejectionPacket), distAddr);
 						} else {
 							String[] ids = new String[]{user.getIdentifier(), user.getPseudo()};
 							boolean toRepr = !getRelatedNetworkManager().getAppHandler().isActiveID(ids[0]);//DEBUG PURPOSE

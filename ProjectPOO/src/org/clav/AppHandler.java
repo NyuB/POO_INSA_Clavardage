@@ -68,6 +68,8 @@ public interface AppHandler {
 	void processUserInaction(String id);
 
 
+	boolean checkRejection(User user);
+
 	/**
 	 * Handle the rejection of the pseudo chosen by the main user
 	 * @param rejection rejected pseudo and its date of selection by the conflicting user

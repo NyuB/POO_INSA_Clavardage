@@ -265,7 +265,6 @@ public class Agent implements AppHandler, CLVModel {
 			if (this.getGUIManager() != null) this.GUIManager.getController().notifyNewActiveUser(user);
 		} else {
 			//TODO Currently handled at network level, move it here?
-			assert false;
 		}
 	}
 
@@ -273,8 +272,17 @@ public class Agent implements AppHandler, CLVModel {
 	@Override
 	public void processUserInaction(String id) {
 		this.getNetworkManager().closeConnectionTCP(id);
+		this.getNetworkManager().deleteAddrFor(id);
 		this.getGUIManager().getController().notifyInactiveUser(id);
 
+	}
+
+	//AppHandler
+	@Override
+	public boolean checkRejection(User user) {
+		//A different user(i.e. different id) chose the same pseudo
+		boolean rejected = getMainUser().getPseudo().equals(user.getPseudo()) && !getMainUser().getIdentifier().equals(user.getIdentifier());
+		return rejected;
 	}
 
 	//AppHandler

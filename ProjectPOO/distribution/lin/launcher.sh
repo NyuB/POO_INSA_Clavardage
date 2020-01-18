@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-java -jar ProtoConfig.jar
+java -jar CLVApp.jar

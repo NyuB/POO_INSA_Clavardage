@@ -1,1 +1,1 @@
-java -jar ProtoConfig.jar
+java -jar CLVApp.jar

@@ -18,7 +18,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import static org.clav.utils.constants.NetworkConstants.*;
+
+import static org.clav.utils.constants.NetworkConstants.TCP_SOCKET_SERVER_PORT;
+import static org.clav.utils.constants.NetworkConstants.UDPSOCKET_RECEIVE_PORT;
 
 /**
  * Handles all the network base functions of the application via the multithreaded executions of several protocols.

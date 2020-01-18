@@ -3,11 +3,9 @@ package org.clav;
 import org.clav.chat.ChatInit;
 import org.clav.chat.ChatUnknown;
 import org.clav.chat.Message;
-import org.clav.config.Config;
 import org.clav.user.PseudoRejection;
 import org.clav.user.User;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 

@@ -7,8 +7,6 @@ import org.clav.network.CLVPacket;
 import org.clav.network.Protocol;
 import org.clav.utils.Serializer;
 
-import java.awt.image.BufferedImage;
-
 /**
  * Packet header which will be processed : STR,MSG,CHI (allow maintaining the connection) ERR,END (close the connection)
  * @see org.clav.network.CLVHeader

@@ -1,10 +1,10 @@
 package org.clav.network;
 
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import static org.clav.network.CLVHeader.STR;
 
 public class TCPUserLink {
 	private String relatedUser;

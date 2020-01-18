@@ -1,9 +1,8 @@
 package org.clav.ui.components;
 
-import javax.swing.*;
-
 import org.clav.config.Config;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;

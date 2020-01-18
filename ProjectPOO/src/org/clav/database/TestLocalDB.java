@@ -1,11 +1,11 @@
 package org.clav.database;
 
+import org.clav.chat.Chat;
+import org.clav.config.Installer;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-
-import org.clav.chat.Chat;
-import org.clav.config.Installer;
 
 public class TestLocalDB {
 	

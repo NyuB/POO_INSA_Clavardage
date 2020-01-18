@@ -5,8 +5,6 @@ import org.clav.chat.ChatManager;
 import org.clav.network.NetworkManager;
 import org.clav.user.User;
 import org.clav.user.UserManager;
-
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.InetAddress;

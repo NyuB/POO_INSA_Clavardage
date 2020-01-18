@@ -1,7 +1,5 @@
 package org.clav.chat;
 
-import org.clav.user.User;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

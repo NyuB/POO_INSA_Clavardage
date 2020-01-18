@@ -11,7 +11,6 @@ import org.clav.utils.constants.DelayConstants;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -78,6 +77,18 @@ public class UserManagerUnitTest {
 
 		@Override
 		public void processNewUser(User user) {
+
+		}
+
+		@Override
+		public boolean checkRejection(User user) {
+			//TODO
+			return false;
+		}
+
+		@Override
+		public void applyConfig() {
+			//TODO
 
 		}
 

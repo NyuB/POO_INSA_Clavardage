@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-
 import static org.clav.network.CLVHeader.*;
 import static org.clav.utils.Serializer.fromBytes;
 

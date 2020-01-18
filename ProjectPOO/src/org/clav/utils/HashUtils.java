@@ -1,7 +1,7 @@
 package org.clav.utils;
 
-import org.clav.chat.Message;
 import org.clav.user.User;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;

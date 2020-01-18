@@ -3,7 +3,6 @@ package org.clav.database;
 import org.clav.chat.Chat;
 import org.clav.chat.History;
 import org.clav.chat.Message;
-import org.clav.user.User;
 import org.clav.utils.HashUtils;
 
 import java.io.BufferedReader;
@@ -11,7 +10,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**

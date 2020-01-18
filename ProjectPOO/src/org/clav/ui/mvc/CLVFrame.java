@@ -1,6 +1,9 @@
 package org.clav.ui.mvc;
 
-import org.clav.ui.components.*;
+import org.clav.ui.components.CLVMultiChatDisplay;
+import org.clav.ui.components.CLVOptionPane;
+import org.clav.ui.components.CLVPanel;
+import org.clav.ui.components.ComponentFactory;
 
 import javax.swing.*;
 import java.util.ArrayList;

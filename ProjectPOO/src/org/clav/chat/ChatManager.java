@@ -4,7 +4,6 @@ import org.clav.AppHandler;
 import org.clav.database.ChatStorage;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.LocalStorage;
-import org.clav.database.TxtChatStorage;
 import org.clav.user.User;
 
 import java.util.ArrayList;

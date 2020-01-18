@@ -1,4 +1,5 @@
 package org.clav.network.server;
+
 import org.clav.network.CLVPacket;
 import org.clav.network.CLVPacketFactory;
 import org.clav.user.ActivityHandler;
@@ -6,6 +7,7 @@ import org.clav.user.ActivityTimerTask;
 import org.clav.utils.Serializer;
 import org.clav.utils.constants.DelayConstants;
 import org.clav.utils.constants.NetworkConstants;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

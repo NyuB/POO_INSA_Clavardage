@@ -1,7 +1,6 @@
 package org.clav.utils;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.io.OutputStream;
 
 /**

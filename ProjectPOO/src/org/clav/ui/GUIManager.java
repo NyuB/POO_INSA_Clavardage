@@ -1,12 +1,10 @@
 package org.clav.ui;
 
 import org.clav.AppHandler;
-import org.clav.chat.Chat;
 import org.clav.ui.components.CLVComponentFactory;
 import org.clav.ui.mvc.*;
 
 import javax.swing.*;
-import java.awt.*;
 
 
 public class GUIManager {

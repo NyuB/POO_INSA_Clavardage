@@ -2,7 +2,6 @@ package org.clav;
 
 import org.clav.chat.Chat;
 import org.clav.chat.ChatManager;
-import org.clav.config.Config;
 import org.clav.config.Installer;
 import org.clav.database.EmptyChatStorage;
 import org.clav.database.TxtChatStorage;
@@ -12,8 +11,6 @@ import org.clav.user.User;
 import org.clav.user.UserManager;
 import org.clav.utils.constants.FormatConstant;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 

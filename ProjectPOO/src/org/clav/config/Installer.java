@@ -3,18 +3,12 @@ package org.clav.config;
 import org.clav.utils.constants.NetworkConstants;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
 public class Installer {

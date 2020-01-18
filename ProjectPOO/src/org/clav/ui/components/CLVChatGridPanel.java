@@ -3,7 +3,6 @@ package org.clav.ui.components;
 import org.clav.chat.History;
 import org.clav.ui.mvc.CLVController;
 import org.clav.ui.mvc.CLVModel;
-import org.clav.user.User;
 
 import javax.swing.*;
 import java.awt.*;

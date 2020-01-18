@@ -1,6 +1,6 @@
 package org.clav.debug.graphic;
 
-import org.clav.utils.components.JTextAreaOutputStream;
+import org.clav.utils.JTextAreaOutputStream;
 
 import javax.swing.*;
 import java.awt.*;

@@ -4,11 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Creates most of the components of the CLV app, modify the DEFAULT_FACTORY settings before creating the agent's GUIManager to apply custom colors and fonts
+ * @see org.clav.ui.GUIManager
+ */
 public class CLVComponentFactory implements ComponentFactory {
-	private static Color MAIN_COLOR = new Color(50,150,150);
-	private static Color DANGER_COLOR = new Color(219, 22, 63);
+	private static Color MAIN_COLOR = new Color(215, 70, 19);
+	private static Color DANGER_COLOR = new Color(247, 7, 43);
 	private static Color BORDER_COLOR = new Color(100,150,150);
-	private static Color TEXT_COLOR = new Color(145, 23, 255);
+	private static Color TEXT_COLOR = new Color(0, 0, 0);
 
 	private static Font MAIN_FONT = new Font("Calibri",Font.PLAIN,15);
 	private static Font MAIN_FONT_BOLD = new Font("Calibri",Font.BOLD,15);

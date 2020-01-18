@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 public class ChatPanel extends JPanel {
 	private ButtonsTopBar topBar;
 	private JLabel title;
-	private ScrollComponent<JTextArea> textArea;
+	private ScrollComponent<JTextArea> scrollTextArea;
 	private JTextField typeField;
 	private JButton fieldButton;
 
@@ -26,7 +26,7 @@ public class ChatPanel extends JPanel {
 		gbc.weighty = 0.05;
 		gbc.gridwidth = 2;
 		gbc.fill = GridBagConstraints.BOTH;
-		this.topBar = new ButtonsTopBar(4,componentFactory);
+		this.topBar = new ButtonsTopBar(2,componentFactory);
 		this.add(topBar,gbc);
 
 		//Title
@@ -39,8 +39,9 @@ public class ChatPanel extends JPanel {
 		gbc.gridy = 2;
 		gbc.weighty = 0.8;
 		JTextArea textArea = componentFactory.createTextArea();
-		this.textArea = new ScrollComponent<>(textArea);
-		this.add(textArea,gbc);
+		textArea.setEditable(false);
+		this.scrollTextArea = new ScrollComponent<>(textArea);
+		this.add(scrollTextArea,gbc);
 
 
 		//TypeField
@@ -67,7 +68,7 @@ public class ChatPanel extends JPanel {
 	}
 	
 	public JTextArea getTextArea() {
-		return textArea.getComponent();
+		return scrollTextArea.getComponent();
 	}
 
 	public JLabel getTitle() {

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserSelectionPanel extends JPanel {
-	ArrayList<User> usersArrayList;
-	JButton validateButton;
+	private ArrayList<User> usersArrayList;
+	private JButton validateButton;
 	public UserSelectionPanel(Collection<User> users,ComponentFactory componentFactory) {
 		super(new GridLayout(users.size()+1+30,1));
 		this.usersArrayList = new ArrayList<>(users);

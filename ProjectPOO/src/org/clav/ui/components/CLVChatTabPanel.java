@@ -3,12 +3,10 @@ package org.clav.ui.components;
 import org.clav.chat.History;
 import org.clav.ui.mvc.CLVController;
 import org.clav.ui.mvc.CLVModel;
-import org.clav.user.User;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -76,6 +74,9 @@ public class CLVChatTabPanel extends JTabbedPane implements CLVMultiChatDisplay 
 			});
 			chatPanel.setupButton(0,"STORE",e->{
 				this.controller.notifyChatStorage(code);
+			});
+			chatPanel.setupButton(1,"CLEAN",e->{
+				chatPanel.getTextArea().setText("");
 			});
 			chatPanel.setupFieldButton("IMG",l->{
 				try {

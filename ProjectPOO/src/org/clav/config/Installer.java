@@ -41,7 +41,7 @@ public class Installer {
 		}
 	}
 	
-	public void createDB() {
+	private void createDB() {
 		try {
 			Class.forName("org.hsqldb.jdbc.JDBCDriver");
 			Connection con = DriverManager.getConnection("jdbc:hsqldb:file:db/mydb", "SA", "") ;
@@ -53,16 +53,15 @@ public class Installer {
 			con.close() ;
 		} 
 		catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public void createDefaultConfig() {
+	private void createDefaultConfig() {
 		Config config;
 		try {
-			config = new Config( InetAddress.getLocalHost() ,InetAddress.getByName("255.255.255.255"), NetworkConstants.GEI_SERVER_URL, true, true, true, true);
+			config = new Config( InetAddress.getLocalHost() ,InetAddress.getByName("255.255.255.255"), NetworkConstants.GEI_SERVER_URL, true, true, true, false);
 			config.save() ;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -96,7 +95,6 @@ public class Installer {
 				config = new Config( address ,inter.getBoradcast(), NetworkConstants.GEI_SERVER_URL, true, true, true, false);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		*/

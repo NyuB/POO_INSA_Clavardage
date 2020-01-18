@@ -23,7 +23,6 @@ public class ConfigManager {
 			ObjectInputStream in = new ObjectInputStream(file) ;
 			this.config = (Config) in.readObject() ;
 		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -78,6 +77,23 @@ public class ConfigManager {
 		return this.config ;
 	}
 
+	private User identification(boolean cmdLine){
+		String userId;
+		String userPseudo;
+		if(cmdLine){
+			Scanner in = new Scanner(System.in);
+			System.out.println("Enter your unique identifier. It should have been given to you by the company and it is NOT your pseudo");
+			userId = in.nextLine();
+			System.out.println("Enter your pseudo. Other users will see you under this pseudo. You will be able to modify it at any given time");
+			userPseudo = in.nextLine();
+		}
+		else{
+			userId = JOptionPane.showInputDialog(null,"Enter your unique identifier. It should have been given to you by the company and it is NOT your pseudo");
+			userPseudo = JOptionPane.showInputDialog(null,"Enter your pseudo. Other users will see you under this pseudo. You will be able to modify it at any given time");
+		}
+		return new User(userId,userPseudo);
+	}
+
 	public void launchAgent(Agent agent){
 		if (agent.getNetworkManager() == null) {
 			NetworkManager networkManager = new NetworkManager(this.config.getLocalAddr(), this.config.getBroadcastAddr());
@@ -85,17 +101,9 @@ public class ConfigManager {
 			agent.setNetworkManager(networkManager);
 		}
 
-
-
 		if (agent.getUserManager() == null) {
-			Scanner in = new Scanner(System.in);
-			System.out.println("Enter id");
-			String userId = in.nextLine();
-			//String userId = JOptionPane.showInputDialog(null,"Enter your unique identifier. It should have been given to you by the company and it is NOT your pseudo");
-			System.out.println("Enter pseudo");
-			String userPseudo = in.nextLine();
-			//String userPseudo = JOptionPane.showInputDialog(null,"Enter your pseudo. Other users will see you with under this pseudo. You will be able to modify it at any given time");
-			UserManager userManager = new UserManager(new User(userId,userPseudo));
+			User identified = identification(false);
+			UserManager userManager = new UserManager(identified);
 			userManager.setAppHandler(agent);
 			agent.setUserManager(userManager);
 		}

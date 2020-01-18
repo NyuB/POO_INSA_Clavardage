@@ -48,7 +48,6 @@ public class TCPUserLink {
 				return (CLVPacket) this.objIn.readObject();
 			} catch (IOException | ClassNotFoundException e) {
 				System.out.println("[TCPLINK]Error reading object");
-				//TODO return null instead of an ERR packet?
 				return new CLVPacket(CLVHeader.ERR, null);
 			}
 		}

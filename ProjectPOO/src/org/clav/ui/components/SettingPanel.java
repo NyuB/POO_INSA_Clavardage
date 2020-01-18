@@ -38,11 +38,11 @@ public class SettingPanel extends JPanel {
 		udpSignalBox.getCheckBox().setSelected(config.isAutoSignalUDP()) ;
 		this.add(udpSignalBox) ;
 		
-		udpListenBox = componentFactory.createLabeledTickBox(new JLabel("Listen other users signals",SwingConstants.CENTER));
+		udpListenBox = componentFactory.createLabeledTickBox(new JLabel("[*]Listen other users signals",SwingConstants.CENTER));
 		udpListenBox.getCheckBox().setSelected(config.isAutoListenUDP()) ;
 		this.add(udpListenBox) ;
 		
-		tcpListenBox = componentFactory.createLabeledTickBox(new JLabel("Enable new TCP connections",SwingConstants.CENTER));
+		tcpListenBox = componentFactory.createLabeledTickBox(new JLabel("[*]Accept new TCP connections(messages)",SwingConstants.CENTER));
 		tcpListenBox.getCheckBox().setSelected(config.isAutoListenTCP()) ;
 		this.add(tcpListenBox) ;
 
@@ -50,7 +50,7 @@ public class SettingPanel extends JPanel {
 		presenceServerBox.getCheckBox().setSelected(config.isAutoConnectServlet());
 		this.add(presenceServerBox);
 
-		this.validateButton = componentFactory.createButton("Save(restart application to apply all changes)");
+		this.validateButton = componentFactory.createButton("Save(options marked with a * are applied only when restarting the application))");
 		this.addValidateButtonAction(l->saveSetting()) ;
 		this.add(this.validateButton);
 	}

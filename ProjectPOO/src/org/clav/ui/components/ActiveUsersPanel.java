@@ -28,6 +28,7 @@ public class ActiveUsersPanel extends JPanel implements ActiveUsersDisplay {
 		}
 		this.checkDisplay();
 	}
+
 	@Override
 	public void refreshUsers(Iterable<User> users, CLVController clvController){
 		refreshUsers(users);

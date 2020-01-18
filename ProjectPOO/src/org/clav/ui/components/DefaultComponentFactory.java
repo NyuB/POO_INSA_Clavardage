@@ -71,7 +71,6 @@ public class DefaultComponentFactory implements ComponentFactory {
 
 	@Override
 	public Font getMainFontItalicBold() {
-		//TODO
 		return defaultFont;
 	}
 

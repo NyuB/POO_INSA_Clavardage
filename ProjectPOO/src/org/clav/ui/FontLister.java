@@ -5,9 +5,12 @@ import org.clav.ui.components.ScrollComponent;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * App to visualize different fonts, could be integrated in the settings option of the chat application
+ */
 public class FontLister {
 	public static void main(String[] args) {
-		String sample = "Un texte bateau mais néanmoins indispensable à la visualisation des diffférentes polices\n" +
+		String sample = "Un texte bateau mais néanmoins utile à la visualisation des diffférentes polices\n" +
 				"lablalblblalbla\n" +
 				"Ipsum dolores bidule latinos\n";
 		JFrame frame = new JFrame("FONT");
@@ -18,6 +21,7 @@ public class FontLister {
 		StringBuilder sb = new StringBuilder();
 		for(Font f: ge.getAllFonts()){
 			sb.append(f.getFontName()+"\n");
+			break;
 		}
 		fontList.setText(sb.toString());
 		JPanel panel = new JPanel(new GridBagLayout());
@@ -40,16 +44,14 @@ public class FontLister {
 
 		gbc.gridy=1;
 		gbc.weighty=0.8;
-		panel.add(testArea,gbc);
+		panel.add(new ScrollComponent<>(testArea),gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.weightx = 0.3;
 		gbc.weighty=1;
 		gbc.gridheight = 2;
-		panel.add(new ScrollComponent<JTextArea>(fontList),gbc);
-
-
+		panel.add(new ScrollComponent<>(fontList),gbc);
 
 		frame.setContentPane(panel);
 		frame.setSize(1400,800);

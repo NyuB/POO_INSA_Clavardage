@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Implementations of this interface can be used to instanciate the swing components of the application, ensuring visual and behavioral coherence
+ */
 public interface ComponentFactory {
 	JLabel createLabel(String title);
 

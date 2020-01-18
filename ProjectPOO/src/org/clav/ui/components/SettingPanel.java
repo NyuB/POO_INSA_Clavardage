@@ -33,7 +33,7 @@ public class SettingPanel extends JPanel {
 
 		this.add(componentFactory.createLabel("Remote presence server url"));
 		this.add(serverUrlField = componentFactory.createTextField(config.getServerUrl()));
-		udpSignalBox = componentFactory.createLabeledTickBox(new JLabel("Signal presence to other users",SwingConstants.CENTER));
+		udpSignalBox = componentFactory.createLabeledTickBox(new JLabel("[*]Signal presence to other users",SwingConstants.CENTER));
 		udpSignalBox.getCheckBox().setSelected(config.isAutoSignalUDP()) ;
 		this.add(udpSignalBox) ;
 		

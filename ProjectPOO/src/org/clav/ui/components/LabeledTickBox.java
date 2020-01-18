@@ -12,13 +12,13 @@ public class LabeledTickBox extends JPanel {
 		gbc.gridx=0;
 		gbc.gridy=0;
 		gbc.weighty = 1;
-		gbc.weightx = 0.9;
+		gbc.weightx = 0.7;
 		gbc.fill = GridBagConstraints.BOTH;
 		this.checkBox = new JCheckBox();
 		this.label = label;
 		this.add(this.label,gbc);
 		gbc.gridx = 1;
-		gbc.weightx = 0.1;
+		gbc.weightx = 0.3;
 		this.add(this.checkBox,gbc);
 	}
 

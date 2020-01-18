@@ -20,22 +20,22 @@ public class Installer {
 			System.out.println("Config OK") ;
 		}
 		else {
-			System.out.println("Config Not OK") ;
-			Scanner in = new Scanner(System.in);
+			System.out.println("No configuration file ObjConfig.ser found") ;
 			createDefaultConfig() ;
-			System.out.println("Config created");
+			System.out.println("Default config applied");
 		}
 		if (db.exists()) {
 			System.out.println("DB OK") ;
 		}
 		else {
-			System.out.println("DB Not OK") ;
+			System.out.println("No database found") ;
 			createDB() ;
-			System.out.println("DB created");
+			System.out.println("Database created");
 		}
 	}
 	
 	private void createDB() {
+		System.out.println("Installing database, please wait...");
 		try {
 			Class.forName("org.hsqldb.jdbc.JDBCDriver");
 			Connection con = DriverManager.getConnection("jdbc:hsqldb:file:db/mydb", "SA", "") ;
@@ -54,6 +54,7 @@ public class Installer {
 	
 	private void createDefaultConfig() {
 		Config config;
+		System.out.println("Creating default configuration, please wait...");
 		try {
 			config = new Config( InetAddress.getLocalHost() ,InetAddress.getByName("255.255.255.255"), NetworkConstants.GEI_SERVER_URL, true, true, true, false);
 			config.save() ;

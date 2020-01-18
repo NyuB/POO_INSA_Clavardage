@@ -80,6 +80,7 @@ public class ConfigManager {
 	private User identification(boolean cmdLine){
 		String userId;
 		String userPseudo;
+		System.out.println("Please wait...");
 		if(cmdLine){
 			Scanner in = new Scanner(System.in);
 			System.out.println("Enter your unique identifier. It should have been given to you by the company and it is NOT your pseudo");

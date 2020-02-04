@@ -129,7 +129,8 @@ public class Agent implements AppHandler, CLVModel {
 			} else {
 				selfTalk = false;
 				if (this.isActiveID(id)) {
-					success = success || this.getNetworkManager().TCP_IP_send(id, packet);
+					boolean sendres = this.getNetworkManager().TCP_IP_send(id, packet);
+					success = success || sendres;
 				}
 
 			}
